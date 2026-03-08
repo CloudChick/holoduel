@@ -83,7 +83,7 @@ def handle_choose_cards(engine, effect_player, effect):
     requirement_different_colors = effect.get("requirement_different_colors", False)
     requirement_match_selected_holomem_color = effect.get("requirement_match_selected_holomem_color", None)
     reveal_chosen = effect.get("reveal_chosen", False)
-    remaining_cards_action = effect.get("remaining_cards_action", "nothing" if from_zone == "backstage" else "NULL")
+    remaining_cards_action = effect.get("remaining_cards_action", "nothing")
     after_choose_effect = effect.get("after_choose_effect", None)
     requirement_details = {
         "requirement": requirement,
@@ -127,6 +127,10 @@ def handle_choose_cards(engine, effect_player, effect):
             cards_to_choose_from = effect_player.last_revealed_cards
         case "stage":
             cards_to_choose_from = effect_player.get_holomem_on_stage()
+        case "opponent_holomem":
+            opponent = engine.other_player(effect_player_id)
+            for holomem in opponent.get_holomem_on_stage():
+                cards_to_choose_from.extend(holomem.get("attached_cheer", []))
         case "stacked_holomem":
             cards_to_choose_from = effect_player.get_holomem_under(effect["source_card_id"])
         case "self_attached_support":

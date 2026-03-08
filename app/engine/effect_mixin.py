@@ -101,11 +101,20 @@ class EffectMixin:
                 self.do_effect(effect_player, do_before)
 
         effect_type = effect["effect_type"]
-        handler = EFFECT_HANDLERS.get(effect_type)
-        if handler:
-            passed_on_continuation = handler(self, effect_player, effect)
-        else:
-            raise NotImplementedError(f"Unimplemented effect type: {effect_type}")
+        effect_context = {
+            "player_id": effect_player_id,
+            "source_card_id": effect.get("source_card_id", ""),
+            "effect_type": effect_type,
+        }
+        self.effect_context_stack.append(effect_context)
+        try:
+            handler = EFFECT_HANDLERS.get(effect_type)
+            if handler:
+                passed_on_continuation = handler(self, effect_player, effect)
+            else:
+                raise NotImplementedError(f"Unimplemented effect type: {effect_type}")
+        finally:
+            self.effect_context_stack.pop()
 
         return passed_on_continuation
 
@@ -174,6 +183,19 @@ class EffectMixin:
                 "event_type": EventType.EventType_GameOver,
                 "loser_id": loser_id,
                 "winner_id": self.other_player(loser_id).player_id,
+                "reason_id": reason_id,
+            }
+            self.broadcast_event(gameover_event)
+            self.game_over_event = gameover_event
+
+    def end_game_neutral(self, reason_id):
+        if not self.is_game_over():
+            self.phase = GamePhase.GameOver
+
+            gameover_event = {
+                "event_type": EventType.EventType_GameOver,
+                "loser_id": "",
+                "winner_id": "",
                 "reason_id": reason_id,
             }
             self.broadcast_event(gameover_event)
