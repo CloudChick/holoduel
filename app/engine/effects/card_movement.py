@@ -505,6 +505,11 @@ def handle_draw(engine, effect_player, effect):
         for h in holomems:
             seen_names.add(tuple(h["card_names"]))
         amount = len(seen_names)
+    elif amount_source == "per_attachment_name":
+        attachment_name = effect.get("attachment_name", "")
+        src, _, _ = effect_player.find_card(effect.get("source_card_id", ""))
+        amount = sum(1 for a in (src.get("attached_support", []) if src else [])
+                     if attachment_name in a.get("card_names", []))
     else:
         amount = effect.get("amount", len(effect_player.hand))
         if str(amount) == "last_card_count":
