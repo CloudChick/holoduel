@@ -96,20 +96,6 @@ def handle_deal_damage(engine, effect_player, effect):
 
     # Filter out any target cards that already have damage over their hp.
     target_cards = [card for card in target_cards if card["damage"] < target_player.get_card_hp(card)]
-
-    def damage_amount_for_target(target_card):
-        calculated_amount = amount
-        conditional_sub_type = effect.get("amount_if_target_has_support_sub_type", "")
-        conditional_amount = effect.get("amount_if_target_has_support_sub_type_amount", None)
-        if conditional_sub_type and conditional_amount is not None:
-            has_matching_support = any(
-                attached.get("sub_type", "") == conditional_sub_type
-                for attached in target_card.get("attached_support", [])
-            )
-            if has_matching_support:
-                calculated_amount = conditional_amount
-        return calculated_amount
-
     if len(target_cards) == 0:
         pass
     elif multiple_targets == "sequential":
@@ -123,7 +109,7 @@ def handle_deal_damage(engine, effect_player, effect):
                     target_player,
                     effect["source_card_id"],
                     target_card,
-                    damage_amount_for_target(target_card),
+                    amount,
                     special,
                     prevent_life_loss
                 )
@@ -138,13 +124,12 @@ def handle_deal_damage(engine, effect_player, effect):
     elif len(target_cards) == targets_allowed:
         target_cards.reverse()
         for i in range(targets_allowed):
-            target_card = target_cards[i]
             engine.add_deal_damage_internal_effect(
                 source_player,
                 target_player,
                 effect["source_card_id"],
-                target_card,
-                damage_amount_for_target(target_card),
+                target_cards[i],
+                amount,
                 special,
                 prevent_life_loss
             )

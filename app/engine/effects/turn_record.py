@@ -89,9 +89,6 @@ def handle_add_turn_effect_for_holomem(engine, effect_player, effect):
         holomem_targets = [h for h in holomem_targets if h.get("bloom_level", 0) in allowed_levels]
     if effect.get("limitation_bloomed_this_turn", False):
         holomem_targets = [h for h in holomem_targets if h.get("bloomed_this_turn", False)]
-    if effect.get("exclude_self", False):
-        source_card_id = effect.get("source_card_id", "")
-        holomem_targets = [h for h in holomem_targets if h["game_card_id"] != source_card_id]
     all_targets = effect.get("all_targets", False)
     target_both_sides = effect.get("target_both_sides", False)
 
