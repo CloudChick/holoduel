@@ -126,23 +126,30 @@ class GameFlowMixin:
         # Are both players done mulliganing?
         # If so, move on to the next phase.
         if all(player_state.mulligan_completed for player_state in self.player_states):
-            self.process_forced_mulligans()
-            if self.is_game_over():
-                return
             self.begin_initial_placement()
-        else:
-            active_player = self.get_player(self.active_player_id)
-            if active_player.mulligan_count == 0:
-                # Tell the active player we're waiting on them to mulligan.
-                decision_event = {
-                    "event_type": EventType.EventType_MulliganDecision,
-                    "desired_response": GameAction.Mulligan,
-                    "active_player": self.active_player_id,
-                    "first_player": self.first_turn_player_id,
-                }
-                self.broadcast_event(decision_event)
-            else:
-                raise Exception("Unexpected: Player has already mulliganed.")
+            return
+
+        active_player = self.get_player(self.active_player_id)
+
+        # Skip players who have already completed their mulligan decisions.
+        if active_player.mulligan_completed:
+            self.switch_active_player()
+            self.handle_mulligan_phase()
+            return
+
+        must_mulligan = not any(card["card_type"] == "holomem_debut" for card in active_player.hand)
+        decision_event = {
+            "event_type": EventType.EventType_MulliganDecision,
+            "desired_response": GameAction.Mulligan,
+            "active_player": self.active_player_id,
+            "first_player": self.first_turn_player_id,
+            "mulligan_round": active_player.mulligan_count + 1,
+            "must_mulligan": must_mulligan,
+            "hidden_info_player": self.active_player_id,
+            "hidden_info_fields": ["must_mulligan"],
+            "hidden_info_erase": ["must_mulligan"],
+        }
+        self.broadcast_event(decision_event)
 
     def send_event(self, event):
         self.latest_events.append(event)
@@ -221,23 +228,9 @@ class GameFlowMixin:
         self.broadcast_event(decision_event)
 
     def begin_return_cards(self):
-        active_player = self.get_player(self.active_player_id)
-        if active_player.forced_mulligan_count == 0:
-            self.begin_backstage_placement()
-            return
-
-        hand_card_ids = ids_from_cards(active_player.hand)
-        decision_event = {
-            "event_type": EventType.EventType_ReturnCardsBegin,
-            "desired_response": GameAction.ReturnCards,
-            "active_player": self.active_player_id,
-            "return_count": active_player.forced_mulligan_count,
-            "hand_card_ids": hand_card_ids,
-            "hidden_info_player": self.active_player_id,
-            "hidden_info_fields": ["hand_card_ids"],
-            "hidden_info_erase": ["hand_card_ids"],
-        }
-        self.broadcast_event(decision_event)
+        # Mulligan hand-size reductions are now applied immediately during forced mulligans,
+        # so there is no separate return-cards step before backstage placement.
+        self.begin_backstage_placement()
 
     def begin_backstage_placement(self):
         active_player = self.get_player(self.active_player_id)

@@ -563,11 +563,14 @@ class ConditionMixin:
                     return any(effect_player.played_support_types_this_turn.get(t, 0) > 0 for t in required_types)
                 return effect_player.played_support_this_turn
             case Condition.Condition_SupportCardNameUsedThisTurn:
+                inverse = condition.get("inverse", False)
                 condition_card_names = condition.get("condition_card_names", [])
+                found = False
                 for card_name in condition_card_names:
                     if card_name in effect_player.support_card_names_used_this_turn:
-                        return True
-                return False
+                        found = True
+                        break
+                return found ^ inverse
             case Condition.Condition_SupportCardTagUsedThisTurn:
                 condition_tags = condition.get("condition_tags", [])
                 for tag in condition_tags:
@@ -597,6 +600,21 @@ class ConditionMixin:
                 if source_card:
                     return amount_min <= len(effect_player.get_cheer_color_types_on_holomems())
                 return False
+            case Condition.Condition_SelfStageAllCheerAreColor:
+                required_colors = condition.get("condition_colors", ["any"])
+                amount_min = condition.get("amount_min", 1)
+                if "any" in required_colors:
+                    total_cheer = sum(len(holomem.get("attached_cheer", [])) for holomem in effect_player.get_holomem_on_stage())
+                    return total_cheer >= amount_min
+
+                matched_count = 0
+                for holomem in effect_player.get_holomem_on_stage():
+                    for cheer in holomem.get("attached_cheer", []):
+                        if any(color in cheer.get("colors", []) for color in required_colors):
+                            matched_count += 1
+                        else:
+                            return False
+                return matched_count >= amount_min
             case Condition.Condition_SelfHasCheerColor:
                 condition_colors = condition["condition_colors"]
                 amount_min = condition["amount_min"]
@@ -819,6 +837,55 @@ class ConditionMixin:
             case Condition.Condition_MyHolomemDownedLastOpponentTurnNamed:
                 condition_names = condition.get("condition_names", [])
                 return any(name in effect_player.holomem_downed_names_last_opponent_turn for name in condition_names)
+            case Condition.Condition_MyHolomemMovedFromStageToDeckThisTurn:
+                own_ability_only = condition.get("own_ability_only", False)
+                if own_ability_only:
+                    if not effect_player.holomem_moved_from_stage_to_deck_by_own_ability_this_turn:
+                        return False
+                    moved_names = effect_player.holomem_moved_from_stage_to_deck_by_own_ability_names_this_turn
+                else:
+                    if not effect_player.holomem_moved_from_stage_to_deck_this_turn:
+                        return False
+                    moved_names = effect_player.holomem_moved_from_stage_to_deck_names_this_turn
+
+                condition_names = condition.get("condition_names", [])
+                if condition_names:
+                    return any(name in moved_names for name in condition_names)
+                return True
+            case Condition.Condition_LastMovedCardIsMyHolomemFromStageToDeckNamed:
+                last_move = getattr(self, "last_move_info", {})
+                if not last_move:
+                    return False
+                if last_move.get("moving_player_id") != effect_player.player_id:
+                    return False
+                if not last_move.get("is_holomem", False):
+                    return False
+                if last_move.get("from_zone") not in ["center", "backstage", "collab"]:
+                    return False
+                if last_move.get("to_zone") != "deck":
+                    return False
+                condition_names = condition.get("condition_names", [])
+                if condition_names:
+                    return any(name in last_move.get("card_names", []) for name in condition_names)
+                return True
+            case Condition.Condition_LastMovedCardIsMyHolomemFromStageToDeckByOwnAbilityNamed:
+                last_move = getattr(self, "last_move_info", {})
+                if not last_move:
+                    return False
+                if not last_move.get("by_own_ability", False):
+                    return False
+                if last_move.get("moving_player_id") != effect_player.player_id:
+                    return False
+                if not last_move.get("is_holomem", False):
+                    return False
+                if last_move.get("from_zone") not in ["center", "backstage", "collab"]:
+                    return False
+                if last_move.get("to_zone") != "deck":
+                    return False
+                condition_names = condition.get("condition_names", [])
+                if condition_names:
+                    return any(name in last_move.get("card_names", []) for name in condition_names)
+                return True
             case Condition.Condition_HasRestingHolomem:
                 requirement_tags = condition.get("requirement_tags", [])
                 for holomem in effect_player.get_holomem_on_stage():
@@ -891,6 +958,16 @@ class ConditionMixin:
                 amount_min = condition.get("amount_min", 1)
                 support_count = sum(1 for card in effect_player.archive if card.get("card_type") == "support")
                 return support_count >= amount_min
+            case Condition.Condition_ArchiveCardNameCount:
+                condition_card_name = condition.get("condition_card_name", "")
+                amount_min = condition.get("amount_min", 1)
+                if not condition_card_name:
+                    return False
+                count = 0
+                for card in effect_player.archive:
+                    if condition_card_name in card.get("card_names", []):
+                        count += 1
+                return count >= amount_min
             case Condition.Condition_HolomemUsedArtThisTurn:
                 required_names = condition.get("required_member_name_in", [])
                 for holomem in effect_player.get_holomem_on_stage():
@@ -951,6 +1028,8 @@ class ConditionMixin:
     def get_condition_count(self, effect_player: PlayerState, source_card_id, condition_type):
         """조건에 따른 카운트를 반환하는 함수 (power_boost_per_condition용)"""
         match condition_type:
+            case Condition.Condition_CurrentHolopower:
+                return len(effect_player.holopower)
             case Condition.Condition_OpponentBackstageHpReducedCount:
                 # 상대방 백스테이지에서 HP가 감소된 홀로멤의 수를 반환
                 opponent_player = self.other_player(effect_player.player_id)

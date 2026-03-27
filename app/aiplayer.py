@@ -718,8 +718,9 @@ class AIPlayer:
             # Skip events that aren't meant for me to act.
             return False, None, None
 
+        must_mulligan = bool(event.get("must_mulligan", False))
         return True, event["desired_response"], {
-            "do_mulligan": False,
+            "do_mulligan": must_mulligan,
         }
 
     def _handle_choose_new_center(self, event):

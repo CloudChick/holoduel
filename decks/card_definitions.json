@@ -1252,7 +1252,7 @@
         "life": 5,
         "actions": [
             {
-                "skill_id": "shinsatsu_no_michibiki",
+                "skill_id": "green_enhance",
                 "cost": 2,
                 "limit": "once_per_turn",
                 "effects": [
@@ -1260,7 +1260,7 @@
                         "hide_effect_text": true,
                         "effect_type": "oshi_activation",
                         "limit": "once_per_turn",
-                        "skill_id": "shinsatsu_no_michibiki",
+                        "skill_id": "green_enhance",
                         "pre_effects": [
                             {
                                 "effect_type": "spend_holopower",
@@ -1268,24 +1268,32 @@
                             },
                             {
                                 "effect_type": "record_used_once_per_turn_effect",
-                                "effect_id": "shinsatsu_no_michibiki"
+                                "effect_id": "green_enhance"
                             }
                         ]
                     },
                     {
-                        "effect_type": "choose_cards",
-                        "from": "deck",
-                        "look_at": 2,
-                        "destination": "hand",
-                        "amount_min": 0,
-                        "amount_max": 1,
-                        "reveal_chosen": true,
-                        "remaining_cards_action": "order_on_bottom"
+                        "effect_type": "add_turn_effect_for_holomem",
+                        "limitation": "color_in",
+                        "limitation_colors": [
+                            "green"
+                        ],
+                        "turn_effect": {
+                            "timing": "before_art",
+                            "conditions": [
+                                {
+                                    "condition": "performer_is_specific_id",
+                                    "required_id": "REPLACED_BY_EFFECT"
+                                }
+                            ],
+                            "effect_type": "power_boost",
+                            "amount": 20
+                        }
                     }
                 ]
             },
             {
-                "skill_id": "minna_no_mama",
+                "skill_id": "birthday_gift_green",
                 "cost": 2,
                 "limit": "once_per_game",
                 "effects": [
@@ -1293,7 +1301,7 @@
                         "hide_effect_text": true,
                         "effect_type": "oshi_activation",
                         "limit": "once_per_game",
-                        "skill_id": "minna_no_mama",
+                        "skill_id": "birthday_gift_green",
                         "pre_effects": [
                             {
                                 "effect_type": "spend_holopower",
@@ -1301,25 +1309,23 @@
                             },
                             {
                                 "effect_type": "record_used_once_per_game_effect",
-                                "effect_id": "minna_no_mama"
+                                "effect_id": "birthday_gift_green"
                             }
                         ]
                     },
                     {
                         "effect_type": "choose_cards",
                         "from": "deck",
-                        "look_at": 6,
+                        "look_at": -1,
                         "destination": "hand",
-                        "amount_min": 0,
-                        "amount_max": 3,
+                        "amount_min": 1,
+                        "amount_max": 1,
+                        "requirement": "holomem",
+                        "requirement_colors": [
+                            "green"
+                        ],
                         "reveal_chosen": true,
-                        "remaining_cards_action": "order_on_bottom"
-                    },
-                    {
-                        "effect_type": "restore_hp",
-                        "target": "holomem",
-                        "amount": 50,
-                        "hit_all_targets": true
+                        "remaining_cards_action": "shuffle"
                     }
                 ]
             }
@@ -3498,6 +3504,7 @@
         ],
         "collab_effects": [
             {
+                "name_kr": "힐링 런웨이",
                 "effect_type": "choice",
                 "choice": [
                     {
@@ -27939,6 +27946,28 @@
         ]
     },
     {
+        "card_id": "hBP06-086",
+        "card_type": "support",
+        "sub_type": "event",
+        "colors": [],
+        "card_names": [
+            "aijou_ippai_meshiagare"
+        ],
+        "rarity": "c",
+        "limited": true,
+        "effects": [
+            {
+                "effect_type": "draw",
+                "amount": 1
+            },
+            {
+                "effect_type": "restore_hp",
+                "target": "holomem",
+                "amount": 100
+            }
+        ]
+    },
+    {
         "card_id": "hBP06-021",
         "card_type": "holomem_bloom",
         "bloom_level": 2,
@@ -31716,6 +31745,90 @@
         ]
     },
     {
+        "card_id": "hBP07-003",
+        "card_type": "oshi",
+        "card_names": [
+            "ookami_mio"
+        ],
+        "colors": [
+            "green"
+        ],
+        "rarity": "osr",
+        "life": 5,
+        "actions": [
+            {
+                "skill_id": "shinfu_no_michibiki",
+                "cost": 1,
+                "limit": "once_per_turn",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_turn",
+                        "skill_id": "shinfu_no_michibiki",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 1
+                            },
+                            {
+                                "effect_type": "record_used_once_per_turn_effect",
+                                "effect_id": "shinfu_no_michibiki"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "choose_cards",
+                        "from": "deck",
+                        "look_at": 2,
+                        "destination": "hand",
+                        "amount_min": 1,
+                        "amount_max": 1,
+                        "remaining_cards_action": "order_on_top"
+                    }
+                ]
+            },
+            {
+                "skill_id": "minna_no_mama",
+                "cost": 2,
+                "limit": "once_per_game",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_game",
+                        "skill_id": "minna_no_mama",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_game_effect",
+                                "effect_id": "minna_no_mama"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "choose_cards",
+                        "from": "deck",
+                        "look_at": 6,
+                        "destination": "hand",
+                        "amount_min": 3,
+                        "amount_max": 3,
+                        "remaining_cards_action": "order_on_top"
+                    },
+                    {
+                        "effect_type": "restore_hp",
+                        "target": "holomem",
+                        "amount": 50,
+                        "hit_all_targets": true
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "card_id": "hBP07-008",
         "card_type": "holomem_debut",
         "card_names": [
@@ -32426,6 +32539,87 @@
         ]
     },
     {
+        "card_id": "hBP07-006",
+        "card_type": "oshi",
+        "card_names": [
+            "azki"
+        ],
+        "colors": [
+            "purple"
+        ],
+        "rarity": "osr",
+        "life": 5,
+        "actions": [
+            {
+                "skill_id": "letsgopioneer",
+                "cost": 1,
+                "limit": "once_per_turn",
+                "action_conditions": [
+                    {
+                        "condition": "my_holomem_downed_last_opponent_turn"
+                    },
+                    {
+                        "condition": "holopower_at_least",
+                        "amount": 1
+                    }
+                ],
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_turn",
+                        "skill_id": "letsgopioneer",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 1
+                            },
+                            {
+                                "effect_type": "record_used_once_per_turn_effect",
+                                "effect_id": "letsgopioneer"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "choose_cards",
+                        "from": "deck",
+                        "look_at": -1,
+                        "destination": "hand",
+                        "amount_min": 1,
+                        "amount_max": 1,
+                        "requirement": "support",
+                        "requirement_sub_types": [
+                            "event"
+                        ],
+                        "reveal_chosen": true,
+                        "remaining_cards_action": "shuffle"
+                    }
+                ]
+            }
+        ],
+        "effects": [
+            {
+                "oshi_effect": true,
+                "skill_id": "eternityfrontier",
+                "timing": "before_art",
+                "conditions": [
+                    {
+                        "condition": "performer_is_center"
+                    },
+                    {
+                        "condition": "performer_is_member_name",
+                        "required_member_names": [
+                            "azki"
+                        ]
+                    }
+                ],
+                "effect_type": "power_boost_per_condition",
+                "amount_per": 20,
+                "per": "current_holopower"
+            }
+        ]
+    },
+    {
         "card_id": "hBP07-009",
         "card_type": "holomem_debut",
         "card_names": [
@@ -33094,24 +33288,381 @@
         "card_type": "holomem_bloom",
         "bloom_level": 1,
         "card_names": [
-            "kobo_kanaeru"
+            "azki"
         ],
-        "rarity": "r",
+        "rarity": "c",
         "colors": [
-            "blue"
+            "purple"
         ],
-        "hp": 160,
+        "hp": 120,
         "baton_cost": 1,
         "tags": [
-            "#ID",
-            "#IDGen3"
+            "#JP",
+            "#Gen0",
+            "#Song"
+        ],
+        "collab_effects": [
+            {
+                "conditions": [
+                    {
+                        "condition": "is_going_second_and_first_turn"
+                    },
+                    {
+                        "condition": "oshi_is",
+                        "required_member_name": "azki"
+                    }
+                ],
+                "effect_type": "choose_cards",
+                "from": "opponent_holomem",
+                "look_at": -1,
+                "destination": "cheer_deck_bottom",
+                "amount_min": 1,
+                "amount_max": 1,
+                "requirement": "cheer",
+                "remaining_cards_action": "nothing"
+            }
         ],
         "arts": [
             {
-                "art_id": "mantaplee",
+                "art_id": "close_space_next_to_you",
                 "costs": [
                     {
-                        "color": "blue",
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 30
+            }
+        ]
+    },
+    {
+        "card_id": "hBP07-064",
+        "card_type": "holomem_debut",
+        "card_names": [
+            "azki"
+        ],
+        "rarity": "u",
+        "colors": [
+            "purple"
+        ],
+        "hp": 130,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Song"
+        ],
+        "arts": [
+            {
+                "art_id": "come_relax_for_a_bit",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 20,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "effect_type": "choose_cards",
+                        "from": "deck",
+                        "look_at": -1,
+                        "destination": "holomem",
+                        "amount_min": 1,
+                        "amount_max": 1,
+                        "requirement": "specific_card",
+                        "requirement_card_name": "pioneer",
+                        "to_limitation": "specific_member_name",
+                        "to_limitation_name": "azki",
+                        "reveal_chosen": true,
+                        "remaining_cards_action": "shuffle"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP07-065",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "azki"
+        ],
+        "rarity": "c",
+        "colors": [
+            "purple"
+        ],
+        "hp": 190,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Song"
+        ],
+        "arts": [
+            {
+                "art_id": "lets_get_the_party_started",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 30,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "effect_type": "draw",
+                        "amount": 1
+                    },
+                    {
+                        "timing": "before_art",
+                        "effect_type": "choose_cards",
+                        "from": "hand",
+                        "look_at": -1,
+                        "destination": "archive",
+                        "amount_min": 1,
+                        "amount_max": 1,
+                        "remaining_cards_action": "nothing"
+                    }
+                ]
+            },
+            {
+                "art_id": "let_me_hear_everyone",
+                "costs": [
+                    {
+                        "color": "purple",
+                        "amount": 1
+                    },
+                    {
+                        "color": "any",
+                        "amount": 3
+                    }
+                ],
+                "power": 120
+            }
+        ]
+    },
+    {
+        "card_id": "hBP07-066",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "azki"
+        ],
+        "rarity": "c",
+        "colors": [
+            "purple"
+        ],
+        "hp": 170,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Song"
+        ],
+        "collab_effects": [
+            {
+                "effect_type": "restore_hp",
+                "target": "holomem",
+                "amount": 30,
+                "and": [
+                    {
+                        "effect_type": "add_turn_effect_for_holomem",
+                        "turn_effect": {
+                            "timing": "before_art",
+                            "conditions": [
+                                {
+                                    "condition": "performer_is_specific_id",
+                                    "required_id": "REPLACED_BY_EFFECT"
+                                }
+                            ],
+                            "effect_type": "power_boost",
+                            "amount": 10
+                        }
+                    }
+                ]
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "i_really_love_music_and_singing",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 40
+            }
+        ]
+    },
+    {
+        "card_id": "hBP07-067",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "azki"
+        ],
+        "rarity": "r",
+        "colors": [
+            "purple"
+        ],
+        "hp": 150,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Song"
+        ],
+        "bloom_effects": [
+            {
+                "effect_type": "choose_cards",
+                "from": "deck",
+                "look_at": 4,
+                "destination": "hand",
+                "amount_min": 0,
+                "amount_max": 1,
+                "requirement": "holomem_named",
+                "requirement_names": [
+                    "azki"
+                ],
+                "reveal_chosen": true,
+                "remaining_cards_action": "order_on_bottom"
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "night_for_just_the_two_of_us",
+                "costs": [
+                    {
+                        "color": "purple",
+                        "amount": 1
+                    },
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 40,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "effect_type": "choose_cards",
+                        "from": "hand",
+                        "look_at": -1,
+                        "destination": "archive",
+                        "amount_min": 0,
+                        "amount_max": 1,
+                        "remaining_cards_action": "nothing"
+                    },
+                    {
+                        "timing": "before_art",
+                        "conditions": [
+                            {
+                                "condition": "chosen_card_count",
+                                "amount_min": 1
+                            }
+                        ],
+                        "effect_type": "deal_damage",
+                        "special": true,
+                        "amount": 20,
+                        "target": "center_or_collab",
+                        "opponent": true,
+                        "prevent_life_loss": true
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP07-068",
+        "card_type": "holomem_bloom",
+        "bloom_level": 2,
+        "card_names": [
+            "azki"
+        ],
+        "rarity": "u",
+        "colors": [
+            "purple"
+        ],
+        "hp": 210,
+        "baton_cost": 2,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Song"
+        ],
+        "collab_effects": [
+            {
+                "effect_type": "add_turn_effect_for_holomem",
+                "limitation": "self",
+                "turn_effect": {
+                    "timing": "before_art",
+                    "conditions": [
+                        {
+                            "condition": "performer_is_specific_id",
+                            "required_id": "REPLACED_BY_EFFECT"
+                        }
+                    ],
+                    "effect_type": "power_boost_per_holomem",
+                    "has_tag": "#Gen0",
+                    "unique_names": true,
+                    "amount": 20
+                }
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "ill_wait_for_white_day_return",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 2
+                    }
+                ],
+                "power": 100,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "effect_type": "power_boost",
+                        "amount": 50,
+                        "conditions": [
+                            {
+                                "condition": "target_color",
+                                "color_requirement": "yellow"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP07-069",
+        "card_type": "holomem_bloom",
+        "bloom_level": 2,
+        "card_names": [
+            "azki"
+        ],
+        "rarity": "rr",
+        "colors": [
+            "purple"
+        ],
+        "hp": 220,
+        "baton_cost": 2,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Song"
+        ],
+        "arts": [
+            {
+                "art_id": "to_a_new_frontier_with_you",
+                "costs": [
+                    {
+                        "color": "purple",
                         "amount": 1
                     },
                     {
@@ -33119,36 +33670,94 @@
                         "amount": 2
                     }
                 ],
-                "power": 60,
+                "power": 140,
                 "art_effects": [
                     {
                         "timing": "before_art",
-                        "effect_type": "draw",
-                        "amount": 2,
+                        "effect_type": "power_boost",
+                        "amount": 50,
                         "conditions": [
                             {
-                                "condition": "opponent_backstage_hp_reduced_count",
-                                "amount_min": 3
+                                "condition": "target_color",
+                                "color_requirement": "green"
+                            }
+                        ]
+                    },
+                    {
+                        "timing": "before_art",
+                        "effect_type": "draw",
+                        "amount": 2
+                    }
+                ]
+            },
+            {
+                "art_id": "a_song_for_everything_in_our_connected_trajectory",
+                "costs": [
+                    {
+                        "color": "purple",
+                        "amount": 3
+                    },
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 200,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "effect_type": "power_boost",
+                        "amount": 50,
+                        "conditions": [
+                            {
+                                "condition": "target_color",
+                                "color_requirement": "green"
+                            }
+                        ]
+                    },
+                    {
+                        "timing": "before_art",
+                        "conditions": [
+                            {
+                                "condition": "oshi_is",
+                                "required_member_name": "azki"
+                            },
+                            {
+                                "condition": "holopower_at_least",
+                                "amount": 4
+                            }
+                        ],
+                        "effect_type": "choice",
+                        "choice": [
+                            {
+                                "effect_type": "choose_cards",
+                                "from": "holopower",
+                                "look_at": 4,
+                                "destination": "archive",
+                                "amount_min": 4,
+                                "amount_max": 4,
+                                "remaining_cards_action": "nothing",
+                                "and": [
+                                    {
+                                        "effect_type": "deal_life_damage",
+                                        "amount": 1,
+                                        "opponent": true,
+                                        "conditions": [
+                                            {
+                                                "condition": "archive_card_name_count",
+                                                "condition_card_name": "frontier_spirit",
+                                                "amount_min": 4
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "effect_type": "pass"
                             }
                         ]
                     }
                 ]
-            }
-        ],
-        "bloom_effects": [
-            {
-                "effect_type": "choose_cards",
-                "from": "cheer_deck",
-                "look_at": -1,
-                "destination": "holomem",
-                "amount_min": 1,
-                "amount_max": 1,
-                "requirement": "color_matches_holomems",
-                "requirement_only_holomems_with_any_tag": [
-                    "#IDGen3"
-                ],
-                "reveal_chosen": true,
-                "remaining_cards_action": "shuffle"
             }
         ],
         "collab_effects": []
@@ -33421,82 +34030,6 @@
         ]
     },
     {
-        "card_id": "hBP07-006",
-        "card_type": "oshi",
-        "card_names": [
-            "azki"
-        ],
-        "colors": [
-            "purple"
-        ],
-        "rarity": "osr",
-        "life": 5,
-        "actions": [
-            {
-                "skill_id": "lets_go_pioneer",
-                "cost": 1,
-                "limit": "once_per_turn",
-                "action_conditions": [
-                    {
-                        "condition": "my_holomem_downed_last_opponent_turn"
-                    }
-                ],
-                "effects": [
-                    {
-                        "hide_effect_text": true,
-                        "effect_type": "oshi_activation",
-                        "limit": "once_per_turn",
-                        "skill_id": "lets_go_pioneer",
-                        "pre_effects": [
-                            {
-                                "effect_type": "spend_holopower",
-                                "amount": 1
-                            },
-                            {
-                                "effect_type": "record_used_once_per_turn_effect",
-                                "effect_id": "lets_go_pioneer"
-                            }
-                        ]
-                    },
-                    {
-                        "effect_type": "choose_cards",
-                        "from": "deck",
-                        "look_at": -1,
-                        "destination": "hand",
-                        "amount_min": 0,
-                        "amount_max": 1,
-                        "requirement": "support",
-                        "requirement_sub_types": [
-                            "event"
-                        ],
-                        "reveal_chosen": true,
-                        "remaining_cards_action": "shuffle"
-                    }
-                ]
-            }
-        ],
-        "effects": [
-            {
-                "oshi_effect": true,
-                "skill_id": "eternity_frontier",
-                "timing": "before_art",
-                "conditions": [
-                    {
-                        "condition": "performer_is_member_name",
-                        "required_member_names": [
-                            "azki"
-                        ]
-                    },
-                    {
-                        "condition": "performer_is_center"
-                    }
-                ],
-                "effect_type": "power_boost_per_holopower",
-                "amount": 20
-            }
-        ]
-    },
-    {
         "card_id": "hBP07-007",
         "card_type": "oshi",
         "card_names": [
@@ -33632,433 +34165,6 @@
                 "to": "cheer_deck_bottom"
             }
         ]
-    },
-    {
-        "card_id": "hBP07-064",
-        "card_type": "holomem_debut",
-        "card_names": [
-            "azki"
-        ],
-        "rarity": "u",
-        "colors": [
-            "purple"
-        ],
-        "hp": 130,
-        "baton_cost": 1,
-        "tags": [
-            "#JP",
-            "#Gen0",
-            "#Song"
-        ],
-        "arts": [
-            {
-                "art_id": "comerelax",
-                "costs": [
-                    {
-                        "color": "any",
-                        "amount": 1
-                    }
-                ],
-                "power": 20,
-                "art_effects": [
-                    {
-                        "timing": "before_art",
-                        "effect_type": "choose_cards",
-                        "from": "deck",
-                        "look_at": -1,
-                        "destination": "holomem",
-                        "to_limitation": "specific_member_name",
-                        "to_limitation_name": "azki",
-                        "amount_min": 0,
-                        "amount_max": 1,
-                        "requirement": "specific_card",
-                        "requirement_card_names": [
-                            "pioneer"
-                        ],
-                        "reveal_chosen": true,
-                        "remaining_cards_action": "shuffle"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "card_id": "hBP07-065",
-        "card_type": "holomem_bloom",
-        "bloom_level": 1,
-        "card_names": [
-            "azki"
-        ],
-        "rarity": "c",
-        "colors": [
-            "purple"
-        ],
-        "hp": 190,
-        "baton_cost": 1,
-        "tags": [
-            "#JP",
-            "#Gen0",
-            "#Song"
-        ],
-        "arts": [
-            {
-                "art_id": "letslivenup",
-                "costs": [
-                    {
-                        "color": "any",
-                        "amount": 1
-                    }
-                ],
-                "power": 30,
-                "art_effects": [
-                    {
-                        "timing": "before_art",
-                        "effect_type": "draw",
-                        "amount": 1,
-                        "and": [
-                            {
-                                "effect_type": "archive_from_hand",
-                                "amount": 1,
-                                "ability_source": "holomem_purple"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "art_id": "letmeheareveryonesvoice",
-                "costs": [
-                    {
-                        "color": "purple",
-                        "amount": 1
-                    },
-                    {
-                        "color": "any",
-                        "amount": 3
-                    }
-                ],
-                "power": 120
-            }
-        ],
-        "bloom_effects": [],
-        "collab_effects": []
-    },
-    {
-        "card_id": "hBP07-066",
-        "card_type": "holomem_bloom",
-        "bloom_level": 1,
-        "card_names": [
-            "azki"
-        ],
-        "rarity": "c",
-        "colors": [
-            "purple"
-        ],
-        "hp": 170,
-        "baton_cost": 1,
-        "tags": [
-            "#JP",
-            "#Gen0",
-            "#Song"
-        ],
-        "arts": [
-            {
-                "art_id": "ireallylovemusicandsinging",
-                "costs": [
-                    {
-                        "color": "any",
-                        "amount": 1
-                    }
-                ],
-                "power": 40
-            }
-        ],
-        "bloom_effects": [],
-        "collab_effects": [
-            {
-                "effect_type": "restore_hp",
-                "target": "holomem",
-                "amount": 30
-            },
-            {
-                "effect_type": "add_turn_effect_for_holomem",
-                "source_from_chosen": true,
-                "turn_effect": {
-                    "timing": "before_art",
-                    "conditions": [
-                        {
-                            "condition": "performer_is_specific_id",
-                            "required_id": "REPLACED_BY_EFFECT"
-                        }
-                    ],
-                    "effect_type": "power_boost",
-                    "amount": 10
-                }
-            }
-        ]
-    },
-    {
-        "card_id": "hBP07-067",
-        "card_type": "holomem_bloom",
-        "bloom_level": 1,
-        "card_names": [
-            "azki"
-        ],
-        "rarity": "r",
-        "colors": [
-            "purple"
-        ],
-        "hp": 150,
-        "baton_cost": 1,
-        "tags": [
-            "#JP",
-            "#Gen0",
-            "#Song"
-        ],
-        "arts": [
-            {
-                "art_id": "anightjustfortwo",
-                "costs": [
-                    {
-                        "color": "purple",
-                        "amount": 1
-                    },
-                    {
-                        "color": "any",
-                        "amount": 1
-                    }
-                ],
-                "power": 40,
-                "art_effects": [
-                    {
-                        "timing": "before_art",
-                        "effect_type": "choice",
-                        "choice": [
-                            {
-                                "effect_type": "archive_from_hand",
-                                "amount": 1,
-                                "ability_source": "holomem_purple",
-                                "and": [
-                                    {
-                                        "effect_type": "deal_damage",
-                                        "special": true,
-                                        "target": "center_or_collab",
-                                        "opponent": true,
-                                        "amount": 20
-                                    }
-                                ]
-                            },
-                            {
-                                "effect_type": "pass"
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
-        "bloom_effects": [
-            {
-                "effect_type": "choose_cards",
-                "from": "deck",
-                "look_at": 4,
-                "destination": "hand",
-                "amount_min": 0,
-                "amount_max": 1,
-                "requirement": "holomem_named",
-                "requirement_names": [
-                    "azki"
-                ],
-                "reveal_chosen": true,
-                "remaining_cards_action": "order_on_bottom"
-            }
-        ],
-        "collab_effects": []
-    },
-    {
-        "card_id": "hBP07-068",
-        "card_type": "holomem_bloom",
-        "bloom_level": 2,
-        "card_names": [
-            "azki"
-        ],
-        "rarity": "u",
-        "colors": [
-            "purple"
-        ],
-        "hp": 210,
-        "baton_cost": 2,
-        "tags": [
-            "#JP",
-            "#Gen0",
-            "#Song"
-        ],
-        "arts": [
-            {
-                "art_id": "whitedayreturn",
-                "costs": [
-                    {
-                        "color": "any",
-                        "amount": 2
-                    }
-                ],
-                "power": 100,
-                "art_effects": [
-                    {
-                        "timing": "before_art",
-                        "effect_type": "power_boost",
-                        "amount": 50,
-                        "conditions": [
-                            {
-                                "condition": "target_color",
-                                "color_requirement": "yellow"
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
-        "bloom_effects": [],
-        "collab_effects": [
-            {
-                "effect_type": "add_turn_effect",
-                "turn_effect": {
-                    "timing": "before_art",
-                    "conditions": [
-                        {
-                            "condition": "performer_is_member_name",
-                            "required_member_names": [
-                                "azki"
-                            ]
-                        }
-                    ],
-                    "effect_type": "power_boost_per_holomem",
-                    "has_tag": "#Gen0",
-                    "unique_names": true,
-                    "amount": 20
-                }
-            }
-        ]
-    },
-    {
-        "card_id": "hBP07-069",
-        "card_type": "holomem_bloom",
-        "bloom_level": 2,
-        "card_names": [
-            "azki"
-        ],
-        "rarity": "rr",
-        "colors": [
-            "purple"
-        ],
-        "hp": 220,
-        "baton_cost": 2,
-        "tags": [
-            "#JP",
-            "#Gen0",
-            "#Song"
-        ],
-        "arts": [
-            {
-                "art_id": "tonewfrontierswithyou",
-                "costs": [
-                    {
-                        "color": "purple",
-                        "amount": 1
-                    },
-                    {
-                        "color": "any",
-                        "amount": 2
-                    }
-                ],
-                "power": 140,
-                "art_effects": [
-                    {
-                        "timing": "before_art",
-                        "conditions": [
-                            {
-                                "condition": "target_color",
-                                "color_requirement": "green"
-                            }
-                        ],
-                        "effect_type": "power_boost",
-                        "amount": 50
-                    },
-                    {
-                        "timing": "before_art",
-                        "effect_type": "draw",
-                        "amount": 2
-                    }
-                ]
-            },
-            {
-                "art_id": "songdedicatedtoeverything",
-                "costs": [
-                    {
-                        "color": "purple",
-                        "amount": 3
-                    },
-                    {
-                        "color": "any",
-                        "amount": 1
-                    }
-                ],
-                "power": 200,
-                "art_effects": [
-                    {
-                        "timing": "before_art",
-                        "conditions": [
-                            {
-                                "condition": "target_color",
-                                "color_requirement": "green"
-                            }
-                        ],
-                        "effect_type": "power_boost",
-                        "amount": 50
-                    },
-                    {
-                        "timing": "before_art",
-                        "conditions": [
-                            {
-                                "condition": "oshi_is",
-                                "required_member_name": "azki"
-                            },
-                            {
-                                "condition": "holopower_at_least",
-                                "amount": 4
-                            }
-                        ],
-                        "effect_type": "choice",
-                        "choice": [
-                            {
-                                "effect_type": "spend_holopower",
-                                "amount": 4,
-                                "and": [
-                                    {
-                                        "conditions": [
-                                            {
-                                                "condition": "card_names_in_archive",
-                                                "card_names": [
-                                                    "frontier_spirit"
-                                                ],
-                                                "amount_min": 4
-                                            }
-                                        ],
-                                        "effect_type": "deal_life_damage",
-                                        "amount": 1,
-                                        "opponent": true
-                                    }
-                                ]
-                            },
-                            {
-                                "effect_type": "pass"
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
-        "bloom_effects": [],
-        "collab_effects": []
     },
     {
         "card_id": "hBP07-071",
@@ -35055,19 +35161,7 @@
         ],
         "attached_effects": [
             {
-                "timing": "on_bloom",
-                "conditions": [
-                    {
-                        "condition": "not_used_once_per_turn_effect",
-                        "condition_effect_id": "netko_bloom_draw"
-                    }
-                ],
-                "pre_effects": [
-                    {
-                        "effect_type": "record_used_once_per_turn_effect",
-                        "effect_id": "netko_bloom_draw"
-                    }
-                ],
+                "timing": "on_bloom_level_up",
                 "effect_type": "draw",
                 "amount": 1
             }
@@ -36810,22 +36904,18 @@
         ],
         "collab_effects": [
             {
-                "effect_type": "choice",
-                "choice": [
+                "conditions": [
                     {
-                        "effect_type": "choose_cards",
-                        "from": "deck",
-                        "look_at": 3,
-                        "destination": "hand",
-                        "amount_min": 0,
-                        "amount_max": 1,
-                        "reveal_chosen": true,
-                        "remaining_cards_action": "order_on_bottom"
-                    },
-                    {
-                        "effect_type": "pass"
+                        "condition": "is_going_second_and_first_turn"
                     }
-                ]
+                ],
+                "effect_type": "choose_cards",
+                "from": "deck",
+                "look_at": 3,
+                "destination": "hand",
+                "amount_min": 1,
+                "amount_max": 1,
+                "remaining_cards_action": "order_on_top"
             }
         ]
     },
@@ -36850,14 +36940,9 @@
         "gift_effects": [
             {
                 "timing": "on_performance_step_start",
-                "conditions": [
-                    {
-                        "condition": "has_attachment_of_type",
-                        "condition_type": "support"
-                    }
-                ],
                 "effect_type": "draw",
-                "amount": 1
+                "amount_source": "per_attachment_name",
+                "attachment_name": "miofa"
             }
         ],
         "arts": [
@@ -36909,7 +36994,7 @@
         "colors": [
             "green"
         ],
-        "hp": 160,
+        "hp": 170,
         "baton_cost": 1,
         "tags": [
             "#JP",
@@ -36956,8 +37041,11 @@
                 "art_effects": [
                     {
                         "timing": "after_art",
-                        "effect_type": "move_cheer_between_holomems",
-                        "amount": 1,
+                        "effect_type": "send_cheer",
+                        "amount_min": 1,
+                        "amount_max": 1,
+                        "from": "archive",
+                        "to": "holomem",
                         "to_limitation": "tag_in",
                         "to_limitation_tags": [
                             "#Gamers"
@@ -36978,7 +37066,7 @@
         "colors": [
             "green"
         ],
-        "hp": 100,
+        "hp": 140,
         "baton_cost": 1,
         "tags": [
             "#JP",
@@ -37031,7 +37119,7 @@
         "colors": [
             "green"
         ],
-        "hp": 240,
+        "hp": 170,
         "baton_cost": 2,
         "tags": [
             "#JP",
@@ -37043,6 +37131,7 @@
             {
                 "effect_type": "add_turn_effect_for_holomem",
                 "limitation_location": "backstage",
+                "exclude_self": true,
                 "source_from_chosen": true,
                 "turn_effect": {
                     "timing": "before_art",
@@ -37239,6 +37328,18 @@
                                         "effect_type": "power_boost_per_revealed_card",
                                         "amount": 50,
                                         "limitation": "support"
+                                    },
+                                    {
+                                        "conditions": [
+                                            {
+                                                "condition": "revealed_card_is_holomem"
+                                            }
+                                        ],
+                                        "effect_type": "send_cheer",
+                                        "amount_min": 1,
+                                        "amount_max": 1,
+                                        "from": "cheer_deck",
+                                        "to": "holomem"
                                     },
                                     {
                                         "effect_type": "archive_revealed_cards"
