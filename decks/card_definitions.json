@@ -25125,7 +25125,7 @@
             "red"
         ],
         "hp": 110,
-        "baton_cost": 1,
+        "baton_cost": 0,
         "tags": [
             "#EN",
             "#Promise",
