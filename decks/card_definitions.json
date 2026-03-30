@@ -388,7 +388,7 @@
                         "destination": "hand",
                         "amount_min": 1,
                         "amount_max": 1,
-                        "requirement": "holomem",
+                        "requirement": "color_in",
                         "requirement_colors": [
                             "white"
                         ],
@@ -1040,6 +1040,106 @@
         ]
     },
     {
+        "card_id": "hBD24-029",
+        "card_type": "oshi",
+        "card_names": [
+            "sakura_miko"
+        ],
+        "colors": [
+            "red"
+        ],
+        "rarity": "p",
+        "life": 5,
+        "actions": [
+            {
+                "skill_id": "red_enhance",
+                "cost": 2,
+                "limit": "once_per_turn",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_turn",
+                        "skill_id": "red_enhance",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_turn_effect",
+                                "effect_id": "red_enhance"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "add_turn_effect_for_holomem",
+                        "limitation": "color_in",
+                        "limitation_colors": [
+                            "red"
+                        ],
+                        "conditions": [
+                            {
+                                "condition": "color_on_stage",
+                                "condition_colors": [
+                                    "red"
+                                ]
+                            }
+                        ],
+                        "turn_effect": {
+                            "timing": "before_art",
+                            "conditions": [
+                                {
+                                    "condition": "performer_is_specific_id",
+                                    "required_id": "REPLACED_BY_EFFECT"
+                                }
+                            ],
+                            "effect_type": "power_boost",
+                            "amount": 20
+                        }
+                    }
+                ]
+            },
+            {
+                "skill_id": "birthday_gift_red",
+                "cost": 2,
+                "limit": "once_per_game",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_game",
+                        "skill_id": "birthday_gift_red",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_game_effect",
+                                "effect_id": "birthday_gift_red"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "choose_cards",
+                        "from": "deck",
+                        "look_at": -1,
+                        "destination": "hand",
+                        "amount_min": 1,
+                        "amount_max": 1,
+                        "requirement": "color_in",
+                        "requirement_colors": [
+                            "red"
+                        ],
+                        "reveal_chosen": true,
+                        "remaining_cards_action": "shuffle"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "card_id": "hBD24-044",
         "card_type": "oshi",
         "card_names": [
@@ -1131,6 +1231,387 @@
                         "requirement": "color_in",
                         "requirement_colors": [
                             "red"
+                        ],
+                        "reveal_chosen": true,
+                        "remaining_cards_action": "shuffle"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBD24-063",
+        "card_type": "oshi",
+        "card_names": [
+            "akai_haato"
+        ],
+        "colors": [
+            "red"
+        ],
+        "rarity": "p",
+        "life": 5,
+        "actions": [
+            {
+                "skill_id": "redenhance",
+                "cost": 2,
+                "limit": "once_per_turn",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_turn",
+                        "skill_id": "redenhance",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_turn_effect",
+                                "effect_id": "redenhance"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "add_turn_effect_for_holomem",
+                        "limitation": "color_in",
+                        "limitation_colors": [
+                            "red"
+                        ],
+                        "turn_effect": {
+                            "timing": "before_art",
+                            "conditions": [
+                                {
+                                    "condition": "performer_is_specific_id",
+                                    "required_id": "REPLACED_BY_EFFECT"
+                                }
+                            ],
+                            "effect_type": "power_boost",
+                            "amount": 20
+                        }
+                    }
+                ]
+            },
+            {
+                "skill_id": "birthdaygiftred",
+                "cost": 2,
+                "limit": "once_per_game",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_game",
+                        "skill_id": "birthdaygiftred",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_game_effect",
+                                "effect_id": "birthdaygiftred"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "choose_cards",
+                        "from": "deck",
+                        "look_at": -1,
+                        "destination": "hand",
+                        "amount_min": 1,
+                        "amount_max": 1,
+                        "requirement": "color_in",
+                        "requirement_colors": [
+                            "red"
+                        ],
+                        "reveal_chosen": true,
+                        "remaining_cards_action": "shuffle"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBD24-055",
+        "card_type": "oshi",
+        "card_names": [
+            "azki"
+        ],
+        "colors": [
+            "green"
+        ],
+        "rarity": "p",
+        "life": 5,
+        "actions": [
+            {
+                "skill_id": "greenenhance",
+                "cost": 2,
+                "limit": "once_per_turn",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_turn",
+                        "skill_id": "greenenhance",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_turn_effect",
+                                "effect_id": "greenenhance"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "add_turn_effect_for_holomem",
+                        "limitation": "color_in",
+                        "limitation_colors": [
+                            "green"
+                        ],
+                        "turn_effect": {
+                            "timing": "before_art",
+                            "conditions": [
+                                {
+                                    "condition": "performer_is_specific_id",
+                                    "required_id": "REPLACED_BY_EFFECT"
+                                }
+                            ],
+                            "effect_type": "power_boost",
+                            "amount": 20
+                        }
+                    }
+                ]
+            },
+            {
+                "skill_id": "birthdaygiftgreen",
+                "cost": 2,
+                "limit": "once_per_game",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_game",
+                        "skill_id": "birthdaygiftgreen",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_game_effect",
+                                "effect_id": "birthdaygiftgreen"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "choose_cards",
+                        "from": "deck",
+                        "look_at": -1,
+                        "destination": "hand",
+                        "amount_min": 1,
+                        "amount_max": 1,
+                        "requirement": "color_in",
+                        "requirement_colors": [
+                            "green"
+                        ],
+                        "reveal_chosen": true,
+                        "remaining_cards_action": "shuffle"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBD24-064",
+        "card_type": "oshi",
+        "card_names": [
+            "ookami_mio"
+        ],
+        "colors": [
+            "green"
+        ],
+        "rarity": "p",
+        "life": 5,
+        "actions": [
+            {
+                "skill_id": "green_enhance",
+                "cost": 2,
+                "limit": "once_per_turn",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_turn",
+                        "skill_id": "green_enhance",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_turn_effect",
+                                "effect_id": "green_enhance"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "add_turn_effect_for_holomem",
+                        "source_from_chosen": true,
+                        "choose_conditions": [
+                            {
+                                "condition": "card_is_color",
+                                "required_colors": [
+                                    "green"
+                                ]
+                            }
+                        ],
+                        "turn_effect": {
+                            "timing": "before_art",
+                            "conditions": [
+                                {
+                                    "condition": "performer_is_specific_id",
+                                    "required_id": "REPLACED_BY_EFFECT"
+                                }
+                            ],
+                            "effect_type": "power_boost",
+                            "amount": 20
+                        }
+                    }
+                ]
+            },
+            {
+                "skill_id": "birthday_gift_green",
+                "cost": 2,
+                "limit": "once_per_game",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_game",
+                        "skill_id": "birthday_gift_green",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_game_effect",
+                                "effect_id": "birthday_gift_green"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "choose_cards",
+                        "from": "deck",
+                        "look_at": -1,
+                        "destination": "hand",
+                        "amount_min": 0,
+                        "amount_max": 1,
+                        "requirement": "holomem",
+                        "requirement_colors": [
+                            "green"
+                        ],
+                        "reveal_chosen": true,
+                        "remaining_cards_action": "shuffle"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBD24-060",
+        "card_type": "oshi",
+        "card_names": [
+            "kogane_nico"
+        ],
+        "colors": [
+            "yellow"
+        ],
+        "rarity": "p",
+        "life": 5,
+        "actions": [
+            {
+                "skill_id": "yellowenhance",
+                "cost": 2,
+                "limit": "once_per_turn",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_turn",
+                        "skill_id": "yellowenhance",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_turn_effect",
+                                "effect_id": "yellowenhance"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "add_turn_effect_for_holomem",
+                        "limitation": "color_in",
+                        "limitation_colors": [
+                            "yellow"
+                        ],
+                        "conditions": [
+                            {
+                                "condition": "color_on_stage",
+                                "condition_colors": [
+                                    "yellow"
+                                ]
+                            }
+                        ],
+                        "turn_effect": {
+                            "timing": "before_art",
+                            "conditions": [
+                                {
+                                    "condition": "performer_is_specific_id",
+                                    "required_id": "REPLACED_BY_EFFECT"
+                                }
+                            ],
+                            "effect_type": "power_boost",
+                            "amount": 20
+                        }
+                    }
+                ]
+            },
+            {
+                "skill_id": "birthdaygiftyellow",
+                "cost": 2,
+                "limit": "once_per_game",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_game",
+                        "skill_id": "birthdaygiftyellow",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_game_effect",
+                                "effect_id": "birthdaygiftyellow"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "choose_cards",
+                        "from": "deck",
+                        "look_at": -1,
+                        "destination": "hand",
+                        "amount_min": 1,
+                        "amount_max": 1,
+                        "requirement": "color_in",
+                        "requirement_colors": [
+                            "yellow"
                         ],
                         "reveal_chosen": true,
                         "remaining_cards_action": "shuffle"
@@ -3312,6 +3793,7 @@
         ],
         "collab_effects": [
             {
+                "name_kr": "힐링 런웨이",
                 "effect_type": "choice",
                 "choice": [
                     {
@@ -12500,6 +12982,421 @@
         ]
     },
     {
+        "card_id": "hBP02-069",
+        "card_type": "holomem_spot",
+        "bloom_blocked": true,
+        "card_names": [
+            "sakura_miko"
+        ],
+        "rarity": "r",
+        "colors": [
+            "white"
+        ],
+        "hp": 60,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#AnimalEars"
+        ],
+        "arts": [
+            {
+                "art_id": "mikonohoro",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 20
+            }
+        ],
+        "collab_effects": [
+            {
+                "effect_type": "choice",
+                "choice": [
+                    {
+                        "effect_type": "roll_die",
+                        "source": "holomem_ability",
+                        "die_effects": [
+                            {
+                                "english_values": "odd",
+                                "activate_on_values": [
+                                    1,
+                                    3,
+                                    5
+                                ],
+                                "effects": [
+                                    {
+                                        "effect_type": "send_cheer",
+                                        "amount_min": 1,
+                                        "amount_max": 1,
+                                        "from": "cheer_deck",
+                                        "to": "holomem",
+                                        "from_limitation": "color_in",
+                                        "from_limitation_colors": [
+                                            "red",
+                                            "blue"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "pass"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP02-070",
+        "card_type": "holomem_spot",
+        "bloom_blocked": true,
+        "card_names": [
+            "amane_kanata"
+        ],
+        "rarity": "r",
+        "colors": [
+            "white"
+        ],
+        "hp": 60,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen4"
+        ],
+        "arts": [
+            {
+                "art_id": "tenshinohoro",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 20
+            }
+        ],
+        "collab_effects": [
+            {
+                "effect_type": "choice",
+                "choice": [
+                    {
+                        "effect_type": "roll_die",
+                        "source": "holomem_ability",
+                        "die_effects": [
+                            {
+                                "english_values": "odd",
+                                "activate_on_values": [
+                                    1,
+                                    3,
+                                    5
+                                ],
+                                "effects": [
+                                    {
+                                        "effect_type": "send_cheer",
+                                        "amount_min": 1,
+                                        "amount_max": 1,
+                                        "from": "cheer_deck",
+                                        "to": "holomem",
+                                        "from_limitation": "color_in",
+                                        "from_limitation_colors": [
+                                            "white",
+                                            "green"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "pass"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP02-071",
+        "card_type": "holomem_spot",
+        "bloom_blocked": true,
+        "card_names": [
+            "himemori_luna"
+        ],
+        "rarity": "r",
+        "colors": [
+            "white"
+        ],
+        "hp": 60,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen4"
+        ],
+        "arts": [
+            {
+                "art_id": "himenohoro",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 20
+            }
+        ],
+        "collab_effects": [
+            {
+                "effect_type": "choice",
+                "choice": [
+                    {
+                        "effect_type": "roll_die",
+                        "source": "holomem_ability",
+                        "die_effects": [
+                            {
+                                "english_values": "odd",
+                                "activate_on_values": [
+                                    1,
+                                    3,
+                                    5
+                                ],
+                                "effects": [
+                                    {
+                                        "effect_type": "send_cheer",
+                                        "amount_min": 1,
+                                        "amount_max": 1,
+                                        "from": "cheer_deck",
+                                        "to": "holomem",
+                                        "from_limitation": "color_in",
+                                        "from_limitation_colors": [
+                                            "purple",
+                                            "yellow"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "pass"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP02-072",
+        "card_type": "holomem_spot",
+        "bloom_blocked": true,
+        "card_names": [
+            "murasaki_shion"
+        ],
+        "rarity": "r",
+        "colors": [
+            "white"
+        ],
+        "hp": 70,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen2"
+        ],
+        "arts": [
+            {
+                "art_id": "majonohoro",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 20
+            }
+        ],
+        "collab_effects": [
+            {
+                "effect_type": "choice",
+                "choice": [
+                    {
+                        "effect_type": "roll_die",
+                        "source": "holomem_ability",
+                        "die_effects": [
+                            {
+                                "english_values": "even",
+                                "activate_on_values": [
+                                    2,
+                                    4,
+                                    6
+                                ],
+                                "effects": [
+                                    {
+                                        "effect_type": "choose_cards",
+                                        "from": "deck",
+                                        "look_at": -1,
+                                        "destination": "hand",
+                                        "amount_min": 1,
+                                        "amount_max": 1,
+                                        "requirement": "support",
+                                        "requirement_sub_types": [
+                                            "event"
+                                        ],
+                                        "reveal_chosen": true,
+                                        "remaining_cards_action": "shuffle"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "pass"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP02-073",
+        "card_type": "holomem_spot",
+        "bloom_blocked": true,
+        "card_names": [
+            "houshou_marine"
+        ],
+        "rarity": "r",
+        "colors": [
+            "white"
+        ],
+        "hp": 70,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen3"
+        ],
+        "arts": [
+            {
+                "art_id": "kaizokunohoro",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 20
+            }
+        ],
+        "collab_effects": [
+            {
+                "effect_type": "choice",
+                "choice": [
+                    {
+                        "effect_type": "roll_die",
+                        "source": "holomem_ability",
+                        "die_effects": [
+                            {
+                                "english_values": "even",
+                                "activate_on_values": [
+                                    2,
+                                    4,
+                                    6
+                                ],
+                                "effects": [
+                                    {
+                                        "effect_type": "choose_cards",
+                                        "from": "deck",
+                                        "look_at": -1,
+                                        "destination": "hand",
+                                        "amount_min": 1,
+                                        "amount_max": 1,
+                                        "requirement": "support",
+                                        "requirement_sub_types": [
+                                            "fan"
+                                        ],
+                                        "reveal_chosen": true,
+                                        "remaining_cards_action": "shuffle"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "pass"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP02-074",
+        "card_type": "holomem_spot",
+        "bloom_blocked": true,
+        "card_names": [
+            "sakamata_chloe"
+        ],
+        "rarity": "r",
+        "colors": [
+            "white"
+        ],
+        "hp": 70,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#SecretSocietyholoX"
+        ],
+        "arts": [
+            {
+                "art_id": "shachinohoro",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 20
+            }
+        ],
+        "collab_effects": [
+            {
+                "effect_type": "choice",
+                "choice": [
+                    {
+                        "effect_type": "roll_die",
+                        "source": "holomem_ability",
+                        "die_effects": [
+                            {
+                                "english_values": "even",
+                                "activate_on_values": [
+                                    2,
+                                    4,
+                                    6
+                                ],
+                                "effects": [
+                                    {
+                                        "effect_type": "choose_cards",
+                                        "from": "deck",
+                                        "look_at": -1,
+                                        "destination": "hand",
+                                        "amount_min": 1,
+                                        "amount_max": 1,
+                                        "requirement": "support",
+                                        "requirement_sub_types": [
+                                            "tool"
+                                        ],
+                                        "reveal_chosen": true,
+                                        "remaining_cards_action": "shuffle"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "pass"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "card_id": "hBP02-075",
         "card_type": "support",
         "sub_type": "item",
@@ -12696,6 +13593,72 @@
                 "requirement": "holomem",
                 "requirement_tags": [
                     "#SecretSocietyholoX"
+                ],
+                "reveal_chosen": true,
+                "remaining_cards_action": "order_on_bottom"
+            }
+        ]
+    },
+    {
+        "card_id": "hBP02-081",
+        "card_type": "support",
+        "sub_type": "event",
+        "colors": [],
+        "card_names": [
+            "hololive_indonesia_2nd_gen"
+        ],
+        "rarity": "u",
+        "limited": true,
+        "play_conditions": [
+            {
+                "condition": "cards_in_hand",
+                "amount_max": 7
+            }
+        ],
+        "effects": [
+            {
+                "effect_type": "choose_cards",
+                "from": "deck",
+                "look_at": 4,
+                "destination": "hand",
+                "amount_min": 0,
+                "amount_max": 4,
+                "requirement": "holomem",
+                "requirement_tags": [
+                    "#IDGen2"
+                ],
+                "reveal_chosen": true,
+                "remaining_cards_action": "order_on_bottom"
+            }
+        ]
+    },
+    {
+        "card_id": "hBP02-082",
+        "card_type": "support",
+        "sub_type": "event",
+        "colors": [],
+        "card_names": [
+            "hololive_gamers"
+        ],
+        "rarity": "u",
+        "limited": true,
+        "play_conditions": [
+            {
+                "condition": "cards_in_hand",
+                "amount_max": 7
+            }
+        ],
+        "effects": [
+            {
+                "effect_type": "choose_cards",
+                "from": "deck",
+                "look_at": 4,
+                "destination": "hand",
+                "amount_min": 0,
+                "amount_max": 4,
+                "requirement": "holomem",
+                "requirement_tags": [
+                    "#Gamers"
                 ],
                 "reveal_chosen": true,
                 "remaining_cards_action": "order_on_bottom"
@@ -13437,6 +14400,43 @@
         ]
     },
     {
+        "card_id": "hBP02-101",
+        "card_type": "support",
+        "sub_type": "fan",
+        "colors": [],
+        "card_names": [
+            "miofa"
+        ],
+        "rarity": "c",
+        "play_conditions": [
+            {
+                "condition": "holomem_on_stage",
+                "required_member_name_in": [
+                    "ookami_mio"
+                ]
+            }
+        ],
+        "effects": [
+            {
+                "effect_type": "attach_card_to_holomem",
+                "to_limitation": "specific_member_name",
+                "to_limitation_name": "ookami_mio"
+            }
+        ],
+        "attached_effects": [
+            {
+                "timing": "on_down",
+                "conditions": [
+                    {
+                        "condition": "opponent_turn"
+                    }
+                ],
+                "effect_type": "draw",
+                "amount": 1
+            }
+        ]
+    },
+    {
         "card_id": "hBP02-102",
         "card_type": "support",
         "sub_type": "fan",
@@ -13469,6 +14469,139 @@
             {
                 "timing": "on_take_damage",
                 "effect_type": "archive_this_attachment"
+            }
+        ]
+    },
+    {
+        "card_id": "hBP03-003",
+        "card_type": "oshi",
+        "card_names": [
+            "sakura_miko"
+        ],
+        "colors": [
+            "red"
+        ],
+        "rarity": "osr",
+        "life": 5,
+        "actions": [
+            {
+                "skill_id": "35p_recovery",
+                "cost": 2,
+                "limit": "once_per_turn",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_turn",
+                        "skill_id": "35p_recovery",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_turn_effect",
+                                "effect_id": "35p_recovery"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "roll_die",
+                        "source": "oshi_skill",
+                        "die_effects": [
+                            {
+                                "english_values": "1_2_4_6",
+                                "activate_on_values": [
+                                    1,
+                                    2,
+                                    4,
+                                    6
+                                ],
+                                "effects": [
+                                    {
+                                        "effect_type": "choose_cards",
+                                        "from": "archive",
+                                        "look_at": -1,
+                                        "destination": "hand",
+                                        "amount_min": 0,
+                                        "amount_max": 1,
+                                        "requirement": "specific_card",
+                                        "requirement_card_names": [
+                                            "35p"
+                                        ],
+                                        "remaining_cards_action": "nothing"
+                                    }
+                                ]
+                            },
+                            {
+                                "english_values": "3_or_5",
+                                "activate_on_values": [
+                                    3,
+                                    5
+                                ],
+                                "effects": [
+                                    {
+                                        "effect_type": "choose_cards",
+                                        "from": "archive",
+                                        "look_at": -1,
+                                        "destination": "hand",
+                                        "amount_min": 0,
+                                        "amount_max": 2,
+                                        "requirement": "specific_card",
+                                        "requirement_card_names": [
+                                            "35p"
+                                        ],
+                                        "remaining_cards_action": "nothing"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "skill_id": "miko_sp",
+                "cost": 2,
+                "limit": "once_per_game",
+                "action_conditions": [
+                    {
+                        "condition": "center_is_color",
+                        "condition_colors": [
+                            "red"
+                        ]
+                    }
+                ],
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_game",
+                        "skill_id": "miko_sp",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_game_effect",
+                                "effect_id": "miko_sp"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "choose_cards",
+                        "from": "hand",
+                        "look_at": -1,
+                        "destination": "bottom_of_deck",
+                        "amount_min": 0,
+                        "amount_max": 100,
+                        "remaining_cards_action": "nothing"
+                    },
+                    {
+                        "effect_type": "draw",
+                        "draw_to_hand_size": 5
+                    }
+                ]
             }
         ]
     },
@@ -13903,8 +15036,10 @@
                                         "destination": "hand",
                                         "amount_min": 1,
                                         "amount_max": 1,
-                                        "requirement": "support_sub_type",
-                                        "requirement_sub_type": "fan",
+                                        "requirement": "support",
+                                        "requirement_sub_types": [
+                                            "fan"
+                                        ],
                                         "reveal_chosen": true,
                                         "remaining_cards_action": "shuffle"
                                     }
@@ -13997,6 +15132,439 @@
                         ],
                         "effect_type": "power_boost",
                         "amount": 50
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP03-025",
+        "card_type": "holomem_debut",
+        "card_names": [
+            "sakura_miko"
+        ],
+        "special_deck_limit": 50,
+        "rarity": "c",
+        "colors": [
+            "red"
+        ],
+        "hp": 100,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Baby"
+        ],
+        "arts": [
+            {
+                "art_id": "nyaharo",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 30
+            }
+        ]
+    },
+    {
+        "card_id": "hBP03-026",
+        "card_type": "holomem_debut",
+        "card_names": [
+            "sakura_miko"
+        ],
+        "rarity": "u",
+        "colors": [
+            "red"
+        ],
+        "hp": 80,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Baby"
+        ],
+        "arts": [
+            {
+                "art_id": "sakura_no_kisetsu",
+                "costs": [
+                    {
+                        "color": "red",
+                        "amount": 1
+                    },
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 30
+            }
+        ],
+        "collab_effects": [
+            {
+                "effect_type": "choice",
+                "choice": [
+                    {
+                        "effect_type": "roll_die",
+                        "source": "holomem_ability",
+                        "die_effects": [
+                            {
+                                "english_values": "even",
+                                "activate_on_values": [
+                                    2,
+                                    4,
+                                    6
+                                ],
+                                "effects": [
+                                    {
+                                        "effect_type": "deal_damage",
+                                        "special": true,
+                                        "amount": 10,
+                                        "target": "center",
+                                        "opponent": true
+                                    }
+                                ]
+                            },
+                            {
+                                "english_values": "3_or_5",
+                                "activate_on_values": [
+                                    3,
+                                    5
+                                ],
+                                "effects": [
+                                    {
+                                        "effect_type": "draw",
+                                        "amount": 1
+                                    },
+                                    {
+                                        "effect_type": "deal_damage",
+                                        "special": true,
+                                        "amount": 10,
+                                        "target": "center",
+                                        "opponent": true
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "pass"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP03-027",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "sakura_miko"
+        ],
+        "rarity": "c",
+        "colors": [
+            "red"
+        ],
+        "hp": 150,
+        "baton_cost": 0,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Baby"
+        ],
+        "arts": [
+            {
+                "art_id": "elite_na_mizugi",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 40
+            },
+            {
+                "art_id": "punichi",
+                "costs": [
+                    {
+                        "color": "red",
+                        "amount": 1
+                    },
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 60
+            }
+        ]
+    },
+    {
+        "card_id": "hBP03-028",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "sakura_miko"
+        ],
+        "rarity": "u",
+        "colors": [
+            "red"
+        ],
+        "hp": 130,
+        "baton_cost": 0,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Baby"
+        ],
+        "arts": [
+            {
+                "art_id": "ouen_onegai_suru_ne",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 30
+            },
+            {
+                "art_id": "mikopi",
+                "costs": [
+                    {
+                        "color": "red",
+                        "amount": 1
+                    },
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 50,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "effect_type": "choice",
+                        "choice": [
+                            {
+                                "effect_type": "roll_die",
+                                "source": "holomem_ability",
+                                "die_effects": [
+                                    {
+                                        "english_values": "even",
+                                        "activate_on_values": [
+                                            2,
+                                            4,
+                                            6
+                                        ],
+                                        "effects": [
+                                            {
+                                                "effect_type": "deal_damage",
+                                                "special": true,
+                                                "amount": 20,
+                                                "target": "center",
+                                                "opponent": true
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "english_values": "3_or_5",
+                                        "activate_on_values": [
+                                            3,
+                                            5
+                                        ],
+                                        "effects": [
+                                            {
+                                                "effect_type": "deal_damage",
+                                                "special": true,
+                                                "amount": 20,
+                                                "target": "center",
+                                                "opponent": true
+                                            },
+                                            {
+                                                "effect_type": "deal_damage",
+                                                "special": true,
+                                                "amount": 20,
+                                                "target": "collab",
+                                                "opponent": true
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "effect_type": "pass"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP03-029",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "sakura_miko"
+        ],
+        "rarity": "r",
+        "colors": [
+            "red"
+        ],
+        "hp": 130,
+        "baton_cost": 0,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Baby"
+        ],
+        "bloom_effects": [
+            {
+                "effect_type": "choose_cards",
+                "from": "deck",
+                "look_at": -1,
+                "destination": "hand",
+                "amount_min": 0,
+                "amount_max": 1,
+                "requirement": "specific_card",
+                "requirement_card_names": [
+                    "35p"
+                ],
+                "reveal_chosen": true,
+                "remaining_cards_action": "shuffle"
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "35p_to_kinen_shashin",
+                "costs": [
+                    {
+                        "color": "red",
+                        "amount": 1
+                    },
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 30,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "conditions": [
+                            {
+                                "condition": "stage_has_attachment_of_name",
+                                "attachment_name": "35p"
+                            }
+                        ],
+                        "effect_type": "power_boost",
+                        "amount": 30
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP03-030",
+        "card_type": "holomem_bloom",
+        "bloom_level": 2,
+        "card_names": [
+            "sakura_miko"
+        ],
+        "rarity": "rr",
+        "colors": [
+            "red"
+        ],
+        "hp": 200,
+        "baton_cost": 2,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Baby"
+        ],
+        "gift_effects": [
+            {
+                "timing": "main_step_action",
+                "effect_id": "hBP03_030_gift",
+                "conditions": [
+                    {
+                        "condition": "this_card_is_center"
+                    },
+                    {
+                        "condition": "effect_card_id_not_used_this_turn"
+                    },
+                    {
+                        "condition": "stage_has_attachment_of_name",
+                        "attachment_name": "35p"
+                    }
+                ],
+                "effects": [
+                    {
+                        "effect_type": "record_effect_card_id_used_this_turn"
+                    },
+                    {
+                        "effect_type": "roll_die",
+                        "source": "holomem_ability",
+                        "die_effects": [
+                            {
+                                "english_values": "3_or_5",
+                                "activate_on_values": [
+                                    3,
+                                    5
+                                ],
+                                "effects": [
+                                    {
+                                        "effect_type": "add_turn_effect",
+                                        "turn_effect": {
+                                            "timing": "before_art",
+                                            "effect_type": "power_boost",
+                                            "amount": 50,
+                                            "conditions": [
+                                                {
+                                                    "condition": "performer_is_center"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "elite_miko",
+                "costs": [
+                    {
+                        "color": "red",
+                        "amount": 2
+                    },
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 120,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "conditions": [
+                            {
+                                "condition": "target_color",
+                                "color_requirement": "green"
+                            }
+                        ],
+                        "effect_type": "power_boost",
+                        "amount": 50
+                    },
+                    {
+                        "timing": "before_art",
+                        "effect_type": "power_boost_per_all_fans",
+                        "amount": 20
                     }
                 ]
             }
@@ -15822,6 +17390,45 @@
                 "to": "holomem",
                 "to_limitation": "specific_member_name",
                 "to_limitation_name": "tsunomaki_watame"
+            }
+        ]
+    },
+    {
+        "card_id": "hBP03-107",
+        "card_type": "support",
+        "sub_type": "fan",
+        "colors": [],
+        "card_names": [
+            "35p"
+        ],
+        "rarity": "c",
+        "play_conditions": [
+            {
+                "condition": "holomem_on_stage",
+                "required_member_name_in": [
+                    "sakura_miko"
+                ]
+            }
+        ],
+        "effects": [
+            {
+                "effect_type": "attach_card_to_holomem",
+                "to_limitation": "specific_member_name",
+                "to_limitation_name": "sakura_miko"
+            }
+        ],
+        "attached_effects": [
+            {
+                "timing": "check_cheer",
+                "effect_type": "bonus_cheer",
+                "amount": 1,
+                "color": "yellow"
+            },
+            {
+                "timing": "on_down",
+                "effect_type": "draw",
+                "amount": 1,
+                "opponent": true
             }
         ]
     },
@@ -21768,7 +23375,7 @@
                 "power": 30,
                 "art_effects": [
                     {
-                        "timing": "before_art",
+                        "timing": "after_deal_damage",
                         "conditions": [
                             {
                                 "condition": "holomem_on_stage",
@@ -21797,7 +23404,7 @@
                 "power": 30,
                 "art_effects": [
                     {
-                        "timing": "before_art",
+                        "timing": "after_deal_damage",
                         "conditions": [
                             {
                                 "condition": "oshi_is_color",
@@ -22062,7 +23669,7 @@
         ],
         "arts": [
             {
-                "art_id": "letsrelaxatazkishouse",
+                "art_id": "letsrelaxatazkisplace",
                 "costs": [
                     {
                         "color": "green",
@@ -22084,10 +23691,8 @@
                         "amount_max": 1,
                         "from": "cheer_deck",
                         "to": "holomem",
-                        "to_limitation": "member_name_in",
-                        "to_limitation_names": [
-                            "azki"
-                        ]
+                        "to_limitation": "specific_member_name",
+                        "to_limitation_name": "azki"
                     }
                 ]
             },
@@ -22096,7 +23701,7 @@
                 "costs": [
                     {
                         "color": "green",
-                        "amount": 2
+                        "amount": 3
                     },
                     {
                         "color": "any",
@@ -22313,6 +23918,124 @@
         ]
     },
     {
+        "card_id": "hBP05-035",
+        "card_type": "holomem_bloom",
+        "bloom_level": 2,
+        "card_names": [
+            "sakura_miko"
+        ],
+        "rarity": "r",
+        "colors": [
+            "red"
+        ],
+        "hp": 200,
+        "baton_cost": 2,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Baby"
+        ],
+        "gift_effects": [
+            {
+                "timing": "on_down",
+                "conditions": [
+                    {
+                        "condition": "or",
+                        "or_conditions": [
+                            {
+                                "condition": "this_card_is_center"
+                            },
+                            {
+                                "condition": "this_card_is_collab"
+                            }
+                        ]
+                    },
+                    {
+                        "condition": "damage_source_is_opponent"
+                    }
+                ],
+                "effect_type": "choose_cards",
+                "from": "deck",
+                "look_at": -1,
+                "destination": "hand",
+                "amount_min": 0,
+                "amount_max": 1,
+                "requirement": "specific_card",
+                "requirement_card_names": [
+                    "miorehaji"
+                ],
+                "reveal_chosen": true,
+                "remaining_cards_action": "shuffle"
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "aengbieng",
+                "costs": [
+                    {
+                        "color": "red",
+                        "amount": 2
+                    }
+                ],
+                "power": 90,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "conditions": [
+                            {
+                                "condition": "target_color",
+                                "color_requirement": "yellow"
+                            }
+                        ],
+                        "effect_type": "power_boost",
+                        "amount": 50
+                    },
+                    {
+                        "timing": "after_art",
+                        "effect_type": "choice",
+                        "choice": [
+                            {
+                                "effect_type": "archive_from_hand",
+                                "amount": 2,
+                                "ability_source": "",
+                                "and": [
+                                    {
+                                        "effect_type": "deal_damage",
+                                        "special": true,
+                                        "amount": 50,
+                                        "target": "center",
+                                        "opponent": true
+                                    },
+                                    {
+                                        "effect_type": "deal_damage",
+                                        "special": true,
+                                        "amount": 50,
+                                        "target": "collab",
+                                        "opponent": true
+                                    }
+                                ]
+                            },
+                            {
+                                "effect_type": "pass"
+                            }
+                        ]
+                    },
+                    {
+                        "timing": "after_art",
+                        "conditions": [
+                            {
+                                "condition": "stage_has_attachment_of_name",
+                                "attachment_name": "35p"
+                            }
+                        ],
+                        "effect_type": "draw",
+                        "amount": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "card_id": "hBP05-036",
         "card_type": "holomem_debut",
         "card_names": [
@@ -22389,7 +24112,7 @@
                         "amount": 50
                     },
                     {
-                        "timing": "before_art",
+                        "timing": "after_deal_damage",
                         "conditions": [
                             {
                                 "condition": "self_has_cheer_color",
@@ -22421,7 +24144,7 @@
                         ]
                     },
                     {
-                        "timing": "before_art",
+                        "timing": "after_deal_damage",
                         "conditions": [
                             {
                                 "condition": "self_has_cheer_color",
@@ -22454,7 +24177,7 @@
                         ]
                     },
                     {
-                        "timing": "before_art",
+                        "timing": "after_deal_damage",
                         "conditions": [
                             {
                                 "condition": "self_has_cheer_color",
@@ -22504,7 +24227,7 @@
                         "amount": 50
                     },
                     {
-                        "timing": "before_art",
+                        "timing": "after_deal_damage",
                         "effect_type": "archive_cheer_from_holomem",
                         "ability_source": "holomem_ability",
                         "from": "self",
@@ -22620,6 +24343,66 @@
         ]
     },
     {
+        "card_id": "hBP05-040",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "sakura_miko",
+            "hoshimachi_suisei"
+        ],
+        "special_deck_limit": 50,
+        "rarity": "u",
+        "colors": [
+            "red",
+            "blue"
+        ],
+        "hp": 150,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Baby",
+            "#Song"
+        ],
+        "collab_effects": [
+            {
+                "conditions": [
+                    {
+                        "condition": "life_at_most",
+                        "amount": 3
+                    }
+                ],
+                "effect_type": "bloom_already_bloomed_this_turn",
+                "limitation": "name_in",
+                "limitation_names": [
+                    "sakura_miko",
+                    "hoshimachi_suisei"
+                ]
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "business_partner",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 3
+                    }
+                ],
+                "power": 90,
+                "art_effects": [
+                    {
+                        "timing": "after_art",
+                        "effect_type": "move_cheer_between_holomems",
+                        "amount": 1,
+                        "from_limitation": "source_card",
+                        "to_limitation_location": "backstage"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "card_id": "hBP05-041",
         "card_type": "holomem_debut",
         "card_names": [
@@ -22648,7 +24431,7 @@
                 "power": 20,
                 "art_effects": [
                     {
-                        "timing": "before_art",
+                        "timing": "after_deal_damage",
                         "effect_type": "deal_damage",
                         "special": true,
                         "amount": 10,
@@ -22917,7 +24700,7 @@
                         ]
                     },
                     {
-                        "timing": "before_art",
+                        "timing": "after_deal_damage",
                         "effect_type": "deal_damage",
                         "special": true,
                         "amount": 20,
@@ -22925,7 +24708,7 @@
                         "opponent": true
                     },
                     {
-                        "timing": "before_art",
+                        "timing": "after_deal_damage",
                         "effect_type": "choice",
                         "choice": [
                             {
@@ -24057,7 +25840,6 @@
             },
             {
                 "timing": "on_kill",
-                "global_trigger": true,
                 "conditions": [
                     {
                         "condition": "attached_to",
@@ -24125,7 +25907,7 @@
                 "power": 50,
                 "art_effects": [
                     {
-                        "timing": "before_art",
+                        "timing": "after_art",
                         "conditions": [
                             {
                                 "condition": "oshi_is",
@@ -26450,28 +28232,6 @@
         ]
     },
     {
-        "card_id": "hBP06-086",
-        "card_type": "support",
-        "sub_type": "event",
-        "colors": [],
-        "card_names": [
-            "aijouippai_meshiagare"
-        ],
-        "rarity": "c",
-        "limited": true,
-        "effects": [
-            {
-                "effect_type": "draw",
-                "amount": 1
-            },
-            {
-                "effect_type": "restore_hp",
-                "amount": 100,
-                "target": "holomem"
-            }
-        ]
-    },
-    {
         "card_id": "hBP06-021",
         "card_type": "holomem_bloom",
         "bloom_level": 2,
@@ -26567,6 +28327,30 @@
                             "effect_type": "power_boost",
                             "amount": 40
                         }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP06-086",
+        "card_type": "support",
+        "sub_type": "event",
+        "colors": [],
+        "card_names": [
+            "aijou_ippai_meshiagare"
+        ],
+        "rarity": "c",
+        "limited": true,
+        "effects": [
+            {
+                "effect_type": "draw",
+                "amount": 1,
+                "and": [
+                    {
+                        "effect_type": "restore_hp",
+                        "target": "holomem",
+                        "amount": 100
                     }
                 ]
             }
@@ -30243,90 +32027,6 @@
                                 "amount": 100
                             }
                         }
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "card_id": "hBP07-003",
-        "card_type": "oshi",
-        "card_names": [
-            "ookami_mio"
-        ],
-        "colors": [
-            "green"
-        ],
-        "rarity": "osr",
-        "life": 5,
-        "actions": [
-            {
-                "skill_id": "kamifudanomichibiki",
-                "cost": 1,
-                "limit": "once_per_turn",
-                "effects": [
-                    {
-                        "hide_effect_text": true,
-                        "effect_type": "oshi_activation",
-                        "limit": "once_per_turn",
-                        "skill_id": "kamifudanomichibiki",
-                        "pre_effects": [
-                            {
-                                "effect_type": "spend_holopower",
-                                "amount": 1
-                            },
-                            {
-                                "effect_type": "record_used_once_per_turn_effect",
-                                "effect_id": "kamifudanomichibiki"
-                            }
-                        ]
-                    },
-                    {
-                        "effect_type": "choose_cards",
-                        "from": "deck",
-                        "look_at": 2,
-                        "destination": "hand",
-                        "amount_min": 1,
-                        "amount_max": 1,
-                        "remaining_cards_action": "order_on_top"
-                    }
-                ]
-            },
-            {
-                "skill_id": "minnanomama",
-                "cost": 2,
-                "limit": "once_per_game",
-                "effects": [
-                    {
-                        "hide_effect_text": true,
-                        "effect_type": "oshi_activation",
-                        "limit": "once_per_game",
-                        "skill_id": "minnanomama",
-                        "pre_effects": [
-                            {
-                                "effect_type": "spend_holopower",
-                                "amount": 2
-                            },
-                            {
-                                "effect_type": "record_used_once_per_game_effect",
-                                "effect_id": "minnanomama"
-                            }
-                        ]
-                    },
-                    {
-                        "effect_type": "choose_cards",
-                        "from": "deck",
-                        "look_at": 6,
-                        "destination": "hand",
-                        "amount_min": 3,
-                        "amount_max": 3,
-                        "remaining_cards_action": "order_on_top"
-                    },
-                    {
-                        "effect_type": "restore_hp",
-                        "target": "holomem",
-                        "amount": 50,
-                        "hit_all_targets": true
                     }
                 ]
             }
@@ -34562,6 +36262,92 @@
         ]
     },
     {
+        "card_id": "hBP07-003",
+        "card_type": "oshi",
+        "card_names": [
+            "ookami_mio"
+        ],
+        "colors": [
+            "green"
+        ],
+        "rarity": "osr",
+        "life": 5,
+        "actions": [
+            {
+                "skill_id": "shinsatsu_no_michibiki",
+                "cost": 1,
+                "limit": "once_per_turn",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_turn",
+                        "skill_id": "shinsatsu_no_michibiki",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 1
+                            },
+                            {
+                                "effect_type": "record_used_once_per_turn_effect",
+                                "effect_id": "shinsatsu_no_michibiki"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "choose_cards",
+                        "from": "deck",
+                        "look_at": 2,
+                        "destination": "hand",
+                        "amount_min": 0,
+                        "amount_max": 1,
+                        "reveal_chosen": true,
+                        "remaining_cards_action": "order_on_top"
+                    }
+                ]
+            },
+            {
+                "skill_id": "minna_no_mama",
+                "cost": 2,
+                "limit": "once_per_game",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_game",
+                        "skill_id": "minna_no_mama",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_game_effect",
+                                "effect_id": "minna_no_mama"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "choose_cards",
+                        "from": "deck",
+                        "look_at": 6,
+                        "destination": "hand",
+                        "amount_min": 0,
+                        "amount_max": 3,
+                        "reveal_chosen": true,
+                        "remaining_cards_action": "order_on_top"
+                    },
+                    {
+                        "effect_type": "restore_hp",
+                        "target": "holomem",
+                        "amount": 50,
+                        "hit_all_targets": true
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "card_id": "hBP07-004",
         "card_type": "oshi",
         "card_names": [
@@ -34913,6 +36699,91 @@
                                 "condition": "holomem_returned_to_deck_this_turn"
                             }
                         ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP07-043",
+        "card_type": "holomem_bloom",
+        "bloom_level": 2,
+        "card_names": [
+            "sakura_miko"
+        ],
+        "rarity": "r",
+        "colors": [
+            "red"
+        ],
+        "hp": 210,
+        "baton_cost": 2,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Baby"
+        ],
+        "collab_effects": [
+            {
+                "effect_type": "choice",
+                "choice": [
+                    {
+                        "effect_type": "add_turn_effect",
+                        "turn_effect": {
+                            "timing": "before_die_roll",
+                            "effect_type": "force_die_result",
+                            "die_result": 3
+                        }
+                    },
+                    {
+                        "effect_type": "add_turn_effect",
+                        "turn_effect": {
+                            "timing": "before_die_roll",
+                            "effect_type": "force_die_result",
+                            "die_result": 5
+                        }
+                    },
+                    {
+                        "effect_type": "pass"
+                    }
+                ]
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "sakura_wa_saite_koso",
+                "costs": [
+                    {
+                        "color": "red",
+                        "amount": 3
+                    },
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 70,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "conditions": [
+                            {
+                                "condition": "target_color",
+                                "color_requirement": "purple"
+                            }
+                        ],
+                        "effect_type": "power_boost",
+                        "amount": 50
+                    },
+                    {
+                        "timing": "before_art",
+                        "effect_type": "power_boost_per_all_fans",
+                        "amount": 70
+                    },
+                    {
+                        "timing": "after_art",
+                        "effect_type": "draw",
+                        "amount_source": "per_attachment_name",
+                        "attachment_name": "35p"
                     }
                 ]
             }
@@ -35307,6 +37178,482 @@
                     "fan"
                 ],
                 "remaining_cards_action": "nothing"
+            }
+        ]
+    },
+    {
+        "card_id": "hBP07-023",
+        "card_type": "holomem_debut",
+        "card_names": [
+            "ookami_mio"
+        ],
+        "rarity": "c",
+        "colors": [
+            "green"
+        ],
+        "hp": 120,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gamers",
+            "#AnimalEars",
+            "#Cooking"
+        ],
+        "arts": [
+            {
+                "art_id": "mioon",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 30
+            }
+        ],
+        "collab_effects": [
+            {
+                "effect_type": "choice",
+                "choice": [
+                    {
+                        "effect_type": "choose_cards",
+                        "from": "deck",
+                        "look_at": 3,
+                        "destination": "hand",
+                        "amount_min": 0,
+                        "amount_max": 1,
+                        "reveal_chosen": true,
+                        "remaining_cards_action": "order_on_bottom"
+                    },
+                    {
+                        "effect_type": "pass"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP07-024",
+        "card_type": "holomem_debut",
+        "card_names": [
+            "ookami_mio"
+        ],
+        "rarity": "u",
+        "colors": [
+            "green"
+        ],
+        "hp": 130,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gamers",
+            "#AnimalEars",
+            "#Cooking"
+        ],
+        "gift_effects": [
+            {
+                "timing": "on_performance_step_start",
+                "conditions": [
+                    {
+                        "condition": "has_attachment_of_type",
+                        "condition_type": "support"
+                    }
+                ],
+                "effect_type": "draw",
+                "amount": 1
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "kyoumotappuriwaratteikouze",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 10,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "effect_type": "choice",
+                        "choice": [
+                            {
+                                "effect_type": "reveal_top_deck",
+                                "amount": 1,
+                                "and": [
+                                    {
+                                        "effect_type": "power_boost_per_revealed_card",
+                                        "amount": 30,
+                                        "limitation": "support"
+                                    },
+                                    {
+                                        "effect_type": "archive_revealed_cards"
+                                    }
+                                ]
+                            },
+                            {
+                                "effect_type": "pass"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP07-025",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "ookami_mio"
+        ],
+        "rarity": "c",
+        "colors": [
+            "green"
+        ],
+        "hp": 170,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gamers",
+            "#AnimalEars",
+            "#Cooking"
+        ],
+        "collab_effects": [
+            {
+                "conditions": [
+                    {
+                        "condition": "holomem_on_stage",
+                        "tag_in": [
+                            "#Gamers"
+                        ],
+                        "has_attachment_type": "support"
+                    }
+                ],
+                "effect_type": "add_turn_effect_for_holomem",
+                "limitation": "this_holomem",
+                "turn_effect": {
+                    "timing": "before_art",
+                    "conditions": [
+                        {
+                            "condition": "performer_is_specific_id",
+                            "required_id": "REPLACED_BY_EFFECT"
+                        }
+                    ],
+                    "effect_type": "power_boost",
+                    "amount": 20
+                }
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "gamers_cafe_e_youkoso",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 20,
+                "art_effects": [
+                    {
+                        "timing": "after_art",
+                        "effect_type": "move_cheer_between_holomems",
+                        "amount": 1,
+                        "to_limitation": "tag_in",
+                        "to_limitation_tags": [
+                            "#Gamers"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP07-026",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "ookami_mio"
+        ],
+        "rarity": "c",
+        "colors": [
+            "green"
+        ],
+        "hp": 100,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gamers",
+            "#AnimalEars",
+            "#Cooking"
+        ],
+        "bloom_effects": [
+            {
+                "effect_type": "choose_cards",
+                "from": "deck",
+                "look_at": -1,
+                "destination": "hand",
+                "amount_min": 0,
+                "amount_max": 1,
+                "requirement": "specific_card",
+                "requirement_card_names": [
+                    "hatotauros",
+                    "miofa"
+                ],
+                "reveal_chosen": true,
+                "remaining_cards_action": "shuffle"
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "chotto_oshare_na_kanji_desho",
+                "costs": [
+                    {
+                        "color": "green",
+                        "amount": 1
+                    },
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 40
+            }
+        ]
+    },
+    {
+        "card_id": "hBP07-027",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "ookami_mio"
+        ],
+        "rarity": "r",
+        "colors": [
+            "green"
+        ],
+        "hp": 240,
+        "baton_cost": 2,
+        "tags": [
+            "#JP",
+            "#Gamers",
+            "#AnimalEars",
+            "#Cooking"
+        ],
+        "bloom_effects": [
+            {
+                "effect_type": "add_turn_effect_for_holomem",
+                "limitation_location": "backstage",
+                "source_from_chosen": true,
+                "turn_effect": {
+                    "timing": "before_art",
+                    "conditions": [
+                        {
+                            "condition": "performer_is_specific_id",
+                            "required_id": "REPLACED_BY_EFFECT"
+                        }
+                    ],
+                    "effect_type": "power_boost",
+                    "amount": 30
+                }
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "jouounoheikatoyobare",
+                "costs": [
+                    {
+                        "color": "green",
+                        "amount": 2
+                    }
+                ],
+                "power": 70,
+                "art_conditions": [
+                    {
+                        "condition": "performer_is_center"
+                    }
+                ],
+                "art_effects": [
+                    {
+                        "timing": "on_kill",
+                        "effect_type": "draw",
+                        "amount": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP07-028",
+        "card_type": "holomem_bloom",
+        "bloom_level": 2,
+        "card_names": [
+            "ookami_mio"
+        ],
+        "rarity": "u",
+        "colors": [
+            "green"
+        ],
+        "hp": 200,
+        "baton_cost": 2,
+        "tags": [
+            "#JP",
+            "#Gamers",
+            "#AnimalEars",
+            "#Cooking"
+        ],
+        "collab_effects": [
+            {
+                "effect_type": "choose_cards",
+                "from": "deck",
+                "look_at": 2,
+                "destination": "hand",
+                "amount_min": 0,
+                "amount_max": 1,
+                "remaining_cards_action": "order_on_top"
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "mion_no_okashi_na_youkai_taiji",
+                "costs": [
+                    {
+                        "color": "green",
+                        "amount": 1
+                    },
+                    {
+                        "color": "any",
+                        "amount": 2
+                    }
+                ],
+                "power": 90,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "effect_type": "power_boost",
+                        "amount": 50,
+                        "conditions": [
+                            {
+                                "condition": "target_color",
+                                "color_requirement": "blue"
+                            }
+                        ]
+                    },
+                    {
+                        "timing": "before_art",
+                        "effect_type": "choice",
+                        "choice": [
+                            {
+                                "effect_type": "reveal_top_deck",
+                                "amount": 1,
+                                "and": [
+                                    {
+                                        "effect_type": "power_boost_per_revealed_card",
+                                        "amount": 50,
+                                        "limitation": "support"
+                                    },
+                                    {
+                                        "effect_type": "archive_revealed_cards"
+                                    }
+                                ]
+                            },
+                            {
+                                "effect_type": "pass"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP07-029",
+        "card_type": "holomem_bloom",
+        "bloom_level": 2,
+        "card_names": [
+            "ookami_mio"
+        ],
+        "rarity": "rr",
+        "colors": [
+            "green"
+        ],
+        "hp": 200,
+        "baton_cost": 2,
+        "tags": [
+            "#JP",
+            "#Gamers",
+            "#AnimalEars",
+            "#Cooking"
+        ],
+        "gift_effects": [
+            {
+                "timing": "on_take_damage",
+                "conditions": [
+                    {
+                        "condition": "has_attachment_of_type",
+                        "condition_type": "support"
+                    },
+                    {
+                        "condition": "damage_source_is_opponent"
+                    }
+                ],
+                "effect_type": "restore_hp",
+                "target": "this_holomem",
+                "amount": 50
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "mion_tarot",
+                "costs": [
+                    {
+                        "color": "green",
+                        "amount": 2
+                    },
+                    {
+                        "color": "any",
+                        "amount": 2
+                    }
+                ],
+                "power": 130,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "effect_type": "power_boost",
+                        "amount": 50,
+                        "conditions": [
+                            {
+                                "condition": "target_color",
+                                "color_requirement": "yellow"
+                            }
+                        ]
+                    },
+                    {
+                        "timing": "before_art",
+                        "effect_type": "choice",
+                        "choice": [
+                            {
+                                "effect_type": "reveal_top_deck",
+                                "amount": 1,
+                                "and": [
+                                    {
+                                        "effect_type": "power_boost_per_revealed_card",
+                                        "amount": 50,
+                                        "limitation": "support"
+                                    },
+                                    {
+                                        "effect_type": "archive_revealed_cards"
+                                    }
+                                ]
+                            },
+                            {
+                                "effect_type": "pass"
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     },
@@ -35728,6 +38075,264 @@
                         "draw_to_match_returned_count": true
                     }
                 ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP07-090",
+        "card_type": "holomem_bloom",
+        "bloom_level": 2,
+        "card_names": [
+            "kogane_nico"
+        ],
+        "colors": [
+            "yellow"
+        ],
+        "hp": 210,
+        "baton_cost": 2,
+        "tags": [
+            "#DEV_IS",
+            "#FLOWGLOW"
+        ],
+        "rarity": "rr",
+        "collab_effects": [
+            {
+                "effect_type": "send_cheer",
+                "amount_min": 0,
+                "amount_max": 2,
+                "from": "archive",
+                "to": "holomem",
+                "to_limitation": "tag_in",
+                "to_limitation_tags": [
+                    "#FLOWGLOW"
+                ]
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "koe_wo_nojiru_kiaidaaa",
+                "costs": [
+                    {
+                        "color": "yellow",
+                        "amount": 2
+                    }
+                ],
+                "power": 80,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "effect_type": "power_boost_per_attached_cheer",
+                        "amount": 20
+                    },
+                    {
+                        "timing": "before_art",
+                        "effect_type": "power_boost",
+                        "amount": 50,
+                        "conditions": [
+                            {
+                                "condition": "target_color",
+                                "color_requirement": "white"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP07-087",
+        "card_type": "holomem_debut",
+        "card_names": [
+            "kogane_nico"
+        ],
+        "colors": [
+            "yellow"
+        ],
+        "rarity": "c",
+        "hp": 120,
+        "baton_cost": 1,
+        "special_deck_limit": 50,
+        "tags": [
+            "#DEV_IS",
+            "#FLOWGLOW"
+        ],
+        "collab_effects": [
+            {
+                "conditions": [
+                    {
+                        "condition": "is_going_second_and_first_turn"
+                    }
+                ],
+                "effect_type": "choice",
+                "choice": [
+                    {
+                        "effect_type": "archive_from_cheer_deck",
+                        "amount": 2,
+                        "and": [
+                            {
+                                "effect_type": "add_turn_effect_for_holomem",
+                                "limitation": "tag_in",
+                                "limitation_tags": [
+                                    "#FLOWGLOW"
+                                ],
+                                "turn_effect": {
+                                    "timing": "before_art",
+                                    "conditions": [
+                                        {
+                                            "condition": "performer_is_specific_id",
+                                            "required_id": "REPLACED_BY_EFFECT"
+                                        }
+                                    ],
+                                    "effect_type": "power_boost",
+                                    "amount": 20
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "pass"
+                    }
+                ]
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "genkouhan_taihoda",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 20
+            }
+        ]
+    },
+    {
+        "card_id": "hBP07-088",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "kogane_nico"
+        ],
+        "colors": [
+            "yellow"
+        ],
+        "rarity": "u",
+        "hp": 160,
+        "baton_cost": 1,
+        "tags": [
+            "#DEV_IS",
+            "#FLOWGLOW"
+        ],
+        "gift_effects": [
+            {
+                "timing": "on_take_damage",
+                "conditions": [
+                    {
+                        "condition": "damage_is_special"
+                    },
+                    {
+                        "condition": "damage_source_is_opponent"
+                    },
+                    {
+                        "condition": "damage_target_is_backstage"
+                    },
+                    {
+                        "condition": "damage_target_has_tag",
+                        "condition_tags": [
+                            "#FLOWGLOW"
+                        ]
+                    },
+                    {
+                        "condition": "damage_target_bloom_level",
+                        "bloom_level": 1
+                    }
+                ],
+                "effect_type": "reduce_damage",
+                "amount": "all"
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "minnaga_irukara_shiawase",
+                "costs": [
+                    {
+                        "color": "yellow",
+                        "amount": 1
+                    },
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 50,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "effect_type": "power_boost",
+                        "amount": 30,
+                        "conditions": [
+                            {
+                                "condition": "cheer_archived_this_turn"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP07-089",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "kogane_nico"
+        ],
+        "colors": [
+            "yellow"
+        ],
+        "rarity": "r",
+        "hp": 180,
+        "baton_cost": 1,
+        "tags": [
+            "#DEV_IS",
+            "#FLOWGLOW"
+        ],
+        "bloom_effects": [
+            {
+                "conditions": [
+                    {
+                        "condition": "my_holomem_downed_last_opponent_turn_tagged",
+                        "condition_tags": [
+                            "#FLOWGLOW"
+                        ]
+                    },
+                    {
+                        "condition": "not_used_once_per_turn_effect",
+                        "effect_id": "ussha_hangeki_battou"
+                    }
+                ],
+                "effect_type": "draw",
+                "amount": 2,
+                "and": [
+                    {
+                        "effect_type": "record_used_once_per_turn_effect",
+                        "effect_id": "ussha_hangeki_battou"
+                    }
+                ]
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "mugendai_dokidoki",
+                "costs": [
+                    {
+                        "color": "yellow",
+                        "amount": 1
+                    }
+                ],
+                "power": 50
             }
         ]
     },
@@ -39902,6 +42507,45 @@
         ]
     },
     {
+        "card_id": "hSD07-011",
+        "card_type": "holomem_debut",
+        "card_names": [
+            "sakura_miko"
+        ],
+        "rarity": "u",
+        "colors": [
+            "red"
+        ],
+        "hp": 60,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Baby"
+        ],
+        "arts": [
+            {
+                "art_id": "maougun_wa_nakunarimashita",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 20
+            }
+        ],
+        "collab_effects": [
+            {
+                "effect_type": "deal_damage",
+                "special": true,
+                "amount": 10,
+                "target": "center",
+                "opponent": true
+            }
+        ]
+    },
+    {
         "card_id": "hSD08-003",
         "card_type": "holomem_bloom",
         "bloom_level": 2,
@@ -40936,6 +43580,430 @@
         ]
     },
     {
+        "card_id": "hSD11-002",
+        "card_type": "holomem_debut",
+        "card_names": [
+            "kogane_nico"
+        ],
+        "colors": [
+            "yellow"
+        ],
+        "hp": 130,
+        "baton_cost": 1,
+        "tags": [
+            "#DEV_IS",
+            "#FLOWGLOW"
+        ],
+        "rarity": "c",
+        "special_deck_limit": 50,
+        "arts": [
+            {
+                "art_id": "nikochan_ga_kita",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 30
+            }
+        ]
+    },
+    {
+        "card_id": "hSD11-003",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "kogane_nico"
+        ],
+        "colors": [
+            "yellow"
+        ],
+        "hp": 180,
+        "baton_cost": 2,
+        "tags": [
+            "#DEV_IS",
+            "#FLOWGLOW"
+        ],
+        "rarity": "c",
+        "arts": [
+            {
+                "art_id": "niko_to_deatta_nowa_nanika_no_kiseki",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 2
+                    }
+                ],
+                "power": 50
+            },
+            {
+                "art_id": "kitai_shiro_kibanide_kamitsuku_shigeki",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 3
+                    }
+                ],
+                "power": 80
+            }
+        ]
+    },
+    {
+        "card_id": "hSD11-004",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "kogane_nico"
+        ],
+        "colors": [
+            "yellow"
+        ],
+        "rarity": "u",
+        "hp": 150,
+        "baton_cost": 1,
+        "tags": [
+            "#DEV_IS",
+            "#FLOWGLOW"
+        ],
+        "bloom_effects": [
+            {
+                "effect_type": "choice",
+                "choice": [
+                    {
+                        "effect_type": "archive_cheer_from_holomem",
+                        "amount": 2,
+                        "from": "holomem",
+                        "ability_source": "holomem_yellow",
+                        "and": [
+                            {
+                                "effect_type": "choose_cards",
+                                "from": "archive",
+                                "destination": "hand",
+                                "amount_min": 1,
+                                "amount_max": 1,
+                                "requirement": "holomem",
+                                "requirement_names": [
+                                    "kogane_nico"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "pass"
+                    }
+                ]
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "jinsei_miseru",
+                "costs": [
+                    {
+                        "color": "yellow",
+                        "amount": 1
+                    },
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 30,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "effect_type": "send_cheer",
+                        "amount_min": 0,
+                        "amount_max": 1,
+                        "from": "cheer_deck",
+                        "to": "holomem",
+                        "to_limitation": "specific_member_name",
+                        "to_limitation_name": "kogane_nico"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hSD11-005",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "kogane_nico"
+        ],
+        "colors": [
+            "yellow"
+        ],
+        "rarity": "u",
+        "hp": 160,
+        "baton_cost": 1,
+        "tags": [
+            "#DEV_IS",
+            "#FLOWGLOW"
+        ],
+        "collab_effects": [
+            {
+                "effect_type": "send_cheer",
+                "amount_min": 0,
+                "amount_max": 1,
+                "from": "archive",
+                "to": "holomem",
+                "to_limitation": "backstage_and_tag_in",
+                "to_limitation_tags": [
+                    "#FLOWGLOW"
+                ]
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "bakuzetsufuyou",
+                "costs": [
+                    {
+                        "color": "yellow",
+                        "amount": 1
+                    }
+                ],
+                "power": 30,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "effect_type": "power_boost",
+                        "amount": 20,
+                        "conditions": [
+                            {
+                                "condition": "cheer_in_play",
+                                "amount_min": 5,
+                                "amount_max": -1
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hSD11-006",
+        "card_type": "holomem_bloom",
+        "bloom_level": 2,
+        "card_names": [
+            "kogane_nico"
+        ],
+        "colors": [
+            "yellow"
+        ],
+        "rarity": "rr",
+        "hp": 210,
+        "baton_cost": 2,
+        "buzz": true,
+        "tags": [
+            "#DEV_IS",
+            "#FLOWGLOW"
+        ],
+        "gift_effects": [
+            {
+                "timing": "on_performance_step_start",
+                "effect_type": "choice",
+                "choice": [
+                    {
+                        "effect_type": "archive_from_hand",
+                        "amount": 1,
+                        "requirement": "holomem",
+                        "requirement_tags": [
+                            "#FLOWGLOW"
+                        ],
+                        "ability_source": "holomem_yellow",
+                        "and": [
+                            {
+                                "effect_type": "send_cheer",
+                                "amount_min": 1,
+                                "amount_max": 1,
+                                "from": "archive",
+                                "from_limitation_colors": [
+                                    "yellow"
+                                ],
+                                "to": "holomem",
+                                "to_limitation": "specific_member_name",
+                                "to_limitation_name": "kogane_nico"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "pass"
+                    }
+                ]
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "hosopuusei",
+                "costs": [
+                    {
+                        "color": "yellow",
+                        "amount": 1
+                    }
+                ],
+                "power": 40,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "effect_type": "archive_cheer_from_holomem",
+                        "amount_min": 0,
+                        "amount_max": -1,
+                        "from": "self",
+                        "ability_source": "holomem_yellow",
+                        "and": [
+                            {
+                                "effect_type": "power_boost",
+                                "amount": 40,
+                                "multiplier": "last_card_count"
+                            }
+                        ]
+                    },
+                    {
+                        "timing": "before_art",
+                        "effect_type": "power_boost",
+                        "amount": 50,
+                        "conditions": [
+                            {
+                                "condition": "target_color",
+                                "color_requirement": "red"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hSD11-001",
+        "card_type": "oshi",
+        "card_names": [
+            "kogane_nico"
+        ],
+        "colors": [
+            "yellow"
+        ],
+        "rarity": "osr",
+        "life": 5,
+        "actions": [
+            {
+                "skill_id": "hoshitamtam",
+                "cost": 2,
+                "limit": "once_per_turn",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_turn",
+                        "skill_id": "hoshitamtam",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_turn_effect",
+                                "effect_id": "hoshitamtam"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "send_cheer",
+                        "amount_min": 1,
+                        "amount_max": 2,
+                        "from": "archive",
+                        "from_limitation_colors": [
+                            "yellow"
+                        ],
+                        "to": "holomem",
+                        "to_limitation": "tag_in_and_no_cheer_attached",
+                        "to_limitation_tags": [
+                            "#FLOWGLOW"
+                        ]
+                    }
+                ]
+            },
+            {
+                "skill_id": "nikochi_no_namae_wo_yobe",
+                "cost": 2,
+                "limit": "once_per_game",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_game",
+                        "skill_id": "nikochi_no_namae_wo_yobe",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_game_effect",
+                                "effect_id": "nikochi_no_namae_wo_yobe"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "deal_damage",
+                        "special": true,
+                        "amount": 30,
+                        "multiplier": "last_cheer_archived_count",
+                        "target": "center_or_collab",
+                        "opponent": true
+                    }
+                ]
+            }
+        ],
+        "effects": [
+            {
+                "timing": "after_archive_cheer",
+                "timing_source_requirement": "holomem_yellow",
+                "conditions": [
+                    {
+                        "condition": "not_used_once_per_game_effect",
+                        "effect_id": "nikochi_no_namae_wo_yobe"
+                    },
+                    {
+                        "condition": "holopower_at_least",
+                        "amount": 2
+                    }
+                ],
+                "effect_type": "choice",
+                "choice": [
+                    {
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_game",
+                        "skill_id": "nikochi_no_namae_wo_yobe",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_game_effect",
+                                "effect_id": "nikochi_no_namae_wo_yobe"
+                            }
+                        ],
+                        "and": [
+                            {
+                                "effect_type": "deal_damage",
+                                "special": true,
+                                "amount": 30,
+                                "multiplier": "last_cheer_archived_count",
+                                "target": "center_or_collab",
+                                "opponent": true
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "pass"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "card_id": "hSD12-001",
         "card_type": "oshi",
         "card_names": [
@@ -41542,6 +44610,7 @@
             "datsugoku_wo_tasseishita_kouhanzatachi"
         ],
         "rarity": "u",
+        "limited": false,
         "play_conditions": [
             {
                 "condition": "stage_all_members_have_tag",
@@ -41550,10 +44619,11 @@
                 ]
             },
             {
-                "condition": "support_card_name_not_used_this_turn",
+                "condition": "support_card_name_used_this_turn",
                 "condition_card_names": [
                     "datsugoku_wo_tasseishita_kouhanzatachi"
-                ]
+                ],
+                "inverse": true
             }
         ],
         "effects": [
@@ -41877,8 +44947,11 @@
                                 "destination": "holomem",
                                 "amount_min": 1,
                                 "amount_max": 1,
-                                "reveal_chosen": true,
-                                "remaining_cards_action": "shuffle"
+                                "requirement": "cheer",
+                                "reveal_chosen": true
+                            },
+                            {
+                                "effect_type": "shuffle_cheer_deck"
                             }
                         ]
                     },
@@ -42981,6 +46054,46 @@
         "rarity": "c",
         "colors": [
             "yellow"
+        ]
+    },
+    {
+        "card_id": "hY01-003",
+        "card_type": "cheer",
+        "rarity": "sy",
+        "colors": [
+            "white"
+        ]
+    },
+    {
+        "card_id": "hY02-002",
+        "card_type": "cheer",
+        "rarity": "sy",
+        "colors": [
+            "green"
+        ]
+    },
+    {
+        "card_id": "hY03-002",
+        "card_type": "cheer",
+        "rarity": "sy",
+        "colors": [
+            "red"
+        ]
+    },
+    {
+        "card_id": "hY04-002",
+        "card_type": "cheer",
+        "rarity": "sy",
+        "colors": [
+            "blue"
+        ]
+    },
+    {
+        "card_id": "hY05-002",
+        "card_type": "cheer",
+        "rarity": "sy",
+        "colors": [
+            "purple"
         ]
     },
     {

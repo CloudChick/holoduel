@@ -389,8 +389,10 @@ class TurnMixin:
         # 다음 턴 플레이어의 "직전 상대 턴에 다운됐는지" 플래그 설정
         other_player.holomem_downed_last_opponent_turn = other_player.holomem_downed_this_turn
         other_player.holomem_downed_names_last_opponent_turn = other_player.holomem_downed_names_this_turn
+        other_player.holomem_downed_tags_last_opponent_turn = other_player.holomem_downed_tags_this_turn
         active_player.holomem_downed_last_opponent_turn = False
         active_player.holomem_downed_names_last_opponent_turn = []
+        active_player.holomem_downed_tags_last_opponent_turn = []
 
         active_player.clear_every_turn_effects()
         other_player.clear_every_turn_effects()

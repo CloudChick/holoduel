@@ -15,7 +15,13 @@ def handle_archive_cheer_from_holomem(engine, effect_player, effect):
     effect_player_id = effect_player.player_id
     source_card, _, _ = effect_player.find_card(effect["source_card_id"])
     ability_source = effect.get("ability_source", "")
-    engine.archive_count_required = effect["amount"]
+    variable_amount = "amount_min" in effect and "amount_max" in effect
+    if variable_amount:
+        amount_min_orig = effect["amount_min"]
+        amount_max_orig = effect["amount_max"]
+        engine.archive_count_required = amount_max_orig
+    else:
+        engine.archive_count_required = effect["amount"]
     before_archive_effects = effect_player.get_effects_at_timing("before_archive_cheer", source_card, ability_source)
 
     def archive_cheer_continuation():
@@ -68,10 +74,52 @@ def handle_archive_cheer_from_holomem(engine, effect_player, effect):
             "ability_source": ability_source
         }
         engine.add_effects_to_front([after_archive_check_effect])
-        if amount == 0:
+
+        if variable_amount:
+            actual_min = amount_min_orig
+            actual_max = amount_max_orig
+            if actual_max == -1:
+                actual_max = len(cheer_options)
+            actual_max = min(actual_max, len(cheer_options))
+            actual_min = min(actual_min, actual_max)
+            if actual_max == 0:
+                engine.last_card_count = 0
+                engine.continue_resolving_effects()
+            else:
+                choose_event = {
+                    "event_type": EventType.EventType_Decision_ChooseCards,
+                    "desired_response": GameAction.EffectResolution_ChooseCardsForEffect,
+                    "effect_player_id": effect_player_id,
+                    "all_card_seen": cheer_options,
+                    "cards_can_choose": cheer_options,
+                    "from_zone": "holomem",
+                    "to_zone": "archive",
+                    "amount_min": actual_min,
+                    "amount_max": actual_max,
+                    "reveal_chosen": True,
+                    "remaining_cards_action": "nothing",
+                }
+                engine.broadcast_event(choose_event)
+                engine.set_decision({
+                    "decision_type": DecisionType.DecisionEffect_ChooseCardsForEffect,
+                    "decision_player": effect_player_id,
+                    "all_card_seen": cheer_options,
+                    "cards_can_choose": cheer_options,
+                    "from_zone": "holomem",
+                    "to_zone": "archive",
+                    "amount_min": actual_min,
+                    "amount_max": actual_max,
+                    "reveal_chosen": True,
+                    "remaining_cards_action": "nothing",
+                    "source_card_id": effect["source_card_id"],
+                    "effect_resolution": engine.handle_choose_cards_result,
+                    "continuation": engine.continue_resolving_effects,
+                })
+        elif amount == 0:
+            engine.last_card_count = 0
             engine.continue_resolving_effects()
         elif amount == len(cheer_options):
-            # Do it immediately.
+            engine.last_card_count = amount
             effect_player.archive_attached_cards(cheer_options)
             engine.continue_resolving_effects()
         else:
@@ -133,6 +181,14 @@ def handle_archive_from_hand(engine, effect_player, effect):
                     cards_can_choose = ([card["game_card_id"] for card in effect_player.hand if card.get("card_type") == "support"])
                 case _:
                     cards_can_choose = ids_from_cards(effect_player.hand)
+            requirement_tags = effect.get("requirement_tags", [])
+            if requirement_tags:
+                tag_filtered = set()
+                for card in effect_player.hand:
+                    if card["game_card_id"] in cards_can_choose:
+                        if any(tag in card.get("tags", []) for tag in requirement_tags):
+                            tag_filtered.add(card["game_card_id"])
+                cards_can_choose = [cid for cid in cards_can_choose if cid in tag_filtered]
             if requirement_same_tag:
                 holomem_cards = [card for card in effect_player.hand if is_card_holomem(card)]
                 eligible_ids = set()
@@ -505,6 +561,11 @@ def handle_draw(engine, effect_player, effect):
         for h in holomems:
             seen_names.add(tuple(h["card_names"]))
         amount = len(seen_names)
+    elif amount_source == "per_attachment_name":
+        attachment_name = effect.get("attachment_name", "")
+        src, _, _ = effect_player.find_card(effect.get("source_card_id", ""))
+        amount = sum(1 for a in (src.get("attached_support", []) if src else [])
+                     if attachment_name in a.get("card_names", []))
     else:
         amount = effect.get("amount", len(effect_player.hand))
         if str(amount) == "last_card_count":
@@ -960,6 +1021,10 @@ def handle_send_cheer(engine, effect_player, effect):
                     case "backstage_and_tag_in":
                         to_options = [card for card in effect_player.backstage
                             if any(tag in card["tags"] for tag in to_limitation_tags)]
+                    case "tag_in_and_no_cheer_attached":
+                        to_options = [card for card in effect_player.get_holomem_on_stage()
+                            if any(tag in card["tags"] for tag in to_limitation_tags)
+                            and len(card.get("attached_cheer", [])) == 0]
                     case "backstage_and_specific_member_name":
                         to_limitation_name = effect.get("to_limitation_name", "")
                         to_options = [card for card in effect_player.backstage if to_limitation_name in card["card_names"]]
@@ -1248,7 +1313,8 @@ def handle_after_archive_cheer_check(engine, effect_player, effect):
     current_archive_count = len(effect_player.archive)
     ability_source = effect.get("ability_source", "")
     if previous_archive_count < current_archive_count:
-        # The player archived some amount of cheer.
+        effect_player.cheer_archived_this_turn = True
+        engine.last_cheer_archived_count = current_archive_count - previous_archive_count
         after_archive_effects = effect_player.get_effects_at_timing("after_archive_cheer", None, ability_source)
         if engine.performance_art:
             # Queue to cleanup effects.
@@ -1256,6 +1322,19 @@ def handle_after_archive_cheer_check(engine, effect_player, effect):
         else:
             # Add it to the rear of the queue.
             engine.add_effects_to_rear(after_archive_effects)
+    return False
+
+
+def handle_archive_from_cheer_deck(engine, effect_player, effect):
+    """Archives top card(s) from the player's own cheer deck."""
+    amount = effect.get("amount", 1)
+    archived_count = 0
+    for _ in range(amount):
+        if len(effect_player.cheer_deck) > 0:
+            card = effect_player.cheer_deck[0]
+            effect_player.move_card(card["game_card_id"], "archive")
+            archived_count += 1
+    engine.last_card_count = archived_count
     return False
 
 
@@ -1329,6 +1408,7 @@ def handle_send_cheer_per_named_cards_in_archive(engine, effect_player, effect):
 
 CARD_MOVEMENT_HANDLERS = {
     EffectType.EffectType_ArchiveCheerFromHolomem: handle_archive_cheer_from_holomem,
+    EffectType.EffectType_ArchiveFromCheerDeck: handle_archive_from_cheer_deck,
     EffectType.EffectType_ArchiveFromBothCheerDecks: handle_archive_from_both_cheer_decks,
     EffectType.EffectType_ArchiveFromHand: handle_archive_from_hand,
     EffectType.EffectType_ArchiveHand: handle_archive_hand,

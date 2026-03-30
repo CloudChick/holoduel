@@ -21,6 +21,8 @@ def handle_power_boost(engine, effect_player, effect):
                 multiplier = sum(effect_player.last_die_roll_results)
             case "last_chosen_count":
                 multiplier = len(engine.last_chosen_cards)
+            case "last_card_count":
+                multiplier = engine.last_card_count
     amount *= multiplier
     engine.handle_power_boost(amount, effect["source_card_id"])
     return False

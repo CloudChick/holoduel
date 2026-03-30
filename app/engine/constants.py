@@ -151,6 +151,7 @@ class EffectType:
     EffectType_PowerBoostPerRestingOpponentHolomem = "power_boost_per_resting_opponent_holomem"
     EffectType_RestHolomem = "rest_holomem"
     EffectType_SetLimitedUsesAllowed = "set_limited_uses_allowed"
+    EffectType_ArchiveFromCheerDeck = "archive_from_cheer_deck"
 
 class Condition:
     Condition_AnyHolomemBloomedThisTurn = "any_holomem_bloomed_this_turn"
@@ -243,6 +244,7 @@ class Condition:
     Condition_SelfStageCheerLessThanOpponent = "self_stage_cheer_less_than_opponent"
     Condition_SelfZoneHasHolomem = "self_zone_has_holomem"
     Condition_OpponentZoneHasHolomem = "opponent_zone_has_holomem"
+    Condition_ArchiveCardNameCount = "archive_card_name_count"
     Condition_StageAllMembersHaveTag = "stage_all_members_have_tag"
     Condition_StageHasSpace = "stage_has_space"
     Condition_TargetColor = "target_color"
@@ -271,6 +273,11 @@ class Condition:
     Condition_OpponentHasNoCollab = "opponent_has_no_collab"
     Condition_MyHolomemDownedLastOpponentTurn = "my_holomem_downed_last_opponent_turn"
     Condition_MyHolomemDownedLastOpponentTurnNamed = "my_holomem_downed_last_opponent_turn_named"
+    Condition_MyTurn = "my_turn"
+    Condition_MyHolomemMovedFromStageToDeckThisTurn = "my_holomem_moved_from_stage_to_deck_this_turn"
+    Condition_LastMovedCardIsMyHolomemFromStageToDeckNamed = "last_moved_card_is_my_holomem_from_stage_to_deck_named"
+    Condition_LastMovedCardIsMyHolomemFromStageToDeckByOwnAbilityNamed = "last_moved_card_is_my_holomem_from_stage_to_deck_by_own_ability_named"
+    Condition_SelfStageAllCheerAreColor = "self_stage_all_cheer_are_color"
     Condition_Or = "or"
     Condition_StageHasAttachmentsOfTypesCount = "stage_has_attachments_of_types_count"
     Condition_StageHasAttachmentOfName = "stage_has_attachment_of_name"
@@ -303,6 +310,10 @@ class Condition:
     Condition_OpponentHasCollab = "opponent_has_collab"
     Condition_ArchivingAttachmentName = "archiving_attachment_name"
     Condition_ArchivingFromCenter = "archiving_from_center"
+    Condition_MyHolomemDownedLastOpponentTurnTagged = "my_holomem_downed_last_opponent_turn_tagged"
+    Condition_DamageTargetHasTag = "damage_target_has_tag"
+    Condition_DamageTargetBloomLevel = "damage_target_bloom_level"
+    Condition_CheerArchivedThisTurn = "cheer_archived_this_turn"
 
 
 class TurnEffectType:
@@ -374,4 +385,5 @@ class GameOverReason:
     GameOverReason_NoLifeLeft = "no_life_left"
     GameOverReason_MulliganToZero = "mulligan_to_zero"
     GameOverReason_Resign = "resign"
+    GameOverReason_InternalError = "internal_error"
     GameOverReason_Unset = "unset"

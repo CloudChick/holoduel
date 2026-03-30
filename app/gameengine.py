@@ -35,6 +35,7 @@ class GameEngine(GameFlowMixin, TurnMixin, CombatMixin, ConditionMixin, EffectMi
         self.game_over_event = {}
         self.current_decision = None
         self.effect_resolution_state = None
+        self.effect_context_stack = []
         self.test_random_override = None
         self.turn_number = 0
         self.floating_cards = []
@@ -50,6 +51,7 @@ class GameEngine(GameFlowMixin, TurnMixin, CombatMixin, ConditionMixin, EffectMi
         self.last_chosen_cards = []
         self.stage_selected_holomems = []
         self.last_card_count = 0
+        self.last_cheer_archived_count = 0
         self.archiving_attachment_card = None
         self.archiving_attachment_holomem = None
         self.archive_attachment_replaced = False
@@ -58,6 +60,7 @@ class GameEngine(GameFlowMixin, TurnMixin, CombatMixin, ConditionMixin, EffectMi
         self.clock_accumulation_start_time = 0
         self.match_player_info = player_infos
         self.last_chosen_holomem_id = ""
+        self.last_move_info = {}
         
         # 블룸 출처 추적을 위한 변수
         self.last_bloom_source_skill_id = ""
@@ -88,9 +91,10 @@ class GameEngine(GameFlowMixin, TurnMixin, CombatMixin, ConditionMixin, EffectMi
         winner = "none"
         game_over_reason = GameOverReason.GameOverReason_Unset
         if self.game_over_event:
-            winner_id = self.game_over_event["winner_id"]
-            game_over_reason = self.game_over_event["reason_id"]
-            winner = self.get_player(winner_id).username
+            winner_id = self.game_over_event.get("winner_id", "")
+            game_over_reason = self.game_over_event.get("reason_id", GameOverReason.GameOverReason_Unset)
+            if winner_id in self.player_ids:
+                winner = self.get_player(winner_id).username
         match_data = {
             "all_events": self.all_events,
             "all_game_messages": self.all_game_messages,
@@ -139,6 +143,11 @@ class GameEngine(GameFlowMixin, TurnMixin, CombatMixin, ConditionMixin, EffectMi
 
     def is_game_over(self):
         return self.phase == GamePhase.GameOver
+
+    def get_current_effect_context(self):
+        if not self.effect_context_stack:
+            return None
+        return self.effect_context_stack[-1]
 
     def find_card(self, game_card_id):
         for player_state in self.player_states:

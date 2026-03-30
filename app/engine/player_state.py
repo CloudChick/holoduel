@@ -61,7 +61,13 @@ class PlayerState:
         self.holomem_downed_names_this_turn = []
         self.holomem_downed_last_opponent_turn = False
         self.holomem_downed_names_last_opponent_turn = []
-        self.holomem_returned_to_deck_this_turn = False
+        self.holomem_downed_tags_this_turn = []
+        self.holomem_downed_tags_last_opponent_turn = []
+        self.cheer_archived_this_turn = False
+        self.holomem_moved_from_stage_to_deck_this_turn = False
+        self.holomem_moved_from_stage_to_deck_names_this_turn = []
+        self.holomem_moved_from_stage_to_deck_by_own_ability_this_turn = False
+        self.holomem_moved_from_stage_to_deck_by_own_ability_names_this_turn = []
         self.block_life_loss_by_effect_this_turn = False
         self.sp_oshi_skill_used_this_turn = False
         self.die_rolls_this_turn = 0
@@ -142,12 +148,17 @@ class PlayerState:
         }
         self.engine.broadcast_event(draw_event)
 
-    def mulligan(self, forced=False):
+    def mulligan(self, forced=False, draw_count_override=None):
         self.mulligan_count += 1
         self.shuffle_hand_to_deck()
-        if forced:
+        draw_count = STARTING_HAND_SIZE
+        if draw_count_override is not None:
+            draw_count = max(int(draw_count_override), 0)
+        elif forced:
             self.forced_mulligan_count += 1
-        self.draw(STARTING_HAND_SIZE)
+            # Backward-compatible path.
+            draw_count = max(STARTING_HAND_SIZE - self.forced_mulligan_count, 0)
+        self.draw(draw_count)
 
     def shuffle_hand_to_deck(self):
         while len(self.hand) > 0:
@@ -736,7 +747,20 @@ class PlayerState:
             zone.remove(card)
         return card, zone, zone_name
 
-    def move_card(self, card_id, to_zone, zone_card_id="", hidden_info=False, add_to_bottom=False, no_events=False):
+    def record_holomem_moved_from_stage_to_deck(self, card, by_own_ability=False):
+        if not is_card_holomem(card):
+            return
+        self.holomem_moved_from_stage_to_deck_this_turn = True
+        for name in card.get("card_names", []):
+            if name not in self.holomem_moved_from_stage_to_deck_names_this_turn:
+                self.holomem_moved_from_stage_to_deck_names_this_turn.append(name)
+        if by_own_ability:
+            self.holomem_moved_from_stage_to_deck_by_own_ability_this_turn = True
+            for name in card.get("card_names", []):
+                if name not in self.holomem_moved_from_stage_to_deck_by_own_ability_names_this_turn:
+                    self.holomem_moved_from_stage_to_deck_by_own_ability_names_this_turn.append(name)
+
+    def move_card(self, card_id, to_zone, zone_card_id="", hidden_info=False, add_to_bottom=False, no_events=False, resolve_effects_continuation=None):
         card, _, from_zone_name = self.find_and_remove_card(card_id)
         if not card:
             card, previous_holder_id = self.find_and_remove_attached(card_id)
@@ -751,25 +775,66 @@ class PlayerState:
             )
             return False
 
-        if to_zone in ["archive", "deck", "top_of_deck", "cheer_deck", "holopower"] and is_card_holomem(card):
-            all_attached = (
-                card.get("stacked_cards", [])
-                + card.get("attached_cheer", [])
-                + card.get("attached_support", [])
-            )
-            for attached in all_attached:
-                self.archive.insert(0, attached)
-                if not no_events:
-                    self.engine.broadcast_event({
-                        "event_type": EventType.EventType_MoveAttachedCard,
-                        "owning_player_id": self.player_id,
-                        "from_holomem_id": card_id,
-                        "to_holomem_id": "archive",
-                        "attached_id": attached["game_card_id"],
-                    })
+        stage_zones = ["center", "backstage", "collab"]
+        moving_holomem_off_stage = (
+            is_card_holomem(card)
+            and from_zone_name in stage_zones
+            and to_zone not in stage_zones
+            and to_zone != "holomem"
+        )
+
+        cards_to_archive = []
+        if moving_holomem_off_stage:
+            source_holomem = card
+            stacked_cards = list(source_holomem.get("stacked_cards", []))
+            attached_cheer = list(source_holomem.get("attached_cheer", []))
+            attached_support = list(source_holomem.get("attached_support", []))
+
+            # When leaving stage, promote the top stacked holomem (if any) to the destination zone,
+            # and archive the rest of stacked cards plus all attached cards.
+            promoted_holomem = None
+            for stacked_card in stacked_cards:
+                if is_card_holomem(stacked_card):
+                    promoted_holomem = stacked_card
+                    break
+
+            if promoted_holomem:
+                stacked_cards.remove(promoted_holomem)
+                cards_to_archive.append(source_holomem)
+                card = promoted_holomem
+
+            cards_to_archive += stacked_cards
+            cards_to_archive += attached_cheer
+            cards_to_archive += attached_support
+
+            source_holomem["stacked_cards"] = []
+            source_holomem["attached_cheer"] = []
+            source_holomem["attached_support"] = []
             card["stacked_cards"] = []
             card["attached_cheer"] = []
             card["attached_support"] = []
+        elif to_zone in ["archive", "deck", "cheer_deck", "holopower"] and is_card_holomem(card):
+            cards_to_archive += card.get("stacked_cards", [])
+            cards_to_archive += card.get("attached_cheer", [])
+            cards_to_archive += card.get("attached_support", [])
+            card["stacked_cards"] = []
+            card["attached_cheer"] = []
+            card["attached_support"] = []
+
+        for extra_card in cards_to_archive:
+            self.archive.insert(0, extra_card)
+
+        effect_context = self.engine.get_current_effect_context()
+        moved_from_stage_to_deck = (
+            is_card_holomem(card)
+            and from_zone_name in stage_zones
+            and to_zone == "deck"
+        )
+        moved_from_stage_to_deck_by_own_ability = (
+            moved_from_stage_to_deck
+            and effect_context is not None
+            and effect_context.get("player_id", "") == self.player_id
+        )
 
         match to_zone:
             case "archive":
@@ -809,9 +874,19 @@ class PlayerState:
         if to_zone in ["center", "backstage", "collab", "holomem"] and from_zone_name in ["hand", "deck"]:
             card["played_this_turn"] = True
 
-        stage_zones = {"center", "collab", "backstage"}
-        if to_zone in ["deck", "top_of_deck"] and from_zone_name in stage_zones and is_card_holomem(card):
-            self.holomem_returned_to_deck_this_turn = True
+        if moved_from_stage_to_deck:
+            self.record_holomem_moved_from_stage_to_deck(card, moved_from_stage_to_deck_by_own_ability)
+
+        self.engine.last_move_info = {
+            "moving_player_id": self.player_id,
+            "card_id": card.get("game_card_id", ""),
+            "definition_id": card.get("card_id", ""),
+            "card_names": card.get("card_names", []),
+            "is_holomem": is_card_holomem(card),
+            "from_zone": from_zone_name,
+            "to_zone": to_zone,
+            "by_own_ability": moved_from_stage_to_deck_by_own_ability,
+        }
 
         move_card_event = {
             "event_type": EventType.EventType_MoveCard,
@@ -819,7 +894,7 @@ class PlayerState:
             "from": from_zone_name,
             "to_zone": to_zone,
             "zone_card_id": zone_card_id,
-            "card_id": card_id,
+            "card_id": card.get("game_card_id", card_id),
         }
         if hidden_info:
             move_card_event["hidden_info_player"] = self.player_id
@@ -827,6 +902,18 @@ class PlayerState:
         if not no_events:
             self.engine.broadcast_event(move_card_event)
             self.engine.broadcast_bonus_hp_updates()
+
+            move_card_effects = self.get_effects_at_timing("on_move_card", None)
+            if move_card_effects:
+                if self.engine.effect_resolution_state:
+                    self.engine.add_effects_to_front(move_card_effects)
+                else:
+                    continuation = resolve_effects_continuation if resolve_effects_continuation else (lambda: None)
+                    self.engine.begin_resolving_effects(move_card_effects, continuation)
+                return True
+
+        if resolve_effects_continuation and not self.engine.effect_resolution_state:
+            resolve_effects_continuation()
         return True
 
     def reset_card_stats(self, card):
@@ -888,7 +975,12 @@ class PlayerState:
         self.die_rolled_by_holomem_names_this_turn = []
         self.holomem_downed_this_turn = False
         self.holomem_downed_names_this_turn = []
-        self.holomem_returned_to_deck_this_turn = False
+        self.holomem_downed_tags_this_turn = []
+        self.cheer_archived_this_turn = False
+        self.holomem_moved_from_stage_to_deck_this_turn = False
+        self.holomem_moved_from_stage_to_deck_names_this_turn = []
+        self.holomem_moved_from_stage_to_deck_by_own_ability_this_turn = False
+        self.holomem_moved_from_stage_to_deck_by_own_ability_names_this_turn = []
         self.block_life_loss_by_effect_this_turn = False
         self.sp_oshi_skill_used_this_turn = False
         self.die_rolls_this_turn = 0
