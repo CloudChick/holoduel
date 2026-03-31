@@ -59,6 +59,8 @@ def handle_deal_damage(engine, effect_player, effect):
     match target:
         case "backstage":
             target_cards = target_player.backstage
+            if effect.get("target_not_debut", False):
+                target_cards = [c for c in target_cards if c["card_type"] != "holomem_debut"]
         case "center":
             target_cards = target_player.center
         case "collab":
@@ -82,6 +84,8 @@ def handle_deal_damage(engine, effect_player, effect):
                         card.get("bloom_level", 0) == limitation_bloom_level]
             if effect.get("exclude_source", False) and source_holomem_card:
                 target_cards = [c for c in target_cards if c["game_card_id"] != source_holomem_card["game_card_id"]]
+            if effect.get("target_not_debut", False):
+                target_cards = [c for c in target_cards if c["card_type"] != "holomem_debut"]
         case "self":
             target_cards = [source_holomem_card]
         case _:

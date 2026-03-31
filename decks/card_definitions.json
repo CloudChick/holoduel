@@ -1621,6 +1621,106 @@
         ]
     },
     {
+        "card_id": "hBD24-025",
+        "card_type": "oshi",
+        "card_names": [
+            "aki_rosenthal"
+        ],
+        "colors": [
+            "green"
+        ],
+        "rarity": "p",
+        "life": 5,
+        "actions": [
+            {
+                "skill_id": "greenenhance",
+                "cost": 2,
+                "limit": "once_per_turn",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_turn",
+                        "skill_id": "greenenhance",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_turn_effect",
+                                "effect_id": "greenenhance"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "add_turn_effect_for_holomem",
+                        "limitation": "color_in",
+                        "limitation_colors": [
+                            "green"
+                        ],
+                        "conditions": [
+                            {
+                                "condition": "color_on_stage",
+                                "condition_colors": [
+                                    "green"
+                                ]
+                            }
+                        ],
+                        "turn_effect": {
+                            "timing": "before_art",
+                            "conditions": [
+                                {
+                                    "condition": "performer_is_specific_id",
+                                    "required_id": "REPLACED_BY_EFFECT"
+                                }
+                            ],
+                            "effect_type": "power_boost",
+                            "amount": 20
+                        }
+                    }
+                ]
+            },
+            {
+                "skill_id": "birthdaygiftgreen",
+                "cost": 2,
+                "limit": "once_per_game",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_game",
+                        "skill_id": "birthdaygiftgreen",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_game_effect",
+                                "effect_id": "birthdaygiftgreen"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "choose_cards",
+                        "from": "deck",
+                        "look_at": -1,
+                        "destination": "hand",
+                        "amount_min": 1,
+                        "amount_max": 1,
+                        "requirement": "color_in",
+                        "requirement_colors": [
+                            "green"
+                        ],
+                        "reveal_chosen": true,
+                        "remaining_cards_action": "shuffle"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "card_id": "hBP01-001",
         "card_type": "oshi",
         "card_names": [
@@ -18146,6 +18246,222 @@
         ]
     },
     {
+        "card_id": "hBP03-057",
+        "card_type": "holomem_debut",
+        "card_names": [
+            "roboco_san"
+        ],
+        "rarity": "c",
+        "colors": [
+            "purple"
+        ],
+        "hp": 100,
+        "baton_cost": 1,
+        "special_deck_limit": 50,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Shooter"
+        ],
+        "arts": [
+            {
+                "art_id": "hellorobo",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 30
+            }
+        ]
+    },
+    {
+        "card_id": "hBP03-058",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "roboco_san"
+        ],
+        "rarity": "c",
+        "colors": [
+            "purple"
+        ],
+        "hp": 170,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Shooter"
+        ],
+        "arts": [
+            {
+                "art_id": "otsurobo",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 30
+            },
+            {
+                "art_id": "sweet_loving_girlfriend",
+                "costs": [
+                    {
+                        "color": "purple",
+                        "amount": 1
+                    },
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 60
+            }
+        ]
+    },
+    {
+        "card_id": "hBP03-059",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "roboco_san"
+        ],
+        "rarity": "u",
+        "colors": [
+            "purple"
+        ],
+        "hp": 130,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Shooter"
+        ],
+        "bloom_effects": [
+            {
+                "effect_type": "choose_cards",
+                "from": "deck",
+                "look_at": 3,
+                "destination": "hand",
+                "amount_min": 0,
+                "amount_max": 1,
+                "requirement": "holomem",
+                "requirement_tags": [
+                    "#Gen0"
+                ],
+                "reveal_chosen": true,
+                "remaining_cards_action": "order_on_bottom"
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "become_a_smiling_face",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 40
+            }
+        ]
+    },
+    {
+        "card_id": "hBP03-110",
+        "card_type": "support",
+        "sub_type": "fan",
+        "colors": [],
+        "card_names": [
+            "robosa"
+        ],
+        "rarity": "u",
+        "play_conditions": [
+            {
+                "condition": "holomem_on_stage",
+                "required_member_name_in": [
+                    "roboco_san"
+                ]
+            }
+        ],
+        "effects": [
+            {
+                "effect_type": "attach_card_to_holomem",
+                "to_limitation": "specific_member_name",
+                "to_limitation_name": "roboco_san"
+            }
+        ],
+        "attached_effects": [
+            {
+                "timing": "check_cheer",
+                "effect_type": "bonus_cheer",
+                "amount": 1,
+                "color": "purple"
+            },
+            {
+                "timing": "before_art",
+                "effect_type": "power_boost",
+                "amount": -10
+            }
+        ]
+    },
+    {
+        "card_id": "hBP03-060",
+        "card_type": "holomem_bloom",
+        "bloom_level": 2,
+        "card_names": [
+            "roboco_san"
+        ],
+        "rarity": "r",
+        "colors": [
+            "purple"
+        ],
+        "hp": 200,
+        "baton_cost": 2,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Shooter"
+        ],
+        "arts": [
+            {
+                "art_id": "self_proclaimed_high_performance",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 70,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "effect_type": "power_boost",
+                        "amount": 50,
+                        "conditions": [
+                            {
+                                "condition": "target_color",
+                                "color_requirement": "green"
+                            }
+                        ]
+                    },
+                    {
+                        "timing": "before_art",
+                        "effect_type": "power_boost",
+                        "amount": 70,
+                        "conditions": [
+                            {
+                                "condition": "opponent_stage_cheer_at_least",
+                                "amount_min": 7
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "card_id": "hBP04-001",
         "card_type": "oshi",
         "card_names": [
@@ -21584,6 +21900,218 @@
             }
         ],
         "collab_effects": []
+    },
+    {
+        "card_id": "hBP04-016",
+        "card_type": "holomem_debut",
+        "card_names": [
+            "raora_pantera"
+        ],
+        "rarity": "c",
+        "colors": [
+            "white"
+        ],
+        "hp": 100,
+        "baton_cost": 1,
+        "special_deck_limit": 50,
+        "tags": [
+            "#EN",
+            "#Justice",
+            "#AnimalEars",
+            "#Art"
+        ],
+        "arts": [
+            {
+                "art_id": "chaora",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 10,
+                "art_effects": [
+                    {
+                        "conditions": [
+                            {
+                                "condition": "stage_has_space"
+                            }
+                        ],
+                        "effect_type": "choose_cards",
+                        "from": "deck",
+                        "look_at": -1,
+                        "destination": "backstage",
+                        "amount_min": 0,
+                        "amount_max": 1,
+                        "requirement": "holomem_spot",
+                        "requirement_tags": [
+                            "#Justice"
+                        ],
+                        "reveal_chosen": true,
+                        "remaining_cards_action": "shuffle"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP04-017",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "raora_pantera"
+        ],
+        "rarity": "c",
+        "colors": [
+            "white"
+        ],
+        "hp": 150,
+        "baton_cost": 1,
+        "tags": [
+            "#EN",
+            "#Justice",
+            "#AnimalEars",
+            "#Art"
+        ],
+        "arts": [
+            {
+                "art_id": "seiginopinkpanther",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 40
+            }
+        ]
+    },
+    {
+        "card_id": "hBP04-018",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "raora_pantera"
+        ],
+        "rarity": "u",
+        "colors": [
+            "white"
+        ],
+        "hp": 140,
+        "baton_cost": 1,
+        "tags": [
+            "#EN",
+            "#Justice",
+            "#AnimalEars",
+            "#Art"
+        ],
+        "arts": [
+            {
+                "art_id": "jouhoushuushuuwatokui",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 2
+                    }
+                ],
+                "power": 50
+            }
+        ],
+        "bloom_effects": [
+            {
+                "effect_type": "add_turn_effect_for_holomem",
+                "limitation": "has_tag",
+                "limitation_tags": [
+                    "#Art"
+                ],
+                "turn_effect": {
+                    "timing": "before_art",
+                    "conditions": [
+                        {
+                            "condition": "performer_is_specific_id",
+                            "required_id": "REPLACED_BY_EFFECT"
+                        }
+                    ],
+                    "effect_type": "power_boost",
+                    "amount": 20
+                }
+            }
+        ]
+    },
+    {
+        "card_id": "hBP04-019",
+        "card_type": "holomem_bloom",
+        "bloom_level": 2,
+        "card_names": [
+            "raora_pantera"
+        ],
+        "rarity": "r",
+        "colors": [
+            "white"
+        ],
+        "hp": 190,
+        "baton_cost": 2,
+        "tags": [
+            "#EN",
+            "#Justice",
+            "#AnimalEars",
+            "#Art"
+        ],
+        "arts": [
+            {
+                "art_id": "artstreamer",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 3
+                    }
+                ],
+                "power": 70,
+                "art_effects": [
+                    {
+                        "effect_type": "power_boost",
+                        "amount": 50,
+                        "conditions": [
+                            {
+                                "condition": "target_color",
+                                "color_requirement": "red"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "power_boost",
+                        "amount": 80,
+                        "conditions": [
+                            {
+                                "condition": "performer_is_collab"
+                            },
+                            {
+                                "condition": "center_has_any_tag",
+                                "condition_tags": [
+                                    "#Art"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "collab_effects": [
+            {
+                "effect_type": "choose_cards",
+                "from": "deck",
+                "look_at": 3,
+                "destination": "hand",
+                "amount_min": 0,
+                "amount_max": 1,
+                "requirement": "holomem",
+                "requirement_tags": [
+                    "#Art"
+                ],
+                "reveal_chosen": true,
+                "remaining_cards_action": "order_on_bottom"
+            }
+        ]
     },
     {
         "card_id": "hBP04-020",
@@ -26602,6 +27130,99 @@
                 ],
                 "effect_type": "life_lost_increase",
                 "amount": 1
+            }
+        ]
+    },
+    {
+        "card_id": "hBP06-001",
+        "card_type": "oshi",
+        "card_names": [
+            "raora_pantera"
+        ],
+        "colors": [
+            "white"
+        ],
+        "rarity": "osr",
+        "life": 5,
+        "actions": [
+            {
+                "skill_id": "bigcatmeans",
+                "cost": 2,
+                "limit": "once_per_turn",
+                "action_conditions": [
+                    {
+                        "condition": "center_is_member_name",
+                        "required_member_names": [
+                            "raora_pantera"
+                        ]
+                    }
+                ],
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_turn",
+                        "skill_id": "bigcatmeans",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_turn_effect",
+                                "effect_id": "bigcatmeans"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "choose_cards",
+                        "from": "deck",
+                        "look_at": -1,
+                        "destination": "hand",
+                        "amount_min": 0,
+                        "amount_max": 1,
+                        "requirement": "holomem_named_match_collab",
+                        "reveal_chosen": true,
+                        "remaining_cards_action": "shuffle"
+                    }
+                ]
+            },
+            {
+                "skill_id": "bigtrouble",
+                "cost": 1,
+                "limit": "once_per_game",
+                "effects": [
+                    {
+                        "hide_effect_text": true,
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_game",
+                        "skill_id": "bigtrouble",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 1
+                            },
+                            {
+                                "effect_type": "record_used_once_per_game_effect",
+                                "effect_id": "bigtrouble"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "effects": [
+            {
+                "oshi_effect": true,
+                "timing": "on_reset_step",
+                "effect_type": "skip_rest",
+                "target_member_name": "raora_pantera",
+                "conditions": [
+                    {
+                        "condition": "used_once_per_game_effect",
+                        "condition_effect_id": "bigtrouble"
+                    }
+                ]
             }
         ]
     },
@@ -31821,6 +32442,966 @@
                         }
                     }
                 ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP06-007",
+        "card_type": "oshi",
+        "card_names": [
+            "roboco_san"
+        ],
+        "colors": [
+            "purple"
+        ],
+        "rarity": "osr",
+        "life": 6,
+        "actions": [
+            {
+                "skill_id": "enjoy_my_high_performance",
+                "cost": 1,
+                "limit": "once_per_game",
+                "effects": [
+                    {
+                        "effect_type": "oshi_activation",
+                        "limit": "once_per_game",
+                        "skill_id": "enjoy_my_high_performance",
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 1
+                            },
+                            {
+                                "effect_type": "record_used_once_per_game_effect",
+                                "effect_id": "enjoy_my_high_performance"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "draw",
+                        "amount": 2
+                    },
+                    {
+                        "effect_type": "archive_from_hand",
+                        "amount": 2,
+                        "ability_source": "oshi_purple"
+                    },
+                    {
+                        "effect_type": "choose_cards",
+                        "from": "archive",
+                        "look_at": -1,
+                        "destination": "holomem",
+                        "requirement": "specific_card",
+                        "requirement_card_names": [
+                            "robosa"
+                        ],
+                        "to_limitation": "specific_member_name",
+                        "to_limitation_name": "roboco_san",
+                        "amount_min": 0,
+                        "amount_max": 50,
+                        "attach_each_separately": true
+                    }
+                ]
+            }
+        ],
+        "effects": [
+            {
+                "oshi_effect": "true",
+                "skill_id": "pon_janai",
+                "cost": 2,
+                "limit": "once_per_turn",
+                "conditions": [
+                    {
+                        "condition": "not_used_once_per_turn_effect",
+                        "condition_effect_id": "pon_janai"
+                    },
+                    {
+                        "condition": "holopower_at_least",
+                        "amount": 2
+                    },
+                    {
+                        "condition": "opponent_turn"
+                    },
+                    {
+                        "condition": "downed_card_name_is",
+                        "required_member_name": "roboco_san"
+                    }
+                ],
+                "timing": "on_down",
+                "effect_type": "choice",
+                "choice": [
+                    {
+                        "oshi_effect": "true",
+                        "limit": "once_per_turn",
+                        "skill_id": "pon_janai",
+                        "cost": 2,
+                        "effect_type": "choose_cards",
+                        "from": "deck",
+                        "look_at": 2,
+                        "destination": "archive",
+                        "amount_min": 2,
+                        "amount_max": 2,
+                        "pre_effects": [
+                            {
+                                "effect_type": "spend_holopower",
+                                "amount": 2
+                            },
+                            {
+                                "effect_type": "record_used_once_per_turn_effect",
+                                "effect_id": "pon_janai"
+                            },
+                            {
+                                "effect_type": "oshi_activation",
+                                "limit": "once_per_turn",
+                                "skill_id": "pon_janai"
+                            }
+                        ],
+                        "and": [
+                            {
+                                "effect_type": "choose_cards",
+                                "from": "archive",
+                                "look_at": -1,
+                                "destination": "hand",
+                                "requirement": "holomem_named",
+                                "requirement_names": [
+                                    "roboco_san"
+                                ],
+                                "amount_min": 1,
+                                "amount_max": 1
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "pass"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP06-061",
+        "card_type": "holomem_debut",
+        "card_names": [
+            "roboco_san"
+        ],
+        "rarity": "c",
+        "colors": [
+            "purple"
+        ],
+        "hp": 120,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Shooter"
+        ],
+        "arts": [
+            {
+                "art_id": "sweet_time_with_me",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 20,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "effect_type": "deal_damage",
+                        "amount": 20,
+                        "target": "center",
+                        "special": true,
+                        "opponent": true,
+                        "conditions": [
+                            {
+                                "condition": "has_attached_card",
+                                "required_card_name": "robosa"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP06-062",
+        "card_type": "holomem_debut",
+        "card_names": [
+            "roboco_san"
+        ],
+        "rarity": "u",
+        "colors": [
+            "purple"
+        ],
+        "hp": 110,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Shooter"
+        ],
+        "collab_effects": [
+            {
+                "conditions": [
+                    {
+                        "condition": "is_going_second_and_first_turn"
+                    }
+                ],
+                "effect_type": "choose_cards",
+                "from": "deck",
+                "look_at": -1,
+                "destination": "hand",
+                "requirement": "specific_card",
+                "requirement_card_names": [
+                    "robosa"
+                ],
+                "amount_min": 0,
+                "amount_max": 2,
+                "reveal_chosen": true,
+                "remaining_cards_action": "shuffle"
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "not_alone",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 30
+            }
+        ]
+    },
+    {
+        "card_id": "hBP06-063",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "roboco_san"
+        ],
+        "rarity": "c",
+        "colors": [
+            "purple"
+        ],
+        "hp": 150,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Shooter"
+        ],
+        "bloom_effects": [
+            {
+                "effect_type": "deal_damage",
+                "amount": 20,
+                "target": "center",
+                "special": true,
+                "opponent": true,
+                "conditions": [
+                    {
+                        "condition": "stage_has_attachment_of_name",
+                        "attachment_name": "robosa"
+                    }
+                ]
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "mmm_delicious",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 30,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "effect_type": "draw",
+                        "amount": 1,
+                        "conditions": [
+                            {
+                                "condition": "oshi_is",
+                                "required_member_name": "roboco_san"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP06-065",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "roboco_san"
+        ],
+        "buzz": true,
+        "rarity": "r",
+        "colors": [
+            "purple"
+        ],
+        "hp": 250,
+        "baton_cost": 2,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Shooter"
+        ],
+        "gift_effects": [
+            {
+                "timing": "before_art",
+                "effect_type": "deal_damage",
+                "amount": 50,
+                "target": "center_or_collab",
+                "special": true,
+                "opponent": true,
+                "conditions": [
+                    {
+                        "condition": "has_stacked_holomem",
+                        "required_bloom_level": 1,
+                        "amount_min": 1
+                    }
+                ]
+            }
+        ],
+        "effects": [
+            {
+                "timing": "on_art_cost_check",
+                "effect_type": "reduce_art_cost",
+                "color": "any",
+                "amount": 1,
+                "target_art_id": "irreplaceable_days",
+                "conditions": [
+                    {
+                        "condition": "my_holomem_downed_last_opponent_turn"
+                    }
+                ]
+            }
+        ],
+        "extra_effects": [
+            {
+                "timing": "on_down",
+                "conditions": [
+                    {
+                        "condition": "downed_card_is_this"
+                    }
+                ],
+                "effect_type": "life_lost_increase",
+                "amount": 1
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "irreplaceable_days",
+                "costs": [
+                    {
+                        "color": "purple",
+                        "amount": 1
+                    },
+                    {
+                        "color": "any",
+                        "amount": 2
+                    }
+                ],
+                "power": 90
+            }
+        ]
+    },
+    {
+        "card_id": "hBP06-064",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "roboco_san"
+        ],
+        "rarity": "u",
+        "colors": [
+            "purple"
+        ],
+        "hp": 160,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Shooter"
+        ],
+        "collab_effects": [
+            {
+                "effect_type": "archive_from_hand",
+                "amount_min": 0,
+                "amount_max": 2,
+                "ability_source": "holomem_purple",
+                "conditions": [
+                    {
+                        "condition": "oshi_is",
+                        "required_member_name": "roboco_san"
+                    }
+                ],
+                "and": [
+                    {
+                        "effect_type": "choose_cards",
+                        "from": "archive",
+                        "look_at": -1,
+                        "destination": "hand",
+                        "requirement": "specific_card",
+                        "requirement_card_names": [
+                            "robosa"
+                        ],
+                        "amount_min": 0,
+                        "amount_max": 0,
+                        "amount_from_last_card_count": true
+                    }
+                ]
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "rawr_surprised",
+                "costs": [
+                    {
+                        "color": "purple",
+                        "amount": 1
+                    }
+                ],
+                "power": 40
+            }
+        ]
+    },
+    {
+        "card_id": "hBP06-066",
+        "card_type": "holomem_bloom",
+        "bloom_level": 2,
+        "card_names": [
+            "roboco_san"
+        ],
+        "rarity": "rr",
+        "colors": [
+            "purple"
+        ],
+        "hp": 200,
+        "baton_cost": 2,
+        "tags": [
+            "#JP",
+            "#Gen0",
+            "#Shooter"
+        ],
+        "gift_effects": [
+            {
+                "timing": "before_art",
+                "conditions": [
+                    {
+                        "condition": "this_card_is_center"
+                    },
+                    {
+                        "condition": "performer_is_collab"
+                    },
+                    {
+                        "condition": "performer_has_any_tag",
+                        "condition_tags": [
+                            "#Gen0"
+                        ]
+                    }
+                ],
+                "effect_type": "reveal_top_deck",
+                "amount": 1,
+                "and": [
+                    {
+                        "effect_type": "archive_revealed_cards"
+                    },
+                    {
+                        "effect_type": "shuffle_deck"
+                    }
+                ]
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "sealed_dark_bridal",
+                "costs": [
+                    {
+                        "color": "purple",
+                        "amount": 2
+                    },
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 160,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "effect_type": "power_boost",
+                        "amount": 50,
+                        "conditions": [
+                            {
+                                "condition": "target_color",
+                                "color_requirement": "yellow"
+                            }
+                        ]
+                    },
+                    {
+                        "timing": "before_art",
+                        "effect_type": "deal_damage",
+                        "amount": 70,
+                        "target": "center_or_collab",
+                        "special": true,
+                        "opponent": true,
+                        "conditions": [
+                            {
+                                "condition": "has_attached_card",
+                                "required_card_name": "robosa",
+                                "amount_min": 3
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP06-009",
+        "card_type": "holomem_debut",
+        "card_names": [
+            "raora_pantera"
+        ],
+        "rarity": "c",
+        "colors": [
+            "white"
+        ],
+        "hp": 110,
+        "baton_cost": 1,
+        "tags": [
+            "#EN",
+            "#Justice",
+            "#AnimalEars",
+            "#Art"
+        ],
+        "arts": [
+            {
+                "art_id": "iseeyou",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 30
+            }
+        ],
+        "gift_effects": [
+            {
+                "timing": "on_take_damage",
+                "effect_type": "reduce_damage",
+                "amount": 10,
+                "conditions": [
+                    {
+                        "condition": "this_card_is_center"
+                    },
+                    {
+                        "condition": "damage_target_is_collab"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP06-010",
+        "card_type": "holomem_debut",
+        "card_names": [
+            "raora_pantera"
+        ],
+        "rarity": "u",
+        "colors": [
+            "white"
+        ],
+        "hp": 110,
+        "baton_cost": 1,
+        "tags": [
+            "#EN",
+            "#Justice",
+            "#AnimalEars",
+            "#Art"
+        ],
+        "collab_effects": [
+            {
+                "conditions": [
+                    {
+                        "condition": "is_going_second_and_first_turn"
+                    }
+                ],
+                "effect_type": "choose_cards",
+                "from": "deck",
+                "look_at": -1,
+                "destination": "backstage",
+                "amount_min": 1,
+                "amount_max": 1,
+                "requirement": "holomem_debut_or_spot",
+                "reveal_chosen": true,
+                "remaining_cards_action": "shuffle"
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "modumeotjinchinkuliya",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 30
+            }
+        ]
+    },
+    {
+        "card_id": "hBP06-011",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "raora_pantera"
+        ],
+        "rarity": "c",
+        "colors": [
+            "white"
+        ],
+        "hp": 160,
+        "baton_cost": 1,
+        "tags": [
+            "#EN",
+            "#Justice",
+            "#AnimalEars",
+            "#Art"
+        ],
+        "collab_effects": [
+            {
+                "effect_type": "choose_cards",
+                "from": "deck",
+                "look_at": -1,
+                "destination": "hand",
+                "amount_min": 0,
+                "amount_max": 1,
+                "requirement": "holomem_debut_or_1st",
+                "requirement_tags": [
+                    "#Justice"
+                ],
+                "reveal_chosen": true,
+                "remaining_cards_action": "shuffle"
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "mammamia",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 30
+            }
+        ]
+    },
+    {
+        "card_id": "hBP06-012",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "card_names": [
+            "raora_pantera"
+        ],
+        "rarity": "u",
+        "colors": [
+            "white"
+        ],
+        "hp": 180,
+        "baton_cost": 2,
+        "tags": [
+            "#EN",
+            "#Justice",
+            "#AnimalEars",
+            "#Art"
+        ],
+        "arts": [
+            {
+                "art_id": "therealqueenishere",
+                "costs": [
+                    {
+                        "color": "white",
+                        "amount": 1
+                    }
+                ],
+                "power": 30
+            },
+            {
+                "art_id": "lafine",
+                "costs": [
+                    {
+                        "color": "white",
+                        "amount": 1
+                    },
+                    {
+                        "color": "any",
+                        "amount": 2
+                    }
+                ],
+                "power": 70,
+                "art_effects": [
+                    {
+                        "timing": "before_art",
+                        "effect_type": "draw",
+                        "amount": 2
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP06-013",
+        "card_type": "holomem_bloom",
+        "bloom_level": 1,
+        "buzz": true,
+        "card_names": [
+            "raora_pantera"
+        ],
+        "rarity": "r",
+        "colors": [
+            "white"
+        ],
+        "hp": 250,
+        "baton_cost": 2,
+        "down_life_cost": 2,
+        "tags": [
+            "#EN",
+            "#Justice",
+            "#AnimalEars",
+            "#Art"
+        ],
+        "arts": [
+            {
+                "art_id": "isshonikaiseiha",
+                "costs": [
+                    {
+                        "color": "white",
+                        "amount": 1
+                    }
+                ],
+                "power": 30,
+                "art_effects": [
+                    {
+                        "effect_type": "add_turn_effect_for_holomem",
+                        "limitation": "has_tag",
+                        "limitation_tags": [
+                            "#Art"
+                        ],
+                        "limitation_location": "collab",
+                        "all_targets": true,
+                        "conditions": [
+                            {
+                                "condition": "performer_is_center"
+                            }
+                        ],
+                        "turn_effect": {
+                            "timing": "before_art",
+                            "conditions": [
+                                {
+                                    "condition": "performer_is_specific_id",
+                                    "required_id": "REPLACED_BY_EFFECT"
+                                }
+                            ],
+                            "effect_type": "power_boost",
+                            "amount": 20
+                        }
+                    }
+                ]
+            }
+        ],
+        "bloom_effects": [
+            {
+                "effect_type": "choose_cards",
+                "from": "deck",
+                "look_at": -1,
+                "destination": "hand",
+                "amount_min": 0,
+                "amount_max": 1,
+                "requirement": "specific_card",
+                "requirement_card_name": "chattino",
+                "reveal_chosen": true,
+                "remaining_cards_action": "shuffle"
+            }
+        ]
+    },
+    {
+        "card_id": "hBP06-014",
+        "card_type": "holomem_bloom",
+        "bloom_level": 2,
+        "card_names": [
+            "raora_pantera"
+        ],
+        "rarity": "rr",
+        "colors": [
+            "white"
+        ],
+        "hp": 210,
+        "baton_cost": 2,
+        "tags": [
+            "#EN",
+            "#Justice",
+            "#AnimalEars",
+            "#Art"
+        ],
+        "gift_effects": [
+            {
+                "timing": "before_art",
+                "conditions": [
+                    {
+                        "condition": "this_card_is_performing"
+                    }
+                ],
+                "effect_type": "choose_cards",
+                "from": "holopower",
+                "look_at": -1,
+                "destination": "hand",
+                "amount_min": 0,
+                "amount_max": 1,
+                "reveal_chosen": true,
+                "remaining_cards_action": "shuffle",
+                "and": [
+                    {
+                        "effect_type": "choose_cards",
+                        "from": "hand",
+                        "look_at": -1,
+                        "destination": "holopower",
+                        "amount_min": 1,
+                        "amount_max": 1,
+                        "remaining_cards_action": "nothing"
+                    }
+                ]
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "saichainorinaschimento",
+                "costs": [
+                    {
+                        "color": "white",
+                        "amount": 2
+                    },
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 100,
+                "art_effects": [
+                    {
+                        "effect_type": "power_boost",
+                        "amount": 50,
+                        "conditions": [
+                            {
+                                "condition": "target_color",
+                                "color_requirement": "purple"
+                            }
+                        ]
+                    },
+                    {
+                        "effect_type": "add_turn_effect_for_holomem",
+                        "limitation": "has_tag",
+                        "limitation_tags": [
+                            "#Art"
+                        ],
+                        "limitation_location": "collab",
+                        "all_targets": true,
+                        "conditions": [
+                            {
+                                "condition": "performer_is_center"
+                            }
+                        ],
+                        "turn_effect": {
+                            "timing": "before_art",
+                            "conditions": [
+                                {
+                                    "condition": "performer_is_specific_id",
+                                    "required_id": "REPLACED_BY_EFFECT"
+                                }
+                            ],
+                            "effect_type": "power_boost",
+                            "amount": 50
+                        }
+                    },
+                    {
+                        "effect_type": "add_turn_effect_for_holomem",
+                        "limitation": "has_tag",
+                        "limitation_tags": [
+                            "#Art"
+                        ],
+                        "limitation_location": "collab",
+                        "all_targets": true,
+                        "conditions": [
+                            {
+                                "condition": "performer_is_center"
+                            }
+                        ],
+                        "turn_effect": {
+                            "timing": "on_art_cost_check",
+                            "effect_type": "reduce_art_cost",
+                            "color": "any",
+                            "amount": 1,
+                            "conditions": [
+                                {
+                                    "condition": "performer_is_specific_id",
+                                    "required_id": "REPLACED_BY_EFFECT"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP06-100",
+        "card_type": "support",
+        "colors": [],
+        "sub_type": "mascot",
+        "card_names": [
+            "chattino"
+        ],
+        "rarity": "c",
+        "effects": [
+            {
+                "effect_type": "attach_card_to_holomem"
+            }
+        ],
+        "attached_effects": [
+            {
+                "timing": "check_hp",
+                "effect_type": "bonus_hp",
+                "amount": 10
+            },
+            {
+                "timing": "check_hp",
+                "conditions": [
+                    {
+                        "condition": "attached_to",
+                        "required_member_name": "raora_pantera",
+                        "required_bloom_levels": [
+                            1,
+                            2
+                        ]
+                    },
+                    {
+                        "condition": "oshi_is",
+                        "required_member_name": "raora_pantera"
+                    }
+                ],
+                "effect_type": "bonus_hp",
+                "amount": 20
             }
         ]
     },
@@ -37475,9 +39056,8 @@
                         "condition": "performer_is_center"
                     }
                 ],
-                "art_effects": [
+                "on_kill_effects": [
                     {
-                        "timing": "on_kill",
                         "effect_type": "draw",
                         "amount": 1
                     }
@@ -38310,7 +39890,7 @@
                     },
                     {
                         "condition": "not_used_once_per_turn_effect",
-                        "effect_id": "ussha_hangeki_battou"
+                        "condition_effect_id": "ussha_hangeki_battou"
                     }
                 ],
                 "effect_type": "draw",
@@ -43327,9 +44907,10 @@
                                 "color_requirement": "white"
                             }
                         ]
-                    },
+                    }
+                ],
+                "on_kill_effects": [
                     {
-                        "timing": "on_kill",
                         "conditions": [
                             {
                                 "condition": "downed_card_was_center"
@@ -43338,7 +44919,8 @@
                                 "condition": "downed_card_belongs_to_opponent"
                             },
                             {
-                                "condition": "performance_target_has_damage_over_hp"
+                                "condition": "performance_target_has_damage_over_hp",
+                                "amount": 0
                             }
                         ],
                         "effect_type": "send_cheer",
@@ -43794,7 +45376,6 @@
         "rarity": "rr",
         "hp": 210,
         "baton_cost": 2,
-        "buzz": true,
         "tags": [
             "#DEV_IS",
             "#FLOWGLOW"
@@ -46003,6 +47584,74 @@
                     },
                     {
                         "effect_type": "pass"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "card_id": "hSD13-015",
+        "card_type": "holomem_spot",
+        "bloom_blocked": true,
+        "card_names": [
+            "raora_pantera"
+        ],
+        "rarity": "c",
+        "colors": [
+            "white"
+        ],
+        "hp": 160,
+        "baton_cost": 1,
+        "tags": [
+            "#EN",
+            "#Justice",
+            "#AnimalEars",
+            "#Art"
+        ],
+        "collab_effects": [
+            {
+                "effect_type": "send_cheer",
+                "amount_min": 0,
+                "amount_max": 1,
+                "from": "holomem",
+                "to": "cheer_deck_bottom",
+                "and": [
+                    {
+                        "effect_type": "send_cheer",
+                        "amount_min": 1,
+                        "amount_max": 1,
+                        "from": "cheer_deck",
+                        "to": "holomem",
+                        "reveal_chosen": true
+                    },
+                    {
+                        "effect_type": "shuffle_cheer_deck"
+                    }
+                ]
+            }
+        ],
+        "arts": [
+            {
+                "art_id": "coffeeruldeuseyo",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 1
+                    }
+                ],
+                "power": 30,
+                "art_effects": [
+                    {
+                        "effect_type": "power_boost",
+                        "amount": 20,
+                        "conditions": [
+                            {
+                                "condition": "center_and_collab_have_different_cheer_colors",
+                                "required_tags": [
+                                    "#Justice"
+                                ]
+                            }
+                        ]
                     }
                 ]
             }

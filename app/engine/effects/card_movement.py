@@ -742,7 +742,7 @@ def handle_return_cheer_and_draw(engine, effect_player, effect):
 
     def do_draw_and_continue():
         if draw_to_match:
-            draw_count = max(0, returned_count - len(effect_player.hand))
+            draw_count = returned_count
             if draw_count > 0:
                 effect_player.draw(draw_count)
         engine.continue_resolving_effects()
@@ -761,7 +761,7 @@ def handle_return_cheer_and_draw(engine, effect_player, effect):
         placements = {cid: "cheer_deck_bottom" for cid in cheer_ids}
         effect_player.move_cheer_between_holomems(placements)
         if draw_to_match:
-            draw_count = max(0, returned_count - len(effect_player.hand))
+            draw_count = returned_count
             if draw_count > 0:
                 effect_player.draw(draw_count)
         return False
@@ -1196,6 +1196,12 @@ def handle_send_collab_back(engine, effect_player, effect):
     return False
 
 
+def handle_shuffle_deck(engine, effect_player, effect):
+    """Returns True if continuation was passed on, False otherwise."""
+    effect_player.shuffle_deck()
+    return False
+
+
 def handle_shuffle_archive_to_deck(engine, effect_player, effect):
     """Returns True if continuation was passed on, False otherwise."""
     effect_player_id = effect_player.player_id
@@ -1436,6 +1442,7 @@ CARD_MOVEMENT_HANDLERS = {
     EffectType.EffectType_SendCollabBack: handle_send_collab_back,
     EffectType.EffectType_ShuffleArchiveToDeck: handle_shuffle_archive_to_deck,
     EffectType.EffectType_ShuffleCheerDeck: handle_shuffle_cheer_deck,
+    EffectType.EffectType_ShuffleDeck: handle_shuffle_deck,
     EffectType.EffectType_ShuffleHandToDeck: handle_shuffle_hand_to_deck,
     EffectType.EffectType_SpendHolopower: handle_spend_holopower,
     EffectType.EffectType_SwitchCenterWithBack: handle_switch_center_with_back,

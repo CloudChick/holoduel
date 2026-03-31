@@ -51,6 +51,17 @@ class TurnMixin:
                         if self.are_conditions_met(gift_copy, active_player):
                             skip_rest_ids.add(card["game_card_id"])
                             break
+            for oshi_effect in active_player.oshi_card.get("effects", []):
+                if oshi_effect.get("oshi_effect") and oshi_effect.get("timing") == "on_reset_step" \
+                   and oshi_effect.get("effect_type") == "skip_rest":
+                    oshi_copy = deepcopy(oshi_effect)
+                    oshi_copy["source_card_id"] = active_player.oshi_card["game_card_id"]
+                    oshi_copy["player_id"] = self.active_player_id
+                    if self.are_conditions_met(oshi_copy, active_player):
+                        target_member_name = oshi_effect.get("target_member_name", "")
+                        for card in active_player.collab:
+                            if target_member_name in card.get("card_names", []):
+                                skip_rest_ids.add(card["game_card_id"])
             rested_cards, moved_backstage_cards = active_player.reset_collab(skip_rest_ids)
             reset_collab_event = {
                 "event_type": EventType.EventType_ResetStepCollab,

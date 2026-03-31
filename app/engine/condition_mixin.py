@@ -263,6 +263,8 @@ class ConditionMixin:
             case Condition.Condition_DamageTargetIsDebut:
                 target_card = self.take_damage_state.target_card
                 return target_card and target_card.get("card_type") == "holomem_debut"
+            case Condition.Condition_DamageTargetIsCollab:
+                return self.take_damage_state.target_card_zone == "collab"
             case Condition.Condition_DamageSourceBloomLevel:
                 required_bloom_level = condition.get("condition_bloom_level", 1)
                 source_card = self.take_damage_state.source_card
@@ -376,6 +378,9 @@ class ConditionMixin:
                 if card is None:
                     return False
                 stacked_holomems = [c for c in card.get("stacked_cards", []) if is_card_holomem(c)]
+                required_bloom_level = condition.get("required_bloom_level")
+                if required_bloom_level is not None:
+                    stacked_holomems = [c for c in stacked_holomems if c.get("bloom_level", -1) == required_bloom_level]
                 count = len(stacked_holomems)
                 return amount_min <= count <= amount_max
             case Condition.Condition_HolomemInArchive:
@@ -651,6 +656,11 @@ class ConditionMixin:
                 opponent = self.other_player(effect_player.player_id)
                 opponent_cheer = sum(len(h["attached_cheer"]) for h in opponent.get_holomem_on_stage())
                 return self_cheer < opponent_cheer
+            case Condition.Condition_OpponentStageCheerAtLeast:
+                amount_min = condition["amount_min"]
+                opponent = self.other_player(effect_player.player_id)
+                opponent_cheer = sum(len(h["attached_cheer"]) for h in opponent.get_holomem_on_stage())
+                return opponent_cheer >= amount_min
             case Condition.Condition_SelfZoneHasHolomem:
                 zone = condition["condition_zone"]
                 match zone:
@@ -1009,7 +1019,7 @@ class ConditionMixin:
                         return False
                 return True
             case Condition.Condition_HolomemReturnedToDeckThisTurn:
-                return effect_player.holomem_returned_to_deck_this_turn
+                return effect_player.holomem_moved_from_stage_to_deck_this_turn
             case Condition.Condition_ReturnedToDeckCardHasName:
                 condition_names = condition.get("condition_names", [])
                 returned_card = self.returned_to_deck_card
@@ -1042,6 +1052,30 @@ class ConditionMixin:
                 return self.archiving_attachment_holomem in effect_player.center
             case Condition.Condition_CheerArchivedThisTurn:
                 return effect_player.cheer_archived_this_turn
+            case Condition.Condition_CenterAndCollabHaveDifferentCheerColors:
+                required_tags = condition.get("required_tags", [])
+                center = effect_player.center[0] if effect_player.center else None
+                collab = effect_player.collab[0] if effect_player.collab else None
+                if not center or not collab:
+                    return False
+                if required_tags:
+                    center_tags = center.get("tags", [])
+                    collab_tags = collab.get("tags", [])
+                    if not any(tag in center_tags for tag in required_tags):
+                        return False
+                    if not any(tag in collab_tags for tag in required_tags):
+                        return False
+                center_cheer_colors = set()
+                for cheer in center.get("attached_cheer", []):
+                    for color in cheer.get("colors", []):
+                        center_cheer_colors.add(color)
+                collab_cheer_colors = set()
+                for cheer in collab.get("attached_cheer", []):
+                    for color in cheer.get("colors", []):
+                        collab_cheer_colors.add(color)
+                if not center_cheer_colors or not collab_cheer_colors:
+                    return False
+                return not center_cheer_colors.issubset(collab_cheer_colors) or not collab_cheer_colors.issubset(center_cheer_colors)
             case _:
                 raise NotImplementedError(f"Unimplemented condition: {condition['condition']}")
         return False

@@ -64,6 +64,11 @@ def handle_choose_cards(engine, effect_player, effect):
     look_at = effect.get("look_at", -1)
     amount_min = effect["amount_min"]
     amount_max = effect["amount_max"]
+    if effect.get("amount_from_last_card_count", False):
+        computed = engine.last_card_count
+        if computed <= 0:
+            return False
+        amount_max = computed
     requirement = effect.get("requirement", None)
     requirement_block_limited = effect.get("requirement_block_limited", False)
     requirement_bloom_levels = effect.get("requirement_bloom_levels", [])
@@ -215,6 +220,20 @@ def handle_choose_cards(engine, effect_player, effect):
             case "has_collab_effect":
                 cards_can_choose = [card for card in cards_can_choose
                     if is_card_holomem(card) and card.get("collab_effects", [])]
+            case "holomem_spot":
+                cards_can_choose = [card for card in cards_can_choose if card["card_type"] == "holomem_spot"]
+            case "holomem_debut_or_spot":
+                cards_can_choose = [card for card in cards_can_choose if card["card_type"] in ["holomem_debut", "holomem_spot"]]
+            case "holomem_debut_or_1st":
+                cards_can_choose = [card for card in cards_can_choose
+                    if card["card_type"] == "holomem_debut" or (card["card_type"] == "holomem_bloom" and card.get("bloom_level") == 1)]
+            case "holomem_named_match_collab":
+                collab_names = []
+                if effect_player.collab:
+                    collab_card = effect_player.collab[0]
+                    collab_names = collab_card.get("card_names", [])
+                cards_can_choose = [card for card in cards_can_choose
+                    if is_card_holomem(card) and "card_names" in card and any(name in card["card_names"] for name in collab_names)]
 
         # Exclude LIMITED if asked.
         if requirement_block_limited:

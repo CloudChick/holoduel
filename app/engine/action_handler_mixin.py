@@ -1611,8 +1611,8 @@ class ActionHandlerMixin:
         from_zone = decision_info_copy["from_zone"]
         to_zone = decision_info_copy["to_zone"]
         reveal_chosen = decision_info_copy["reveal_chosen"]
-        # Archive is a public zone - always reveal cards moved from/to archive
-        if to_zone == "archive" or from_zone == "archive":
+        public_zones = {"backstage", "center", "collab", "stage", "archive", "playarea"}
+        if to_zone in public_zones or from_zone in public_zones:
             reveal_chosen = True
         remaining_cards_action = decision_info_copy["remaining_cards_action"]
         all_card_seen = decision_info_copy["all_card_seen"]

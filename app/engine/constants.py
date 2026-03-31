@@ -136,6 +136,7 @@ class EffectType:
     EffectType_SetCenterHP = "set_center_hp"
     EffectType_ShuffleArchiveToDeck = "shuffle_archive_to_deck"
     EffectType_ShuffleCheerDeck = "shuffle_cheer_deck"
+    EffectType_ShuffleDeck = "shuffle_deck"
     EffectType_ShuffleHandToDeck = "shuffle_hand_to_deck"
     EffectType_SpendHolopower = "spend_holopower"
     EffectType_SwitchCenterWithBack = "switch_center_with_back"
@@ -242,6 +243,7 @@ class Condition:
     Condition_SupportInArchive = "support_in_archive"
     Condition_SelfHasCheerColor = "self_has_cheer_color"
     Condition_SelfStageCheerLessThanOpponent = "self_stage_cheer_less_than_opponent"
+    Condition_OpponentStageCheerAtLeast = "opponent_stage_cheer_at_least"
     Condition_SelfZoneHasHolomem = "self_zone_has_holomem"
     Condition_OpponentZoneHasHolomem = "opponent_zone_has_holomem"
     Condition_ArchiveCardNameCount = "archive_card_name_count"
@@ -312,8 +314,10 @@ class Condition:
     Condition_ArchivingFromCenter = "archiving_from_center"
     Condition_MyHolomemDownedLastOpponentTurnTagged = "my_holomem_downed_last_opponent_turn_tagged"
     Condition_DamageTargetHasTag = "damage_target_has_tag"
+    Condition_DamageTargetIsCollab = "damage_target_is_collab"
     Condition_DamageTargetBloomLevel = "damage_target_bloom_level"
     Condition_CheerArchivedThisTurn = "cheer_archived_this_turn"
+    Condition_CenterAndCollabHaveDifferentCheerColors = "center_and_collab_have_different_cheer_colors"
 
 
 class TurnEffectType:

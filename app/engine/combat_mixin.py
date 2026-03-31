@@ -54,7 +54,19 @@ class CombatMixin:
         add_ids_to_effects(art_effects, player.player_id, performer_id)
         card_effects = player.get_effects_at_timing("before_art", performer)
         all_effects = card_effects + art_effects
-        self.begin_resolving_effects(all_effects, self.continue_perform_art)
+        self.begin_resolving_effects(all_effects, self.begin_after_art_effects)
+
+    def begin_after_art_effects(self):
+        """Resolve after_art effects from art_effects, executed after before_art but before damage."""
+        after_art_effects = filter_effects_at_timing(
+            self.performance_art.get("art_effects", []), "after_art")
+        add_ids_to_effects(after_art_effects, self.performance_performing_player.player_id,
+            self.performance_performer_card["game_card_id"])
+
+        if after_art_effects:
+            self.begin_resolving_effects(after_art_effects, self.continue_perform_art)
+        else:
+            self.continue_perform_art()
 
     def _find_borrowed_art(self, player, performer, art_id):
         if "gift_effects" not in performer:
