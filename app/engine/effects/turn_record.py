@@ -238,8 +238,8 @@ def handle_recover_downed_holomem_cards(engine, effect_player, effect):
 
 def handle_repeat_art(engine, effect_player, effect):
     """Returns True if continuation was passed on, False otherwise."""
-    effect_player_id = effect_player.player_id
     engine.performance_artstatboosts.repeat_art = True
+    engine.performance_artstatboosts.repeat_art_allow_retarget = effect.get("allow_retarget", False)
     return False
 
 

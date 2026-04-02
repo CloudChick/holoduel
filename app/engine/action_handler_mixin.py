@@ -898,13 +898,14 @@ class ActionHandlerMixin:
         if not self.validate_performance_step_use_art(player_id, action_data):
             return False
 
+        is_repeat = self.current_decision.get("is_repeat_art", False)
         continuation = self.clear_decision()
 
         performer_id = action_data["performer_id"]
         art_id = action_data["art_id"]
         target_id = action_data["target_id"]
 
-        self.begin_perform_art(performer_id, art_id, target_id, continuation)
+        self.begin_perform_art(performer_id, art_id, target_id, continuation, is_repeat=is_repeat)
 
         return True
 

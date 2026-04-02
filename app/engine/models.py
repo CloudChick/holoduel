@@ -9,6 +9,7 @@ class ArtStatBoosts:
     def __init__(self):
         self.power = 0
         self.repeat_art = False
+        self.repeat_art_allow_retarget = False
         self.is_repeat = False
         self.cannot_be_reduced = False
         self.deal_to_center_and_collab = False
@@ -16,6 +17,7 @@ class ArtStatBoosts:
     def clear(self):
         self.power = 0
         self.repeat_art = False
+        self.repeat_art_allow_retarget = False
         self.is_repeat = False
         self.cannot_be_reduced = False
         self.deal_to_center_and_collab = False

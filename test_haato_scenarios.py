@@ -165,19 +165,9 @@ def scenario_hbp07_004_draw2_on_own_move():
     p1.deck.insert(0, take_card(p1, "hBP03-031"))
     p1.deck.insert(0, take_card(p1, "hBP03-031"))
 
-    effect = {
-        "effect_type": "choose_cards",
-        "from": "backstage",
-        "look_at": -1,
-        "destination": "bottom_of_deck",
-        "amount_min": 1,
-        "amount_max": 1,
-        "requirement": "holomem_debut",
-        "requirement_names": ["akai_haato"],
-        "remaining_cards_action": "nothing",
-    }
-    add_ids_to_effects([effect], "p1", center["game_card_id"])
-    engine.begin_resolving_effects([effect], engine.blank_continuation)
+    engine.effect_context_stack.append({"player_id": "p1", "source_card_id": center["game_card_id"]})
+    p1.move_card(backstage["game_card_id"], "deck")
+    engine.effect_context_stack.pop()
     resolve_all_decisions(engine)
 
     assert len(p1.hand) == 2, f"Expected draw 2, got hand={len(p1.hand)}"
@@ -198,38 +188,14 @@ def scenario_hbp07_039_gift_once_per_turn():
     yellow2 = take_cheer(p1, "hY06-001")
     p1.archive.insert(0, yellow1)
 
-    effect1 = {
-        "effect_type": "choose_cards",
-        "from": "backstage",
-        "look_at": -1,
-        "destination": "bottom_of_deck",
-        "amount_min": 1,
-        "amount_max": 1,
-        "requirement": "holomem_debut",
-        "requirement_names": ["akai_haato"],
-        "remaining_cards_action": "nothing",
-    }
-    add_ids_to_effects([effect1], "p1", gift_holder["game_card_id"])
-    engine.begin_resolving_effects([effect1], engine.blank_continuation)
+    p1.move_card(moved1["game_card_id"], "deck")
     resolve_all_decisions(engine, chooser="non_pass")
 
     attached_after_first = [c for c in gift_holder["attached_cheer"] if c["card_id"] == "hY06-001"]
     assert len(attached_after_first) == 1, "Expected first gift trigger to attach one yellow cheer"
 
     p1.archive.insert(0, yellow2)
-    effect2 = {
-        "effect_type": "choose_cards",
-        "from": "backstage",
-        "look_at": -1,
-        "destination": "bottom_of_deck",
-        "amount_min": 1,
-        "amount_max": 1,
-        "requirement": "holomem_debut",
-        "requirement_names": ["akai_haato"],
-        "remaining_cards_action": "nothing",
-    }
-    add_ids_to_effects([effect2], "p1", gift_holder["game_card_id"])
-    engine.begin_resolving_effects([effect2], engine.blank_continuation)
+    p1.move_card(moved2["game_card_id"], "deck")
     resolve_all_decisions(engine, chooser="non_pass")
 
     attached_after_second = [c for c in gift_holder["attached_cheer"] if c["card_id"] == "hY06-001"]
@@ -252,20 +218,20 @@ def scenario_hbp03_033_tool_damage_10_or_30():
     p2.center = [defender]
     engine.active_player_id = "p1"
 
-    effects = deepcopy(attacker["bloom_effects"])
-    add_ids_to_effects(effects, "p1", attacker["game_card_id"])
+    effect = deepcopy(attacker["bloom_effects"][0])
+    add_ids_to_effects([effect], "p1", attacker["game_card_id"])
 
     defender["damage"] = 0
-    engine.begin_resolving_effects(effects, engine.blank_continuation)
+    engine.begin_resolving_effects([effect], engine.blank_continuation)
     resolve_all_decisions(engine)
     no_tool_damage = defender["damage"]
 
     defender["damage"] = 0
     tool = take_card(p2, "hBP01-114")
     defender["attached_support"].append(tool)
-    effects2 = deepcopy(attacker["bloom_effects"])
-    add_ids_to_effects(effects2, "p1", attacker["game_card_id"])
-    engine.begin_resolving_effects(effects2, engine.blank_continuation)
+    effect2 = deepcopy(attacker["bloom_effects"][0])
+    add_ids_to_effects([effect2], "p1", attacker["game_card_id"])
+    engine.begin_resolving_effects([effect2], engine.blank_continuation)
     resolve_all_decisions(engine)
     with_tool_damage = defender["damage"]
 
@@ -377,7 +343,8 @@ def scenario_hsd12_007_on_kill_choose_archive_does_not_crash():
     # after selecting one on-kill target from archive.
     p1.archive = [support_a, support_b]
 
-    defender["damage"] = p2.get_card_hp(defender) - 50
+    # Ensure the art downs the target.
+    defender["damage"] = p2.get_card_hp(defender) - 1
 
     engine.active_player_id = "p1"
     engine.begin_perform_art(

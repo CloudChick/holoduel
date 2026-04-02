@@ -9715,7 +9715,8 @@
                                     "condition": "is_not_art_repeat"
                                 }
                             ],
-                            "effect_type": "repeat_art"
+                            "effect_type": "repeat_art",
+                            "allow_retarget": true
                         }
                     }
                 ]
@@ -24519,7 +24520,7 @@
                         "amount": 50
                     },
                     {
-                        "timing": "after_art",
+                        "timing": "before_art",
                         "effect_type": "choice",
                         "choice": [
                             {
@@ -24549,7 +24550,7 @@
                         ]
                     },
                     {
-                        "timing": "after_art",
+                        "timing": "before_art",
                         "conditions": [
                             {
                                 "condition": "stage_has_attachment_of_name",
@@ -24920,7 +24921,7 @@
                 "power": 90,
                 "art_effects": [
                     {
-                        "timing": "after_art",
+                        "timing": "before_art",
                         "effect_type": "move_cheer_between_holomems",
                         "amount": 1,
                         "from_limitation": "source_card",
@@ -26435,7 +26436,7 @@
                 "power": 50,
                 "art_effects": [
                     {
-                        "timing": "after_art",
+                        "timing": "before_art",
                         "conditions": [
                             {
                                 "condition": "oshi_is",
@@ -32087,6 +32088,7 @@
                 "power": 30,
                 "art_effects": [
                     {
+                        "timing": "before_art",
                         "effect_type": "choose_cards",
                         "from": "deck",
                         "look_at": 1,
@@ -32155,6 +32157,7 @@
                 "power": 40,
                 "art_effects": [
                     {
+                        "timing": "before_art",
                         "effect_type": "choose_cards",
                         "from": "deck",
                         "look_at": 1,
@@ -32419,6 +32422,7 @@
                 "power": 150,
                 "art_effects": [
                     {
+                        "timing": "before_art",
                         "effect_type": "power_boost",
                         "amount": 50,
                         "conditions": [
@@ -32429,6 +32433,7 @@
                         ]
                     },
                     {
+                        "timing": "before_art",
                         "effect_type": "choose_cards",
                         "from": "deck",
                         "look_at": 3,
@@ -33654,7 +33659,8 @@
                             "condition": "is_not_art_repeat"
                         }
                     ],
-                    "effect_type": "repeat_art"
+                    "effect_type": "repeat_art",
+                    "allow_retarget": true
                 }
             }
         ],
@@ -38361,7 +38367,7 @@
                         "amount": 70
                     },
                     {
-                        "timing": "after_art",
+                        "timing": "before_art",
                         "effect_type": "draw",
                         "amount_source": "per_attachment_name",
                         "attachment_name": "35p"
@@ -38939,7 +38945,7 @@
                 "power": 20,
                 "art_effects": [
                     {
-                        "timing": "after_art",
+                        "timing": "before_art",
                         "effect_type": "move_cheer_between_holomems",
                         "amount": 1,
                         "to_limitation": "tag_in",
@@ -39647,7 +39653,7 @@
                         ]
                     },
                     {
-                        "timing": "after_art",
+                        "timing": "before_art",
                         "effect_type": "return_cheer_and_draw",
                         "return_from": "this_holomem",
                         "return_to": "cheer_deck_bottom",
@@ -44727,7 +44733,7 @@
                 "power": 80,
                 "art_effects": [
                     {
-                        "timing": "after_art",
+                        "timing": "before_art",
                         "conditions": [
                             {
                                 "condition": "holomem_on_stage",
@@ -45143,6 +45149,7 @@
                 "power": 50,
                 "art_effects": [
                     {
+                        "timing": "before_art",
                         "effect_type": "power_boost",
                         "amount": 30,
                         "conditions": [

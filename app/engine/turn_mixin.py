@@ -608,21 +608,109 @@ class TurnMixin:
         self.continue_performance_step()
 
     def continue_performance_step(self):
-        if self.performance_artstatboosts.repeat_art and self.performance_target_card["damage"] < self.performance_target_player.get_card_hp(self.performance_target_card):
-            self.begin_perform_art(
-                self.performance_performer_card["game_card_id"],
-                self.performance_art["art_id"],
-                self.performance_target_card["game_card_id"],
-                self.begin_cleanup_art,
-                is_repeat=True
-            )
+        if self.performance_artstatboosts.repeat_art:
+            if self.performance_artstatboosts.repeat_art_allow_retarget:
+                self._continue_performance_step_retarget()
+            elif self.performance_target_card["damage"] < self.performance_target_player.get_card_hp(self.performance_target_card):
+                self.begin_perform_art(
+                    self.performance_performer_card["game_card_id"],
+                    self.performance_art["art_id"],
+                    self.performance_target_card["game_card_id"],
+                    self.begin_cleanup_art,
+                    is_repeat=True
+                )
+            else:
+                self._clear_performance_state()
+                self.send_performance_step_actions()
         else:
-            # An art is no longer being performed.
-            self.performance_art = ""
-            self.performance_artstatboosts.clear()
-            self.performance_performing_player = None
-            self.performance_performer_card = None
-            self.performance_target_player = None
-            self.performance_target_card = None
+            self._clear_performance_state()
+            self.send_performance_step_actions()
 
+    def _clear_performance_state(self):
+        self.performance_art = ""
+        self.performance_artstatboosts.clear()
+        self.performance_performing_player = None
+        self.performance_performer_card = None
+        self.performance_target_player = None
+        self.performance_target_card = None
+
+    def _continue_performance_step_retarget(self):
+        repeat_performer_id = self.performance_performer_card["game_card_id"]
+        repeat_art = deepcopy(self.performance_art)
+
+        self._clear_performance_state()
+
+        active_player = self.get_player(self.active_player_id)
+        opponent = self.other_player(self.active_player_id)
+
+        target_can_only_be_collab = False
+        arts_targeting_effects = opponent.get_effects_at_timing("arts_targeting", None)
+        for effect in arts_targeting_effects:
+            if "conditions" not in effect or self.are_conditions_met(
+                opponent, effect["source_card_id"], effect["conditions"]
+            ):
+                match effect["effect_type"]:
+                    case "restrict_targets_to_collab":
+                        target_can_only_be_collab = True
+
+        can_target_backstage = repeat_art.get("can_target_backstage", False)
+        backstage_damaged_only = False
+        if not can_target_backstage:
+            for te in active_player.turn_effects:
+                if te.get("timing") == "enable_backstage_targeting":
+                    conditions = te.get("conditions", [])
+                    for cond in conditions:
+                        if (cond.get("condition") == "performer_is_specific_id"
+                            and cond.get("required_id") == repeat_performer_id):
+                            can_target_backstage = True
+                            backstage_damaged_only = te.get("damaged_only", False)
+                            break
+                    if can_target_backstage:
+                        break
+
+        if can_target_backstage:
+            if backstage_damaged_only:
+                all_holomem = opponent.get_holomem_on_stage(
+                    only_performers=False, only_collab=target_can_only_be_collab)
+                opponent_targets = [
+                    h for h in all_holomem
+                    if opponent.get_holomem_zone(h) != "backstage" or h.get("damage", 0) > 0
+                ]
+            else:
+                opponent_targets = opponent.get_holomem_on_stage(
+                    only_performers=False, only_collab=target_can_only_be_collab)
+        else:
+            opponent_targets = opponent.get_holomem_on_stage(
+                only_performers=True, only_collab=target_can_only_be_collab)
+
+        valid_targets = ids_from_cards(opponent_targets)
+
+        if valid_targets:
+            performer_position = ("center"
+                if active_player.is_center_holomem(repeat_performer_id)
+                else "collab")
+            available_actions = [{
+                "action_type": GameAction.PerformanceStepUseArt,
+                "performer_id": repeat_performer_id,
+                "performer_position": performer_position,
+                "art_id": repeat_art["art_id"],
+                "power": repeat_art["power"],
+                "art_effects": repeat_art.get("art_effects", []),
+                "valid_targets": valid_targets,
+            }]
+            decision_event = {
+                "event_type": EventType.EventType_Decision_PerformanceStep,
+                "desired_response": GameAction.PerformanceStepUseArt,
+                "active_player": self.active_player_id,
+                "available_actions": available_actions,
+            }
+            self.broadcast_event(decision_event)
+            self.set_decision({
+                "decision_type": DecisionType.DecisionPerformanceStep,
+                "decision_player": self.active_player_id,
+                "available_actions": available_actions,
+                "continuation": self.begin_cleanup_art,
+                "is_repeat_art": True,
+            })
+        else:
             self.send_performance_step_actions()
