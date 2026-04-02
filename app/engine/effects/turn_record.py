@@ -48,7 +48,7 @@ def handle_add_turn_effect_for_holomem(engine, effect_player, effect):
             case "name_in":
                 limitation_names = effect["limitation_names"]
                 holomem_targets = [holomem for holomem in holomem_targets if any(name in holomem["card_names"] for name in limitation_names)]
-            case "has_tag":
+            case "has_tag" | "tag_in":
                 limitation_tags = effect["limitation_tags"]
                 holomem_targets = [holomem for holomem in holomem_targets if any(tag in holomem.get("tags", []) for tag in limitation_tags)]
             case "center_is_name":
