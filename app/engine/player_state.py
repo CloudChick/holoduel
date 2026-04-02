@@ -148,17 +148,12 @@ class PlayerState:
         }
         self.engine.broadcast_event(draw_event)
 
-    def mulligan(self, forced=False, draw_count_override=None):
+    def mulligan(self, forced=False):
         self.mulligan_count += 1
         self.shuffle_hand_to_deck()
-        draw_count = STARTING_HAND_SIZE
-        if draw_count_override is not None:
-            draw_count = max(int(draw_count_override), 0)
-        elif forced:
+        if forced:
             self.forced_mulligan_count += 1
-            # Backward-compatible path.
-            draw_count = max(STARTING_HAND_SIZE - self.forced_mulligan_count, 0)
-        self.draw(draw_count)
+        self.draw(STARTING_HAND_SIZE)
 
     def shuffle_hand_to_deck(self):
         while len(self.hand) > 0:

@@ -15,38 +15,30 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 class ActionHandlerMixin:
-    def _has_debut_in_hand(self, player: PlayerState) -> bool:
-        return any(card["card_type"] == "holomem_debut" for card in player.hand)
-
-    def _get_mulligan_draw_count(self, mulligan_round: int) -> int:
-        if mulligan_round <= 1:
-            return STARTING_HAND_SIZE
-        return max(STARTING_HAND_SIZE - (mulligan_round - 1), 1)
-
-    def perform_mulligan(self, player: PlayerState, mulligan_round: int, reveal=False, is_forced=False):
-        draw_count = self._get_mulligan_draw_count(mulligan_round)
-
-        if reveal:
+    def perform_mulligan(self, player: PlayerState, forced):
+        if forced:
             revealed_card_ids = ids_from_cards(player.hand)
-            forced_stage_count = STARTING_HAND_SIZE - draw_count
             mulligan_reveal_event = {
                 "event_type": EventType.EventType_MulliganReveal,
                 "active_player": player.player_id,
                 "revealed_card_ids": revealed_card_ids,
-                "mulligan_round": mulligan_round,
-                "is_forced": is_forced and forced_stage_count > 0,
-                "draw_count": draw_count,
+                "forced_mulligan_count": player.forced_mulligan_count + 1,
+                "max_forced_mulligans": MAX_FORCED_MULLIGANS,
             }
-            if forced_stage_count > 0:
-                mulligan_reveal_event["forced_mulligan_count"] = forced_stage_count
-                mulligan_reveal_event["max_forced_mulligans"] = MAX_FORCED_MULLIGANS
             self.broadcast_event(mulligan_reveal_event)
 
-        player.mulligan(draw_count_override=draw_count)
+        player.mulligan(forced=forced)
 
     def process_forced_mulligans(self):
-        # Deprecated flow. Mulligans are now handled by repeated mulligan decisions.
-        return
+        for player in self.player_states:
+            while not player.mulligan_hand_valid and not self.is_game_over():
+                if any(card["card_type"] == "holomem_debut" for card in player.hand):
+                    player.mulligan_hand_valid = True
+                else:
+                    if player.forced_mulligan_count >= MAX_FORCED_MULLIGANS:
+                        self.end_game(player.player_id, GameOverReason.GameOverReason_MulliganToZero)
+                    else:
+                        self.perform_mulligan(player, forced=True)
 
 
     def make_error_event(self, player_id:str, error_id:str, error_message:str):
@@ -181,28 +173,10 @@ class ActionHandlerMixin:
             return False
 
         player_state = self.get_player(player_id)
-        mulligan_round = player_state.mulligan_count + 1
-        must_mulligan = not self._has_debut_in_hand(player_state)
-        requested_mulligan = bool(action_data["do_mulligan"])
-        do_mulligan = requested_mulligan or must_mulligan
-
+        do_mulligan = action_data["do_mulligan"]
         if do_mulligan:
-            # First mulligan is hidden. Second and later mulligans are revealed.
-            reveal_cards = mulligan_round >= 2
-            is_forced = must_mulligan and mulligan_round >= 3
-            self.perform_mulligan(player_state, mulligan_round, reveal_cards, is_forced)
-
-            # If hand reached 1 and still has no Debut, lose immediately.
-            if len(player_state.hand) <= 1 and not self._has_debut_in_hand(player_state):
-                self.end_game(player_state.player_id, GameOverReason.GameOverReason_MulliganToZero)
-                return True
-
-            # Player can continue deciding mulligan rounds until they choose to stop
-            # with a valid hand.
-            player_state.mulligan_completed = False
-        else:
-            player_state.mulligan_completed = True
-
+            self.perform_mulligan(player_state, forced=False)
+        player_state.mulligan_completed = True
         self.switch_active_player()
         self.handle_mulligan_phase()
 
