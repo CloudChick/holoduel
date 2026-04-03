@@ -61,6 +61,8 @@ class AfterDamageState:
 class DownHolomemState:
     def __init__(self):
         self.holomem_card = None
+        self.source_player = None
+        self.source_card = None
 
         self.nested_state = None
 

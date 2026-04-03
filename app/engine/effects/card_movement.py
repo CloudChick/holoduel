@@ -544,6 +544,16 @@ def handle_attach_card_to_holomem_internal(engine, effect_player, effect):
         if on_attach_effects:
             add_ids_to_effects(on_attach_effects, effect_player.player_id, card_to_attach_id)
             engine.add_effects_to_front(on_attach_effects)
+
+    engine.last_attached_support_card_id = card_to_attach_id
+    target_holomem, _, _ = effect_player.find_card(target_holomem_id)
+    if target_holomem and "gift_effects" in target_holomem:
+        on_support_attached_effects = [deepcopy(e) for e in target_holomem["gift_effects"]
+                                       if e.get("timing") == "on_support_attached"]
+        if on_support_attached_effects:
+            add_ids_to_effects(on_support_attached_effects, effect_player.player_id, target_holomem_id)
+            engine.add_effects_to_front(on_support_attached_effects)
+
     return False
 
 
@@ -716,7 +726,7 @@ def handle_move_cheer_between_holomems(engine, effect_player, effect):
 
 
 def handle_return_cheer_and_draw(engine, effect_player, effect):
-    """Returns cheer from this holomem to cheer deck bottom, then draws to match returned count.
+    """Returns cheer from this holomem to cheer deck bottom, then draws until hand size equals returned count.
     Returns True if continuation was passed on, False otherwise."""
     effect_player_id = effect_player.player_id
     source_card_id = effect.get("source_card_id", "")
@@ -742,7 +752,7 @@ def handle_return_cheer_and_draw(engine, effect_player, effect):
 
     def do_draw_and_continue():
         if draw_to_match:
-            draw_count = returned_count
+            draw_count = max(0, returned_count - len(effect_player.hand))
             if draw_count > 0:
                 effect_player.draw(draw_count)
         engine.continue_resolving_effects()
@@ -761,7 +771,7 @@ def handle_return_cheer_and_draw(engine, effect_player, effect):
         placements = {cid: "cheer_deck_bottom" for cid in cheer_ids}
         effect_player.move_cheer_between_holomems(placements)
         if draw_to_match:
-            draw_count = returned_count
+            draw_count = max(0, returned_count - len(effect_player.hand))
             if draw_count > 0:
                 effect_player.draw(draw_count)
         return False

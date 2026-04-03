@@ -21933,6 +21933,7 @@
                 "power": 10,
                 "art_effects": [
                     {
+                        "timing": "before_art",
                         "conditions": [
                             {
                                 "condition": "stage_has_space"
@@ -22070,6 +22071,7 @@
                 "power": 70,
                 "art_effects": [
                     {
+                        "timing": "before_art",
                         "effect_type": "power_boost",
                         "amount": 50,
                         "conditions": [
@@ -22080,6 +22082,7 @@
                         ]
                     },
                     {
+                        "timing": "before_art",
                         "effect_type": "power_boost",
                         "amount": 80,
                         "conditions": [
@@ -32453,6 +32456,7 @@
     {
         "card_id": "hBP06-007",
         "card_type": "oshi",
+        "display_effects_first": true,
         "card_names": [
             "roboco_san"
         ],
@@ -33199,6 +33203,7 @@
                 "power": 30,
                 "art_effects": [
                     {
+                        "timing": "before_art",
                         "effect_type": "add_turn_effect_for_holomem",
                         "limitation": "has_tag",
                         "limitation_tags": [
@@ -33305,6 +33310,7 @@
                 "power": 100,
                 "art_effects": [
                     {
+                        "timing": "before_art",
                         "effect_type": "power_boost",
                         "amount": 50,
                         "conditions": [
@@ -33315,6 +33321,7 @@
                         ]
                     },
                     {
+                        "timing": "before_art",
                         "effect_type": "add_turn_effect_for_holomem",
                         "limitation": "has_tag",
                         "limitation_tags": [
@@ -33340,6 +33347,7 @@
                         }
                     },
                     {
+                        "timing": "before_art",
                         "effect_type": "add_turn_effect_for_holomem",
                         "limitation": "has_tag",
                         "limitation_tags": [
@@ -38442,7 +38450,7 @@
                 "destination": "hand",
                 "amount_min": 0,
                 "amount_max": 1,
-                "requirement": "holomem_named",
+                "requirement": "holomem_bloom",
                 "requirement_names": [
                     "elizabeth_rose_bloodflame"
                 ],
@@ -38800,22 +38808,18 @@
         ],
         "collab_effects": [
             {
-                "effect_type": "choice",
-                "choice": [
+                "conditions": [
                     {
-                        "effect_type": "choose_cards",
-                        "from": "deck",
-                        "look_at": 3,
-                        "destination": "hand",
-                        "amount_min": 0,
-                        "amount_max": 1,
-                        "reveal_chosen": true,
-                        "remaining_cards_action": "order_on_bottom"
-                    },
-                    {
-                        "effect_type": "pass"
+                        "condition": "is_going_second_and_first_turn"
                     }
-                ]
+                ],
+                "effect_type": "choose_cards",
+                "from": "deck",
+                "look_at": 3,
+                "destination": "hand",
+                "amount_min": 1,
+                "amount_max": 1,
+                "remaining_cards_action": "order_on_top"
             }
         ]
     },
@@ -38839,15 +38843,23 @@
         ],
         "gift_effects": [
             {
-                "timing": "on_performance_step_start",
+                "timing": "on_support_attached",
                 "conditions": [
                     {
-                        "condition": "has_attachment_of_type",
-                        "condition_type": "support"
+                        "condition": "effect_card_id_not_used_this_turn"
+                    },
+                    {
+                        "condition": "attached_card_is_name",
+                        "required_name": "miofa"
                     }
                 ],
                 "effect_type": "draw",
-                "amount": 1
+                "amount": 1,
+                "and": [
+                    {
+                        "effect_type": "record_effect_card_id_used_this_turn"
+                    }
+                ]
             }
         ],
         "arts": [
@@ -38855,7 +38867,7 @@
                 "art_id": "kyoumotappuriwaratteikouze",
                 "costs": [
                     {
-                        "color": "any",
+                        "color": "green",
                         "amount": 1
                     }
                 ],
@@ -38919,7 +38931,17 @@
                     }
                 ],
                 "effect_type": "add_turn_effect_for_holomem",
-                "limitation": "this_holomem",
+                "limitation": "has_tag",
+                "limitation_tags": [
+                    "#Gamers"
+                ],
+                "limitation_attachment_sub_types": [
+                    "fan",
+                    "mascot",
+                    "tool",
+                    "item"
+                ],
+                "source_from_chosen": true,
                 "turn_effect": {
                     "timing": "before_art",
                     "conditions": [
@@ -38946,8 +38968,11 @@
                 "art_effects": [
                     {
                         "timing": "before_art",
-                        "effect_type": "move_cheer_between_holomems",
-                        "amount": 1,
+                        "effect_type": "send_cheer",
+                        "amount_min": 1,
+                        "amount_max": 1,
+                        "from": "archive",
+                        "to": "holomem",
                         "to_limitation": "tag_in",
                         "to_limitation_tags": [
                             "#Gamers"
@@ -38968,7 +38993,7 @@
         "colors": [
             "green"
         ],
-        "hp": 100,
+        "hp": 140,
         "baton_cost": 1,
         "tags": [
             "#JP",
@@ -38998,10 +39023,6 @@
                 "art_id": "chotto_oshare_na_kanji_desho",
                 "costs": [
                     {
-                        "color": "green",
-                        "amount": 1
-                    },
-                    {
                         "color": "any",
                         "amount": 1
                     }
@@ -39021,7 +39042,7 @@
         "colors": [
             "green"
         ],
-        "hp": 240,
+        "hp": 170,
         "baton_cost": 2,
         "tags": [
             "#JP",
@@ -39111,7 +39132,7 @@
                     },
                     {
                         "color": "any",
-                        "amount": 2
+                        "amount": 1
                     }
                 ],
                 "power": 90,
@@ -39178,6 +39199,9 @@
                 "timing": "on_take_damage",
                 "conditions": [
                     {
+                        "condition": "effect_card_id_not_used_this_turn"
+                    },
+                    {
                         "condition": "has_attachment_of_type",
                         "condition_type": "support"
                     },
@@ -39187,7 +39211,12 @@
                 ],
                 "effect_type": "restore_hp",
                 "target": "this_holomem",
-                "amount": 50
+                "amount": 50,
+                "and": [
+                    {
+                        "effect_type": "record_effect_card_id_used_this_turn"
+                    }
+                ]
             }
         ],
         "arts": [
@@ -39195,12 +39224,8 @@
                 "art_id": "mion_tarot",
                 "costs": [
                     {
-                        "color": "green",
-                        "amount": 2
-                    },
-                    {
                         "color": "any",
-                        "amount": 2
+                        "amount": 3
                     }
                 ],
                 "power": 130,
@@ -39228,6 +39253,18 @@
                                         "effect_type": "power_boost_per_revealed_card",
                                         "amount": 50,
                                         "limitation": "support"
+                                    },
+                                    {
+                                        "conditions": [
+                                            {
+                                                "condition": "revealed_card_is_holomem"
+                                            }
+                                        ],
+                                        "effect_type": "send_cheer",
+                                        "amount_min": 1,
+                                        "amount_max": 1,
+                                        "from": "cheer_deck",
+                                        "to": "holomem"
                                     },
                                     {
                                         "effect_type": "archive_revealed_cards"
@@ -39737,7 +39774,6 @@
         "rarity": "c",
         "hp": 120,
         "baton_cost": 1,
-        "special_deck_limit": 50,
         "tags": [
             "#DEV_IS",
             "#FLOWGLOW"
@@ -44827,7 +44863,13 @@
                         "turn_effect": {
                             "timing": "before_art",
                             "effect_type": "power_boost",
-                            "amount": 20
+                            "amount": 20,
+                            "conditions": [
+                                {
+                                    "condition": "performer_is_specific_id",
+                                    "required_id": "REPLACED_BY_EFFECT"
+                                }
+                            ]
                         }
                     }
                 ]
@@ -47649,6 +47691,7 @@
                 "power": 30,
                 "art_effects": [
                     {
+                        "timing": "before_art",
                         "effect_type": "power_boost",
                         "amount": 20,
                         "conditions": [

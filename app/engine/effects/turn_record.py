@@ -30,6 +30,28 @@ def handle_add_turn_effect(engine, effect_player, effect):
     return False
 
 
+def _apply_turn_effect_to_current_art(engine, effect_player, turn_effect, target_holomem_id):
+    """If an art is in progress and the target matches the performer,
+    immediately apply a before_art power_boost so the current art benefits."""
+    performer = getattr(engine, 'performance_performer_card', None)
+    if not performer:
+        return
+    if turn_effect.get("timing") != "before_art":
+        return
+    if turn_effect.get("effect_type") != "power_boost":
+        return
+    if target_holomem_id != performer["game_card_id"]:
+        return
+    conditions = turn_effect.get("conditions", [])
+    if conditions and not engine.are_conditions_met(
+        effect_player, turn_effect.get("source_card_id", ""), conditions
+    ):
+        return
+    amount = turn_effect.get("amount", 0)
+    if amount:
+        engine.handle_power_boost(amount, turn_effect.get("source_card_id", ""))
+
+
 def handle_add_turn_effect_for_holomem(engine, effect_player, effect):
     """Returns True if continuation was passed on, False otherwise."""
     effect_player_id = effect_player.player_id
@@ -143,6 +165,7 @@ def handle_add_turn_effect_for_holomem(engine, effect_player, effect):
                 "turn_effect": te,
             }
             engine.broadcast_event(event)
+            _apply_turn_effect_to_current_art(engine, effect_player, te, holomem["game_card_id"])
         if target_both_sides:
             opponent_id = opponent.player_id
             for holomem in opponent_holomem_targets:
@@ -175,6 +198,7 @@ def handle_add_turn_effect_for_holomem(engine, effect_player, effect):
             "turn_effect": turn_effect_copy,
         }
         engine.broadcast_event(event)
+        _apply_turn_effect_to_current_art(engine, effect_player, turn_effect_copy, holomem_targets[0])
     else:
         # Ask the player to choose one.
         decision_event = {

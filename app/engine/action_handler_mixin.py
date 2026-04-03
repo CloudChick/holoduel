@@ -1176,6 +1176,7 @@ class ActionHandlerMixin:
         continuation()
 
     def handle_add_turn_effect_for_holomem(self, decision_info_copy, performing_player_id:str, card_ids:List[str], continuation):
+        from app.engine.effects.turn_record import _apply_turn_effect_to_current_art
         effect_player = self.get_player(performing_player_id)
         holomem_target = card_ids[0]
         self.last_chosen_cards = card_ids
@@ -1194,6 +1195,7 @@ class ActionHandlerMixin:
             "turn_effect": turn_effect,
         }
         self.broadcast_event(event)
+        _apply_turn_effect_to_current_art(self, effect_player, turn_effect, holomem_target)
         self.broadcast_bonus_hp_updates()
 
         continuation()

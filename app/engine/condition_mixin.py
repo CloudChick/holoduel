@@ -32,6 +32,17 @@ class ConditionMixin:
                         if tag in valid_tags and len(card["attached_cheer"]) > 0:
                             return True
                 return False
+            case Condition.Condition_AttachedCardIsName:
+                required_name = condition["required_name"]
+                attached_card_id = getattr(self, "last_attached_support_card_id", "")
+                if attached_card_id:
+                    try:
+                        attached_card = self.find_card(attached_card_id)
+                        if attached_card and required_name in attached_card.get("card_names", []):
+                            return True
+                    except Exception:
+                        pass
+                return False
             case Condition.Condition_AttachedTo:
                 required_member_name = condition["required_member_name"]
                 required_bloom_levels = condition.get("required_bloom_levels", [])
@@ -241,7 +252,11 @@ class ConditionMixin:
             case Condition.Condition_DamageTargetIsCenterOrCollab:
                 return self.take_damage_state.target_card_zone in ["center", "collab"]
             case Condition.Condition_DamageSourceIsOpponent:
-                return self.take_damage_state.source_player.player_id != effect_player.player_id
+                if self.take_damage_state and self.take_damage_state.source_player:
+                    return self.take_damage_state.source_player.player_id != effect_player.player_id
+                elif self.down_holomem_state and self.down_holomem_state.source_player:
+                    return self.down_holomem_state.source_player.player_id != effect_player.player_id
+                return False
             case Condition.Condition_DamageIsSpecial:
                 return self.take_damage_state.special
             case Condition.Condition_DamageIsNotSpecial:

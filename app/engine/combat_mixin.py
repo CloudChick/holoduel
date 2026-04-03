@@ -327,6 +327,8 @@ class CombatMixin:
         down_info.nested_state = self.down_holomem_state
         self.down_holomem_state = down_info
         self.down_holomem_state.holomem_card = target_card
+        self.down_holomem_state.source_player = dealing_player
+        self.down_holomem_state.source_card = dealing_card
 
         if self.performance_artstatboosts.repeat_art:
             if self.performance_target_card["game_card_id"] == target_card["game_card_id"]:

@@ -157,6 +157,7 @@ class EffectType:
 class Condition:
     Condition_AnyHolomemBloomedThisTurn = "any_holomem_bloomed_this_turn"
     Condition_AnyTagHolomemHasCheer = "any_tag_holomem_has_cheer"
+    Condition_AttachedCardIsName = "attached_card_is_name"
     Condition_AttachedTo = "attached_to"
     Condition_AttachedToHasTags = "attached_to_has_tags"
     Condition_AttachedToIsCardType = "attached_to_is_card_type"

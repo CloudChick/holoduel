@@ -61,6 +61,7 @@ class GameEngine(GameFlowMixin, TurnMixin, CombatMixin, ConditionMixin, EffectMi
         self.match_player_info = player_infos
         self.last_chosen_holomem_id = ""
         self.last_move_info = {}
+        self.last_attached_support_card_id = ""
         
         # 블룸 출처 추적을 위한 변수
         self.last_bloom_source_skill_id = ""

@@ -76,6 +76,7 @@ class PlayerState:
         # Set up Oshi.
         self.oshi_id = player_info["oshi_id"]
         self.oshi_card = card_db.get_card_by_id(self.oshi_id)
+        self.oshi_card["owner_id"] = self.player_id
         self.oshi_card["game_card_id"] = self.player_id + "_oshi"
 
         self.deck_list = player_info["deck"]
