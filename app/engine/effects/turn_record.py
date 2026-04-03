@@ -267,6 +267,54 @@ def handle_repeat_art(engine, effect_player, effect):
     return False
 
 
+def _roll_d6_for_versus(engine, player):
+    """Roll a d6 for a player; applies set_next_die_roll / force_die_remaining like roll_die_internal."""
+    rigged = False
+    if player.set_next_die_roll:
+        die_result = player.set_next_die_roll
+        if player.force_die_remaining > 0:
+            player.force_die_remaining -= 1
+            if player.force_die_remaining <= 0:
+                player.set_next_die_roll = 0
+        else:
+            player.set_next_die_roll = 0
+        rigged = True
+    else:
+        die_result = engine.random_gen.randint(1, 6)
+    player.die_rolls_this_turn += 1
+    return die_result, rigged
+
+
+def handle_versus_die_roll(engine, effect_player, effect):
+    """Both players roll a d6; if self >= opponent, resolve win_effects; else lose_effects."""
+    effect_player_id = effect_player.player_id
+    opponent = engine.other_player(effect_player_id)
+
+    self_roll, self_rigged = _roll_d6_for_versus(engine, effect_player)
+    engine.last_die_value = self_roll
+    engine.broadcast_event({
+        "event_type": EventType.EventType_RollDie,
+        "effect_player_id": effect_player_id,
+        "die_result": self_roll,
+        "rigged": self_rigged,
+    })
+
+    opp_roll, opp_rigged = _roll_d6_for_versus(engine, opponent)
+    engine.broadcast_event({
+        "event_type": EventType.EventType_RollDie,
+        "effect_player_id": opponent.player_id,
+        "die_result": opp_roll,
+        "rigged": opp_rigged,
+    })
+
+    branch_effects = effect.get("win_effects", []) if self_roll >= opp_roll else effect.get("lose_effects", [])
+    if branch_effects:
+        to_run = deepcopy(branch_effects)
+        add_ids_to_effects(to_run, effect_player_id, effect.get("source_card_id", ""))
+        engine.add_effects_to_front(to_run)
+    return False
+
+
 def handle_roll_die(engine, effect_player, effect):
     """Returns True if continuation was passed on, False otherwise."""
     effect_player_id = effect_player.player_id
@@ -548,6 +596,7 @@ TURN_RECORD_HANDLERS = {
     EffectType.EffectType_RecoverDownedHolomemCards: handle_recover_downed_holomem_cards,
     EffectType.EffectType_RepeatArt: handle_repeat_art,
     EffectType.EffectType_RollDie: handle_roll_die,
+    EffectType.EffectType_VersusDieRoll: handle_versus_die_roll,
     EffectType.EffectType_RollDie_ChooseResult: handle_roll_die_choose_result,
     EffectType.EffectType_RollDie_Internal: handle_roll_die_internal,
     EffectType.EffectType_RollDie_Internal_Resolution: handle_roll_die_internal_resolution,

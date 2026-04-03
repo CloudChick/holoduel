@@ -1338,10 +1338,18 @@ class PlayerState:
     def swap_center_with_collab(self):
         if len(self.center) == 0 or len(self.collab) == 0:
             return
-        center_id = self.center[0]["game_card_id"]
-        collab_id = self.collab[0]["game_card_id"]
-        self.move_card(center_id, "collab")
-        self.move_card(collab_id, "center")
+        center_card = self.center[0]
+        collab_card = self.collab[0]
+        center_id = center_card["game_card_id"]
+        collab_id = collab_card["game_card_id"]
+        self.center = [collab_card]
+        self.collab = [center_card]
+        self.engine.broadcast_event({
+            "event_type": EventType.EventType_SwapCenterAndCollab,
+            "moving_player_id": self.player_id,
+            "center_card_id": center_id,
+            "collab_card_id": collab_id,
+        })
 
     def add_turn_effect(self, turn_effect):
         self.turn_effects.append(turn_effect)

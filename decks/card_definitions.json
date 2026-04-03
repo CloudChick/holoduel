@@ -37363,6 +37363,61 @@
         ]
     },
     {
+        "card_id": "hBP07-095",
+        "card_type": "support",
+        "sub_type": "event",
+        "colors": [],
+        "card_names": [
+            "cross_impact"
+        ],
+        "rarity": "c",
+        "limited": true,
+        "play_conditions": [
+            {
+                "condition": "center_bloom_level",
+                "required_bloom_level": 2
+            },
+            {
+                "condition": "center_bloom_level",
+                "required_bloom_level": 2,
+                "opponent": true
+            }
+        ],
+        "effects": [
+            {
+                "effect_type": "versus_die_roll",
+                "source": "support_card",
+                "win_effects": [
+                    {
+                        "effect_type": "add_turn_effect_for_holomem",
+                        "limitation_location": "center",
+                        "all_targets": true,
+                        "turn_effect": {
+                            "timing": "before_art",
+                            "conditions": [
+                                {
+                                    "condition": "performer_is_specific_id",
+                                    "required_id": "REPLACED_BY_EFFECT"
+                                }
+                            ],
+                            "effect_type": "power_boost",
+                            "amount": 100
+                        }
+                    }
+                ],
+                "lose_effects": [
+                    {
+                        "effect_type": "send_cheer",
+                        "amount_min": 1,
+                        "amount_max": 1,
+                        "from": "cheer_deck",
+                        "to": "holomem"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "card_id": "hBP07-084",
         "card_type": "holomem_bloom",
         "bloom_level": 2,
@@ -39759,6 +39814,64 @@
                         ]
                     }
                 ]
+            }
+        ]
+    },
+    {
+        "card_id": "hBP07-091",
+        "card_type": "support",
+        "sub_type": "staff",
+        "colors": [],
+        "card_names": [
+            "live_staff"
+        ],
+        "rarity": "c",
+        "limited": false,
+        "play_conditions": [
+            {
+                "condition": "cheer_in_play",
+                "amount_min": 1,
+                "amount_max": -1
+            }
+        ],
+        "play_requirements": {
+            "cheer_to_archive_from_play": {
+                "type": "list",
+                "length": 1,
+                "content_type": "cheer_in_play"
+            }
+        },
+        "effects": [
+            {
+                "effect_type": "choose_cards",
+                "from": "archive",
+                "look_at": -1,
+                "destination": "holomem",
+                "amount_min": 1,
+                "amount_max": 1,
+                "requirement": "support",
+                "requirement_sub_types": [
+                    "fan"
+                ],
+                "reveal_chosen": true,
+                "remaining_cards_action": "nothing",
+                "after_choose_effect": {
+                    "conditions": [
+                        {
+                            "condition": "chosen_card_count",
+                            "amount_min": 1
+                        }
+                    ],
+                    "effect_type": "choose_cards",
+                    "from": "archive",
+                    "look_at": -1,
+                    "destination": "hand",
+                    "amount_min": 1,
+                    "amount_max": 1,
+                    "requirement": "holomem",
+                    "reveal_chosen": true,
+                    "remaining_cards_action": "nothing"
+                }
             }
         ]
     },
@@ -44766,7 +44879,7 @@
                         "amount": 1
                     }
                 ],
-                "power": 80,
+                "power": 50,
                 "art_effects": [
                     {
                         "timing": "before_art",

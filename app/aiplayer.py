@@ -343,6 +343,7 @@ class AIPlayer:
             EventType.EventType_RevealCards: self._handle_event_ignore,
             EventType.EventType_RollDie: self._handle_event_ignore,
             EventType.EventType_ShuffleDeck: self._handle_event_ignore,
+            EventType.EventType_SwapCenterAndCollab: self._handle_event_ignore,
             EventType.EventType_TurnStart: self._handle_event_ignore,
         }
 
