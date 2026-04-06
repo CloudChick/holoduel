@@ -934,8 +934,8 @@ class ActionHandlerMixin:
                 return False
 
         if not self.current_decision.get("multi_to", False):
-            # There should only be one target.
-            if len(set(placements.values())) != 1:
+            # There should only be one target (skip check for empty placements when amount_min == 0).
+            if len(placements) > 0 and len(set(placements.values())) != 1:
                 self.send_event(self.make_error_event(player_id, "invalid_target", "Multiple targets chosen."))
                 return False
 
@@ -1945,7 +1945,28 @@ class ActionHandlerMixin:
         for holomem in player.get_holomem_on_stage():
             if self.holomem_can_be_attached_with_support_card(holomem, card):
                 return True
+
+        if sub_type == "tool":
+            archive_names = self._get_archive_attachment_names_from_effects(card.get("effects", []))
+            if archive_names:
+                for holomem in player.get_holomem_on_stage():
+                    for attached in holomem.get("attached_support", []):
+                        if attached.get("sub_type") == "tool":
+                            if any(name in attached.get("card_names", []) for name in archive_names):
+                                return True
+
         return False
+
+    def _get_archive_attachment_names_from_effects(self, effects):
+        names = set()
+        for effect in effects:
+            if effect.get("effect_type") == "archive_attachment_from_stage_by_name":
+                attachment_name = effect.get("attachment_name", "")
+                if attachment_name:
+                    names.add(attachment_name)
+            if "choice" in effect:
+                names.update(self._get_archive_attachment_names_from_effects(effect["choice"]))
+        return names
 
     def handle_repeat_damage_selection(self, effect_player_id, effect, target_cards, targets_allowed, repeat_count, target_player, source_player):
         # Start the first iteration of repeat damage selection

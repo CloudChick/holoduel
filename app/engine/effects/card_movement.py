@@ -10,6 +10,163 @@ if TYPE_CHECKING:
     from app.engine.player_state import PlayerState
 
 
+def _get_eligible_cheer_ids(holomem, required_colors, excluded_colors):
+    """Return list of cheer game_card_ids on holomem that match color filters."""
+    if required_colors:
+        matched = [c for c in holomem["attached_cheer"]
+                   if any(color in c["colors"] for color in required_colors)]
+        return ids_from_cards(matched)
+    elif excluded_colors:
+        matched = [c for c in holomem["attached_cheer"]
+                   if not any(color in c["colors"] for color in excluded_colors)]
+        return ids_from_cards(matched)
+    else:
+        return ids_from_cards(holomem["attached_cheer"])
+
+
+def _get_holomems_with_eligible_cheer(effect_player, required_colors, excluded_colors):
+    """Return holomems on stage that have at least one eligible cheer."""
+    result = []
+    for holomem in effect_player.get_holomem_on_stage():
+        if _get_eligible_cheer_ids(holomem, required_colors, excluded_colors):
+            result.append(holomem)
+    return result
+
+
+def _present_cheer_choice_for_holomem(engine, effect_player, holomem, amount_min, amount_max, source_card_id, required_colors, excluded_colors, continuation):
+    """Present a decision_choose_cards for one holomem's eligible cheer."""
+    effect_player_id = effect_player.player_id
+    cheer_options = _get_eligible_cheer_ids(holomem, required_colors, excluded_colors)
+
+    actual_max = min(amount_max, len(cheer_options))
+    actual_min = min(amount_min, actual_max)
+
+    if actual_max == 0:
+        engine.last_card_count = 0
+        continuation()
+        return
+
+    if actual_min == actual_max == len(cheer_options):
+        engine.last_card_count = len(cheer_options)
+        effect_player.archive_attached_cards(cheer_options)
+        continuation()
+        return
+
+    choose_event = {
+        "event_type": EventType.EventType_Decision_ChooseCards,
+        "desired_response": GameAction.EffectResolution_ChooseCardsForEffect,
+        "effect_player_id": effect_player_id,
+        "all_card_seen": cheer_options,
+        "cards_can_choose": cheer_options,
+        "from_zone": "holomem",
+        "to_zone": "archive",
+        "amount_min": actual_min,
+        "amount_max": actual_max,
+        "reveal_chosen": True,
+        "remaining_cards_action": "nothing",
+    }
+    engine.broadcast_event(choose_event)
+    engine.set_decision({
+        "decision_type": DecisionType.DecisionEffect_ChooseCardsForEffect,
+        "decision_player": effect_player_id,
+        "all_card_seen": cheer_options,
+        "cards_can_choose": cheer_options,
+        "from_zone": "holomem",
+        "to_zone": "archive",
+        "amount_min": actual_min,
+        "amount_max": actual_max,
+        "reveal_chosen": True,
+        "remaining_cards_action": "nothing",
+        "source_card_id": source_card_id,
+        "effect_resolution": engine.handle_choose_cards_result,
+        "continuation": continuation,
+    })
+
+
+def _start_holomem_cheer_archive_loop(engine, effect_player, remaining, source_card_id, required_colors, excluded_colors):
+    """Iterative holomem-first cheer archive: pick holomem → pick cheer → loop if needed."""
+    effect_player_id = effect_player.player_id
+    holomems = _get_holomems_with_eligible_cheer(effect_player, required_colors, excluded_colors)
+
+    if not holomems or remaining <= 0:
+        engine.continue_resolving_effects()
+        return
+
+    if len(holomems) == 1:
+        def after_cheer_chosen():
+            archived_count = engine.last_card_count
+            new_remaining = remaining - archived_count
+            if new_remaining > 0:
+                _start_holomem_cheer_archive_loop(engine, effect_player, new_remaining, source_card_id, required_colors, excluded_colors)
+            else:
+                engine.continue_resolving_effects()
+
+        _present_cheer_choice_for_holomem(
+            engine, effect_player, holomems[0],
+            1, remaining, source_card_id, required_colors, excluded_colors, after_cheer_chosen
+        )
+        return
+
+    internal_effect = {
+        "effect_type": EffectType.EffectType_ArchiveCheerFromHolomem_ChooseHolomem,
+        "effect_player_id": effect_player_id,
+        "remaining_amount": remaining,
+        "source_card_id": source_card_id,
+        "required_colors": required_colors,
+        "excluded_colors": excluded_colors,
+        "card_ids": [],
+        "internal_skip_simultaneous_choice": True,
+    }
+    add_ids_to_effects([internal_effect], effect_player_id, source_card_id)
+
+    decision_event = {
+        "event_type": EventType.EventType_Decision_ChooseHolomemForEffect,
+        "desired_response": GameAction.EffectResolution_ChooseCardsForEffect,
+        "effect_player_id": effect_player_id,
+        "cards_can_choose": ids_from_cards(holomems),
+        "effect": internal_effect,
+    }
+    engine.broadcast_event(decision_event)
+    engine.set_decision({
+        "decision_type": DecisionType.DecisionEffect_ChooseCardsForEffect,
+        "decision_player": effect_player_id,
+        "all_card_seen": ids_from_cards(holomems),
+        "cards_can_choose": ids_from_cards(holomems),
+        "amount_min": 1,
+        "amount_max": 1,
+        "effect_to_run": internal_effect,
+        "effect_resolution": engine.handle_run_single_effect,
+        "continuation": engine.continue_resolving_effects,
+    })
+
+
+def handle_archive_cheer_from_holomem_choose_holomem(engine, effect_player, effect):
+    """Internal handler: after holomem is chosen, present cheer choice for that holomem."""
+    chosen_holomem_id = effect["card_ids"][0]
+    remaining = effect["remaining_amount"]
+    source_card_id = effect.get("source_card_id", None)
+    required_colors = effect.get("required_colors", [])
+    excluded_colors = effect.get("excluded_colors", [])
+
+    chosen_holomem, _, _ = effect_player.find_card(chosen_holomem_id)
+    if not chosen_holomem:
+        return False
+
+    def after_cheer_chosen():
+        archived_count = engine.last_card_count
+        new_remaining = remaining - archived_count
+        if new_remaining > 0:
+            _start_holomem_cheer_archive_loop(engine, effect_player, new_remaining, source_card_id, required_colors, excluded_colors)
+        else:
+            engine.continue_resolving_effects()
+
+    _present_cheer_choice_for_holomem(
+        engine, effect_player, chosen_holomem,
+        1, remaining, source_card_id, required_colors, excluded_colors, after_cheer_chosen
+    )
+    return True
+
+
 def handle_archive_cheer_from_holomem(engine, effect_player, effect):
     """Returns True if continuation was passed on, False otherwise."""
     effect_player_id = effect_player.player_id
@@ -26,7 +183,6 @@ def handle_archive_cheer_from_holomem(engine, effect_player, effect):
 
     def archive_cheer_continuation():
         amount = engine.archive_count_required
-        # Handle "all" amount - calculate actual cheer count for this holomem
         if str(amount) == "all":
             from_zone = effect["from"]
             if from_zone == "self":
@@ -39,6 +195,7 @@ def handle_archive_cheer_from_holomem(engine, effect_player, effect):
                 amount = sum(len(h["attached_cheer"]) for h in effect_player.get_holomem_on_stage())
         from_zone = effect["from"]
         required_colors = effect.get("required_colors", [])
+        excluded_colors = effect.get("excluded_colors", [])
         target_holomems = []
         ability_source = effect.get("ability_source", "")
         match from_zone:
@@ -51,21 +208,7 @@ def handle_archive_cheer_from_holomem(engine, effect_player, effect):
                     target_holomems.append(holomems[0])
             case "holomem":
                 target_holomems = effect_player.get_holomem_on_stage()
-        excluded_colors = effect.get("excluded_colors", [])
-        cheer_options = []
-        for holomem in target_holomems:
-            if required_colors:
-                matched_cheer = []
-                for cheer in holomem["attached_cheer"]:
-                    if any(color in cheer["colors"] for color in required_colors):
-                        matched_cheer.append(cheer)
-                cheer_options += ids_from_cards(matched_cheer)
-            elif excluded_colors:
-                matched_cheer = [c for c in holomem["attached_cheer"]
-                                 if not any(color in c["colors"] for color in excluded_colors)]
-                cheer_options += ids_from_cards(matched_cheer)
-            else:
-                cheer_options += ids_from_cards(holomem["attached_cheer"])
+
         after_archive_check_effect = {
             "player_id": effect_player_id,
             "effect_type": EffectType.EffectType_AfterArchiveCheerCheck,
@@ -74,6 +217,31 @@ def handle_archive_cheer_from_holomem(engine, effect_player, effect):
             "ability_source": ability_source
         }
         engine.add_effects_to_front([after_archive_check_effect])
+
+        # For from: "holomem", use holomem-first selection when multiple holomems have cheer
+        if from_zone == "holomem" and not variable_amount:
+            holomems_with_cheer = _get_holomems_with_eligible_cheer(effect_player, required_colors, excluded_colors)
+            if len(holomems_with_cheer) == 0 or amount == 0:
+                engine.last_card_count = 0
+                engine.continue_resolving_effects()
+                return
+            if len(holomems_with_cheer) >= 1 and amount > 0:
+                total_cheer = sum(len(_get_eligible_cheer_ids(h, required_colors, excluded_colors))
+                                  for h in holomems_with_cheer)
+                if amount >= total_cheer:
+                    all_cheer = []
+                    for h in holomems_with_cheer:
+                        all_cheer += _get_eligible_cheer_ids(h, required_colors, excluded_colors)
+                    engine.last_card_count = len(all_cheer)
+                    effect_player.archive_attached_cards(all_cheer)
+                    engine.continue_resolving_effects()
+                else:
+                    _start_holomem_cheer_archive_loop(engine, effect_player, amount, effect.get("source_card_id"), required_colors, excluded_colors)
+                return
+
+        cheer_options = []
+        for holomem in target_holomems:
+            cheer_options += _get_eligible_cheer_ids(holomem, required_colors, excluded_colors)
 
         if variable_amount:
             actual_min = amount_min_orig
@@ -342,8 +510,19 @@ def handle_archive_attachment_from_stage_by_name(engine, effect_player, effect):
     effect_player_id = effect_player.player_id
     attachment_name = effect.get("attachment_name", "")
     destination = effect.get("destination", "archive")
-    holomems = effect_player.get_holomem_on_stage()
-    for holomem in holomems:
+    continuation = engine.continue_resolving_effects
+
+    matching_holomems = []
+    for holomem in effect_player.get_holomem_on_stage():
+        for attached in holomem.get("attached_support", []):
+            if attachment_name in attached.get("card_names", []):
+                matching_holomems.append(holomem)
+                break
+
+    if len(matching_holomems) == 0:
+        return False
+    elif len(matching_holomems) == 1:
+        holomem = matching_holomems[0]
         for attached in holomem.get("attached_support", []):
             if attachment_name in attached.get("card_names", []):
                 if destination == "bottom_of_deck":
@@ -351,9 +530,54 @@ def handle_archive_attachment_from_stage_by_name(engine, effect_player, effect):
                 else:
                     effect_player.archive_attached_cards([attached["game_card_id"]])
                 break
-        else:
-            continue
-        break
+        return False
+    else:
+        internal_effect = {
+            "effect_type": EffectType.EffectType_ArchiveAttachmentFromStageByName_Internal,
+            "effect_player_id": effect_player_id,
+            "attachment_name": attachment_name,
+            "destination": destination,
+            "card_ids": [],
+            "internal_skip_simultaneous_choice": True,
+        }
+        add_ids_to_effects([internal_effect], effect_player_id, effect.get("source_card_id", None))
+        decision_event = {
+            "event_type": EventType.EventType_Decision_ChooseHolomemForEffect,
+            "desired_response": GameAction.EffectResolution_ChooseCardsForEffect,
+            "effect_player_id": effect_player_id,
+            "cards_can_choose": ids_from_cards(matching_holomems),
+            "effect": internal_effect,
+        }
+        engine.broadcast_event(decision_event)
+        engine.set_decision({
+            "decision_type": DecisionType.DecisionEffect_ChooseCardsForEffect,
+            "decision_player": effect_player_id,
+            "all_card_seen": ids_from_cards(matching_holomems),
+            "cards_can_choose": ids_from_cards(matching_holomems),
+            "amount_min": 1,
+            "amount_max": 1,
+            "effect_to_run": internal_effect,
+            "effect_resolution": engine.handle_run_single_effect,
+            "continuation": continuation,
+        })
+        return True
+
+
+def handle_archive_attachment_from_stage_by_name_internal(engine, effect_player, effect):
+    """Returns True if continuation was passed on, False otherwise."""
+    chosen_holomem_id = effect["card_ids"][0]
+    attachment_name = effect.get("attachment_name", "")
+    destination = effect.get("destination", "archive")
+
+    chosen_holomem, _, _ = effect_player.find_card(chosen_holomem_id)
+    if chosen_holomem:
+        for attached in chosen_holomem.get("attached_support", []):
+            if attachment_name in attached.get("card_names", []):
+                if destination == "bottom_of_deck":
+                    effect_player.move_card(attached["game_card_id"], "deck", add_to_bottom=True)
+                else:
+                    effect_player.archive_attached_cards([attached["game_card_id"]])
+                break
     return False
 
 
@@ -1129,6 +1353,13 @@ def handle_send_cheer(engine, effect_player, effect):
             # If there's less cheer than the min, do as many as you can.
             amount_min = len(from_options)
 
+        if max_per_target is not None:
+            max_possible_placement = max_per_target * len(to_options)
+            if max_possible_placement < amount_min:
+                amount_min = max_possible_placement
+            if max_possible_placement < amount_max:
+                amount_max = max_possible_placement
+
         if from_zone in ["opponent_holomem", "opponent_archive"]:
             opponent = engine.other_player(effect_player_id)
             cheer_on_each_mem = opponent.get_cheer_on_each_holomem()
@@ -1424,6 +1655,7 @@ def handle_send_cheer_per_named_cards_in_archive(engine, effect_player, effect):
 
 CARD_MOVEMENT_HANDLERS = {
     EffectType.EffectType_ArchiveCheerFromHolomem: handle_archive_cheer_from_holomem,
+    EffectType.EffectType_ArchiveCheerFromHolomem_ChooseHolomem: handle_archive_cheer_from_holomem_choose_holomem,
     EffectType.EffectType_ArchiveFromCheerDeck: handle_archive_from_cheer_deck,
     EffectType.EffectType_ArchiveFromBothCheerDecks: handle_archive_from_both_cheer_decks,
     EffectType.EffectType_ArchiveFromHand: handle_archive_from_hand,
@@ -1432,6 +1664,7 @@ CARD_MOVEMENT_HANDLERS = {
     EffectType.EffectType_ArchiveThisAttachment: handle_archive_this_attachment,
     EffectType.EffectType_ReplaceArchiveWithMove: handle_replace_archive_with_move,
     EffectType.EffectType_ArchiveAttachmentFromStageByName: handle_archive_attachment_from_stage_by_name,
+    EffectType.EffectType_ArchiveAttachmentFromStageByName_Internal: handle_archive_attachment_from_stage_by_name_internal,
     EffectType.EffectType_ReturnThisAttachmentToHand: handle_return_this_attachment_to_hand,
     EffectType.EffectType_ReturnThisAttachmentToDeckBottom: handle_return_this_attachment_to_deck_bottom,
     EffectType.EffectType_ReturnThisCardToDeck: handle_return_this_card_to_deck,

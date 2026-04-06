@@ -781,6 +781,15 @@ class ConditionMixin:
                 required_bloom_level = condition["condition_bloom_level"]
                 target_bloom_level = self.performance_target_card.get("bloom_level", -1)
                 return target_bloom_level == required_bloom_level
+            case Condition.Condition_TargetColorInArchiveCheerColors:
+                if not self.performance_target_card:
+                    return False
+                target_colors = set(self.performance_target_card.get("colors", []))
+                archive_cheer_colors = set()
+                for card in effect_player.archive:
+                    if is_card_cheer(card):
+                        archive_cheer_colors.update(card.get("colors", []))
+                return bool(target_colors & archive_cheer_colors)
             case Condition.Condition_ThisCardIsCenter:
                 if len(effect_player.center) == 0:
                     return False

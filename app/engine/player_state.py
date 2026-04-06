@@ -189,6 +189,14 @@ class PlayerState:
         return False
 
     def is_art_requirement_met(self, card, art):
+        old_performer = self.engine.performance_performer_card
+        self.engine.performance_performer_card = card
+        try:
+            return self._is_art_requirement_met_inner(card, art)
+        finally:
+            self.engine.performance_performer_card = old_performer
+
+    def _is_art_requirement_met_inner(self, card, art):
         attached_cheer_cards = [attached_card for attached_card in card["attached_cheer"] if is_card_cheer(attached_card)]
 
         white_cheer = 0

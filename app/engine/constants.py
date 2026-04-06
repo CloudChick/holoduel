@@ -147,6 +147,8 @@ class EffectType:
     EffectType_UseOtherHolomemArts = "use_other_holomem_arts"
     EffectType_OpponentMoveBackToCollab = "opponent_move_back_to_collab"
     EffectType_ArchiveAttachmentFromStageByName = "archive_attachment_from_stage_by_name"
+    EffectType_ArchiveAttachmentFromStageByName_Internal = "archive_attachment_from_stage_by_name_internal"
+    EffectType_ArchiveCheerFromHolomem_ChooseHolomem = "archive_cheer_from_holomem_choose_holomem"
     EffectType_DealDamagePerDieRollsThisTurn = "deal_damage_per_die_rolls_this_turn"
     EffectType_ForceMultipleDieResult = "force_multiple_die_result"
     EffectType_FreeArtsTurnEffect = "free_arts_turn_effect"
@@ -320,6 +322,7 @@ class Condition:
     Condition_DamageTargetBloomLevel = "damage_target_bloom_level"
     Condition_CheerArchivedThisTurn = "cheer_archived_this_turn"
     Condition_CenterAndCollabHaveDifferentCheerColors = "center_and_collab_have_different_cheer_colors"
+    Condition_TargetColorInArchiveCheerColors = "target_color_in_archive_cheer_colors"
 
 
 class TurnEffectType:

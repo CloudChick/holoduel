@@ -256,10 +256,13 @@ def handle_power_boost_per_opponent_archive_cheer(engine, effect_player, effect)
 
 
 def handle_power_boost_per_cheer_in_archive(engine, effect_player, effect):
-    """Power boost based on cheer count in player's own archive."""
+    """Power boost based on cheer count in player's own archive (optionally both archives)."""
     per_amount = effect["amount"]
     limit = effect.get("limit", 999)
     cheer_count = sum(1 for card in effect_player.archive if is_card_cheer(card))
+    if effect.get("both", False):
+        opponent = engine.other_player(effect_player.player_id)
+        cheer_count += sum(1 for card in opponent.archive if is_card_cheer(card))
     multiplier = min(cheer_count, limit)
     total = per_amount * multiplier
     engine.handle_power_boost(total, effect["source_card_id"])
