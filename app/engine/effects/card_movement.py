@@ -289,11 +289,11 @@ def handle_archive_cheer_from_holomem(engine, effect_player, effect):
                     "effect_resolution": engine.handle_choose_cards_result,
                     "continuation": engine.continue_resolving_effects,
                 })
-        elif amount == 0:
+        elif amount == 0 or len(cheer_options) == 0:
             engine.last_card_count = 0
             engine.continue_resolving_effects()
-        elif amount == len(cheer_options):
-            engine.last_card_count = amount
+        elif amount >= len(cheer_options):
+            engine.last_card_count = len(cheer_options)
             effect_player.archive_attached_cards(cheer_options)
             engine.continue_resolving_effects()
         else:

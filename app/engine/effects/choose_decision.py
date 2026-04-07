@@ -5,13 +5,39 @@ from copy import deepcopy
 from app.engine.constants import *
 from app.engine.models import *
 from app.engine.helpers import *
-from app.engine.effects.card_movement import can_move_cheer_between_holomems
+from app.engine.effects.card_movement import can_move_cheer_between_holomems, _get_eligible_cheer_ids
 
 if TYPE_CHECKING:
     from app.engine.player_state import PlayerState
 
+
+def can_archive_cheer_from_holomem(engine, effect_player, option):
+    """Check if there is at least one eligible cheer to archive from the source holomem(s)."""
+    from_zone = option.get("from", "")
+    required_colors = option.get("required_colors", [])
+    excluded_colors = option.get("excluded_colors", [])
+    match from_zone:
+        case "self":
+            source_card, _, _ = effect_player.find_card(option.get("source_card_id", ""))
+            if not source_card:
+                return False
+            return len(_get_eligible_cheer_ids(source_card, required_colors, excluded_colors)) > 0
+        case "attached_owner":
+            holomems = effect_player.get_holomems_with_attachment(option.get("source_card_id", ""))
+            if not holomems:
+                return False
+            return len(_get_eligible_cheer_ids(holomems[0], required_colors, excluded_colors)) > 0
+        case "holomem":
+            for holomem in effect_player.get_holomem_on_stage():
+                if _get_eligible_cheer_ids(holomem, required_colors, excluded_colors):
+                    return True
+            return False
+    return True
+
+
 CHOICE_FEASIBILITY_CHECKERS = {
     EffectType.EffectType_MoveCheerBetweenHolomems: can_move_cheer_between_holomems,
+    EffectType.EffectType_ArchiveCheerFromHolomem: can_archive_cheer_from_holomem,
 }
 
 
