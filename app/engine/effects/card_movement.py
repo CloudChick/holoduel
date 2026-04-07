@@ -127,6 +127,12 @@ def _start_holomem_cheer_archive_loop(engine, effect_player, remaining, source_c
         "effect": internal_effect,
     }
     engine.broadcast_event(decision_event)
+
+    def holomem_chosen_resolution(decision_info_copy, performing_player_id, card_ids, continuation):
+        effect = decision_info_copy["effect_to_run"]
+        effect["card_ids"] = card_ids
+        engine.begin_resolving_effects([effect], continuation)
+
     engine.set_decision({
         "decision_type": DecisionType.DecisionEffect_ChooseCardsForEffect,
         "decision_player": effect_player_id,
@@ -135,7 +141,7 @@ def _start_holomem_cheer_archive_loop(engine, effect_player, remaining, source_c
         "amount_min": 1,
         "amount_max": 1,
         "effect_to_run": internal_effect,
-        "effect_resolution": engine.handle_run_single_effect,
+        "effect_resolution": holomem_chosen_resolution,
         "continuation": engine.continue_resolving_effects,
     })
 
