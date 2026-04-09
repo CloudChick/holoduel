@@ -17221,6 +17221,39 @@
         ]
     },
     {
+        "card_id": "hBP03-098",
+        "card_type": "support",
+        "sub_type": "mascot",
+        "colors": [],
+        "card_names": [
+            "kintoki"
+        ],
+        "rarity": "u",
+        "effects": [
+            {
+                "effect_type": "attach_card_to_holomem"
+            }
+        ],
+        "attached_effects": [
+            {
+                "timing": "check_hp",
+                "effect_type": "bonus_hp",
+                "amount": 20
+            },
+            {
+                "timing": "on_collab",
+                "conditions": [
+                    {
+                        "condition": "attached_to",
+                        "required_member_name": "sakura_miko"
+                    }
+                ],
+                "effect_type": "draw",
+                "amount": 1
+            }
+        ]
+    },
+    {
         "card_id": "hBP03-100",
         "card_type": "support",
         "sub_type": "mascot",
@@ -44721,6 +44754,55 @@
                     "#Gen3"
                 ],
                 "NOTE": "hSD09 CARDS END"
+            }
+        ]
+    },
+    {
+        "card_id": "hSD09-007",
+        "card_type": "holomem_debut",
+        "card_names": [
+            "shiranui_flare"
+        ],
+        "rarity": "c",
+        "colors": [
+            "yellow"
+        ],
+        "hp": 100,
+        "baton_cost": 1,
+        "tags": [
+            "#JP",
+            "#Gen3",
+            "#HalfElf",
+            "#Summer"
+        ],
+        "arts": [
+            {
+                "art_id": "cold_one_long_wait",
+                "costs": [
+                    {
+                        "color": "any",
+                        "amount": 3
+                    }
+                ],
+                "power": 80
+            }
+        ],
+        "gift_effects": [
+            {
+                "timing": "on_down",
+                "effect_type": "modify_next_life_loss",
+                "amount": -1,
+                "conditions": [
+                    {
+                        "condition": "this_card_is_collab"
+                    },
+                    {
+                        "condition": "opponent_turn"
+                    },
+                    {
+                        "condition": "my_life_less_than_opponent"
+                    }
+                ]
             }
         ]
     },

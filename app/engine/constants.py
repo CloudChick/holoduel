@@ -204,6 +204,7 @@ class Condition:
     Condition_DownedCardIsBuzzOr2nd = "downed_card_is_buzz_or_2nd"
     Condition_DownedCardWasBackstage = "downed_card_was_backstage"
     Condition_DownedCardWasCenter = "downed_card_was_center"
+
     Condition_EffectCardIdNotUsedThisTurn = "effect_card_id_not_used_this_turn"
     Condition_HasAttachmentOfType = "has_attachment_of_type"
     Condition_HasAttachmentOfTypesAny = "has_attachment_of_types_any"
