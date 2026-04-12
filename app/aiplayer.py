@@ -293,6 +293,7 @@ class AIPlayer:
 
         self.event_handlers = {
             EventType.EventType_AddTurnEffect: self._handle_event_ignore,
+            EventType.EventType_AccumulatedDamageTargets: self._handle_event_ignore,
             EventType.EventType_LifeDamageDealt: self._handle_event_ignore,
             EventType.EventType_SpecialActionActivation: self._handle_event_ignore,
             EventType.EventType_Bloom: self._handle_event_ignore,
@@ -372,7 +373,11 @@ class AIPlayer:
             if self.player_id == event["event_player_id"]:
                 event_type = event["event_type"]
                 if event_type in self.event_handlers:
-                    ai_performing_action, ai_action_type, ai_action_data = self.event_handlers[event_type](event)
+                    should_act, next_action_type, next_action_data = self.event_handlers[event_type](event)
+                    if should_act:
+                        ai_performing_action = True
+                        ai_action_type = next_action_type
+                        ai_action_data = next_action_data
                 else:
                     logger.error(f"AI: Unhandled event type: {event_type}")
 
@@ -649,16 +654,24 @@ class AIPlayer:
         from_options = event["from_options"]
         to_options = event["to_options"]
         cheer_on_each_mem = event["cheer_on_each_mem"]
+        limit_one_per_member = event.get("limit_one_per_member", False)
+        max_per_target = event.get("max_per_target")
 
         placements = {}
+        target_counts = {}
         desired_amount = min(amount_max, len(from_options))
         for i in range(desired_amount):
             cheer_to_send = from_options[i]
             for j in range(len(to_options)):
                 target = to_options[j]
+                if limit_one_per_member and target_counts.get(target, 0) >= 1:
+                    continue
+                if max_per_target is not None and target_counts.get(target, 0) >= max_per_target:
+                    continue
                 if target not in cheer_on_each_mem or \
                 cheer_to_send not in cheer_on_each_mem[target]:
                     placements[cheer_to_send] = target
+                    target_counts[target] = target_counts.get(target, 0) + 1
                     break
 
         return True, event["desired_response"], {
