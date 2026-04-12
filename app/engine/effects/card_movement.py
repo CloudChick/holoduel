@@ -1359,8 +1359,16 @@ def handle_send_cheer(engine, effect_player, effect):
             # If there's less cheer than the min, do as many as you can.
             amount_min = len(from_options)
 
+        max_possible_placement = None
+        if limit_one_per_member:
+            max_possible_placement = len(to_options)
         if max_per_target is not None:
-            max_possible_placement = max_per_target * len(to_options)
+            per_target_cap = max_per_target * len(to_options)
+            if max_possible_placement is None:
+                max_possible_placement = per_target_cap
+            else:
+                max_possible_placement = min(max_possible_placement, per_target_cap)
+        if max_possible_placement is not None:
             if max_possible_placement < amount_min:
                 amount_min = max_possible_placement
             if max_possible_placement < amount_max:

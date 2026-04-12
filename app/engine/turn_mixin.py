@@ -14,6 +14,30 @@ logger = logging.getLogger(__name__)
 
 
 class TurnMixin:
+    def _get_before_art_preview_power_bonus(self, active_player, performer, art):
+        bonus = 0
+        before_art_effects = active_player.get_effects_at_timing("before_art", performer)
+        for effect in before_art_effects:
+            if effect.get("effect_type") != EffectType.EffectType_PowerBoost:
+                continue
+            conditions = effect.get("conditions", [])
+            source_card_id = effect.get("source_card_id", performer["game_card_id"])
+            if conditions and not self.are_conditions_met(active_player, source_card_id, conditions):
+                continue
+            amount = effect.get("amount", 0)
+            multiplier = 1
+            match effect.get("multiplier"):
+                case "last_die_value":
+                    multiplier = self.last_die_value
+                case "die_roll_sum":
+                    multiplier = sum(active_player.last_die_roll_results)
+                case "last_chosen_count":
+                    multiplier = len(self.last_chosen_cards)
+                case "last_card_count":
+                    multiplier = self.last_card_count
+            bonus += amount * multiplier
+        return bonus
+
     def begin_player_turn(self, switch_active_player : bool):
         if switch_active_player:
             self.switch_active_player()
@@ -536,12 +560,13 @@ class TurnMixin:
 
 
                     if len(valid_targets) > 0:
+                        preview_power = art["power"] + self._get_before_art_preview_power_bonus(active_player, performer, art)
                         available_actions.append({
                             "action_type": GameAction.PerformanceStepUseArt,
                             "performer_id": performer["game_card_id"],
                             "performer_position": performer_position,
                             "art_id": art["art_id"],
-                            "power": art["power"],
+                            "power": preview_power,
                             "art_effects": art.get("art_effects", []),
                             "valid_targets": valid_targets,
                         })

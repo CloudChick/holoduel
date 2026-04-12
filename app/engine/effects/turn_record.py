@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 from copy import deepcopy
+import logging
 
 from app.engine.constants import *
 from app.engine.models import *
@@ -9,6 +10,9 @@ from app.engine.models import *
 
 if TYPE_CHECKING:
     from app.engine.player_state import PlayerState
+
+
+logger = logging.getLogger(__name__)
 
 
 def handle_add_turn_effect(engine, effect_player, effect):
@@ -201,6 +205,21 @@ def handle_add_turn_effect_for_holomem(engine, effect_player, effect):
         _apply_turn_effect_to_current_art(engine, effect_player, turn_effect_copy, holomem_targets[0])
     else:
         # Ask the player to choose one.
+        debug_targets = []
+        for target_id in holomem_targets:
+            target_card, target_zone, _ = effect_player.find_card(target_id)
+            debug_targets.append({
+                "game_card_id": target_id,
+                "card_names": target_card.get("card_names", []) if target_card else [],
+                "zone": effect_player.get_holomem_zone(target_card) if target_card else str(target_zone),
+            })
+        logger.info(
+            "TURN_EFFECT_CHOOSE_HOLOMEM source=%s player=%s limitation=%s targets=%s",
+            effect.get("source_card_id", ""),
+            effect_player_id,
+            effect.get("limitation", ""),
+            debug_targets,
+        )
         decision_event = {
             "event_type": EventType.EventType_Decision_ChooseHolomemForEffect,
             "desired_response": GameAction.EffectResolution_ChooseCardsForEffect,
